@@ -1,10 +1,12 @@
 let spellData, userInput
 
-const $name = $('#name')
+const $name = $('.name')
 const $description = $('#description')
 const $level = $('#level')
 const $damage = $('#damage')
 const $input = $('input[type="text"]')
+
+const BASEURL = 'https://www.dnd5eapi.co/api/spells/'
 
 $('form').on('submit', getData)
 
@@ -13,7 +15,7 @@ function getData(event) {
     userInput = modUserInput($input.val())
     console.log(userInput)
     $.ajax({
-        url: 'https://www.dnd5eapi.co/api/spells/' + userInput
+        url: BASEURL + userInput
     }).then(
         (data) => {
             spellData = data
@@ -38,9 +40,9 @@ function render() {
 const modUserInput = (input) => {
     // Converts input to lowercase and replaces spaces with dashes if found
     let newString = input.toLowerCase().split("")
-    newString.map(function(char, idx) {
+    newString.forEach(function(char, idx) {
         if(char === ' ') {
-            newString.splice(idx, 0, '-')
+            newString.splice(idx, 1, '-')
         }
     })
     return newString.join('')
