@@ -13,7 +13,7 @@ $('.transition').on('click', function() {
 $('#raceNext').on('click', populateRaceList)
 $('#raceList').change(populateRaceDetails)
 
-let raceData, raceSelectDate
+let raceData, raceSelectData
 let raceSelection = $('#raceList option:selected').val()
 
 const $raceList = $('#raceInfo #raceList')
@@ -25,10 +25,16 @@ const $raceSize = $('#raceSize')
 
 const $raceBonuses = $('#raceBonuses')
 const $raceBonusStats = $('#raceBonusStats')
-const $raceProficiencies = $('#raceProficiencies')
-const $raceLanguages = $('#raceLanguages')
 
-const $raceFeats = $('#raceTraits')
+const $raceProficiencies = $('#raceProficiencies')
+const $raceProfOptions = $('#raceProfOptions')
+
+const $raceLanguages = $('#raceLanguages')
+const $raceLangOptions = $('#raceLangOptions')
+
+const $raceTraits = $('#raceTraits')
+
+const $raceDescription = $('#raceDescription')
 
 
 function populateRaceList() {
@@ -59,7 +65,6 @@ function populateRaceDetails() {
     }).then(
         (data) => {
             raceSelectData = data
-            console.log('selected', raceSelection)
             raceRender()
         },
         (error) => {
@@ -70,4 +75,29 @@ function populateRaceDetails() {
 
 function raceRender() {
     $raceName.text(raceSelectData.name)
+    $raceSpeed.text(`${raceSelectData.speed} ft`)
+    $raceSize.text(`${raceSelectData.size}-sized creature`)
+
+    $raceBonusStats.text('')
+    raceSelectData.ability_bonuses.forEach((ability) => {
+        $raceBonusStats.append(`<div class="bonusStat" id="${ability.ability_score.index}">
+            ${ability.ability_score.name} + ${ability.bonus}</div>`)
+    })
+
+    $raceProficiencies.text('')
+    raceSelectData.starting_proficiencies.forEach((proficiency) => {
+        $raceProficiencies.append(`<div class="proficiency" id="${proficiency.index}">
+            ${proficiency.name}`)
+    })
+
+    $raceProfOptions.text('')
+    if(raceSelectData.starting_proficiency_options !== undefined) {
+        $raceProfOptions.text(`Choose from ${raceSelectData.starting_proficiency_options.choose} of the following:`)
+        raceSelectData.starting_proficiency_options.from.forEach((proficiency) => {
+            console.log(proficiency)
+            $raceProfOptions.append(`<div class="proficiency" id="${proficiency.index}">
+            ${proficiency.name}</div>`)
+        })
+    }
+
 }
