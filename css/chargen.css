@@ -17,6 +17,8 @@
     font-size: xx-large;
     transition-timing-function: ease-in;
     display: none;
+    width: 90vw;
+    height: 80vh;
 }
 
 .next {

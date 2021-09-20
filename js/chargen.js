@@ -10,33 +10,32 @@ $('.transition').on('click', function() {
 
 
 // Race Functions
-$('#raceNext').on('click', populateRaceList)
-$('#raceList').change(populateRaceDetails)
+$('#race-next').on('click', populateRaceList)
+$('#race-list').change(populateRaceDetails)
 
-let raceData, raceSelectData
-let raceSelection = $('#raceList option:selected').val()
+let raceData, raceSelectData, raceSelection
 
-const $raceList = $('#raceInfo #raceList')
+const $raceList = $('#race-list')
 
-const $raceProperties = $('#raceProperties')
-const $raceName = $('#raceName')
-const $raceSpeed = $('#raceSpeed')
-const $raceSize = $('#raceSize')
+const $raceProperties = $('#race-properties')
+const $raceName = $('#race-name')
+const $raceSpeed = $('#race-speed')
+const $raceSize = $('#race-size')
 
-const $raceBonuses = $('#raceBonuses')
-const $raceBonusStats = $('#raceBonusStats')
+const $raceBonuses = $('#race-bonuses')
+const $raceBonusStats = $('#race-bonus-stats')
 
-const $raceProficiencies = $('#raceProficiencies')
-const $raceProfOptions = $('#raceProfOptions')
+const $raceProficiencies = $('#race-proficiencies')
+const $raceProfOptions = $('#race-prof-options')
 
-const $raceLanguages = $('#raceLanguages')
-const $raceLangOptions = $('#raceLangOptions')
+const $raceLanguages = $('#race-languages')
+const $raceLangOptions = $('#race-lang-options')
 
-const $raceTraits = $('#raceTraits')
+const $raceTraits = $('#race-traits')
 
-const $raceDescription = $('#raceDescription')
+const $raceDescription = $('#race-description')
 
-
+// Pulls data for all races in the standard ruleset
 function populateRaceList() {
     $.ajax({
         url: BASEURL + 'races/'
@@ -51,15 +50,16 @@ function populateRaceList() {
     )
 }
 
-
+// Adds list of races to dropdown menu
 function raceAddList() {
     raceData.results.forEach(function(race) {
         $raceList.append(`<option value="${race.index}">${race.name}</option>`)
     })
 }
 
+// Pulls data for selected race
 function populateRaceDetails() {
-    raceSelection = $('#raceList option:selected').val()
+    raceSelection = $('#race-list option:selected').val()
     $.ajax({
         url: BASEURL + 'races/' + raceSelection
     }).then(
@@ -73,6 +73,7 @@ function populateRaceDetails() {
     )
 }
 
+// Manipulates data for selected race and renders
 function raceRender() {
     $raceName.text(raceSelectData.name)
     $raceSpeed.text(`${raceSelectData.speed} ft`)
@@ -130,4 +131,64 @@ function raceRender() {
     }
 
     $raceDescription.text(raceSelectData.alignment + ' ' + raceSelectData.size_description + ' ' + raceSelectData.age)
+}
+
+
+// Class Functions
+$('#class-next').on('click', populateClassList)
+$('#class-list').change(populateClassDetails)
+
+let classData, classSelectData, classSelection
+
+const $classList = $('#class-list')
+
+const $className = $('#class-name')
+const $classProperties = $('#class-properties')
+const $classHitDice = $('#hit-dice')
+const $classSavingThrows = $('#saving-throws')
+const $classProficiencies = $('#class-proficiencies')
+const $classEquipment = $('#class-equipment')
+
+
+
+
+function populateClassList() {
+    $.ajax({
+        url: BASEURL + 'classes/'
+    }).then(
+        (data) => {
+            classData = data
+            classAddList()
+        },
+        (error) => {
+            console.log('Bad Request: ', error)
+        }
+    )
+}
+
+function classAddList() {
+    classData.results.forEach(function(cls) {
+        $classList.append(`<option value="${cls.index}">${cls.name}</option>`)
+    })
+}
+
+
+function populateClassDetails() {
+    classSelection = $('#class-list option:selected').val()
+    $.ajax({
+        url: BASEURL + 'classes/' + classSelection
+    }).then(
+        (data) => {
+            classSelectData = data
+            classRender()
+        },
+        (error) => {
+            console.log('Bad Request: ', error)
+        }
+    )
+}
+
+function classRender() {
+    console.log(classSelectData.name)
+    $className.text(classSelectData.name)
 }
