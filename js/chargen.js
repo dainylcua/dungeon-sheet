@@ -85,19 +85,49 @@ function raceRender() {
     })
 
     $raceProficiencies.text('')
-    raceSelectData.starting_proficiencies.forEach((proficiency) => {
-        $raceProficiencies.append(`<div class="proficiency" id="${proficiency.index}">
-            ${proficiency.name}`)
-    })
+    if(raceSelectData.starting_proficiencies.length !== 0) {
+        $raceProficiencies.text('Starting proficiencies:')
+        raceSelectData.starting_proficiencies.forEach((proficiency) => {
+            $raceProficiencies.append(`<div class="proficiencies" id="${proficiency.index}">
+                ${proficiency.name}`)
+        })
+    }
+
 
     $raceProfOptions.text('')
     if(raceSelectData.starting_proficiency_options !== undefined) {
         $raceProfOptions.text(`Choose from ${raceSelectData.starting_proficiency_options.choose} of the following:`)
+        $raceProfOptions.append('<br>')
         raceSelectData.starting_proficiency_options.from.forEach((proficiency) => {
-            console.log(proficiency)
-            $raceProfOptions.append(`<div class="proficiency" id="${proficiency.index}">
-            ${proficiency.name}</div>`)
+            $raceProfOptions.append(`<button class="chosen-proficiencies btn btn-primary m-1" id="${proficiency.index}">
+            ${proficiency.name}</button>`)
         })
     }
 
+    $raceLanguages.text(`Languages known:`)
+    raceSelectData.languages.forEach((language) => {
+        $raceLanguages.append(`<div class="languages" id="${language.index}">
+        ${language.name}</div>`)
+    })
+
+    $raceLangOptions.text('')
+    if(raceSelectData.language_options !== undefined) {
+        $raceLangOptions.text(`Choose from ${raceSelectData.language_options.choose} of the following:`)
+        $raceLangOptions.append('<br>')
+        raceSelectData.language_options.from.forEach((language) => {
+            $raceLangOptions.append(`<button class="chosen-languages btn btn-primary m-1" id="${language.index}">
+            ${language.name}</button>`)
+        })
+    }
+
+    $raceTraits.text('')
+    if(raceSelectData.traits.length !== 0) {
+        $raceTraits.text(`Traits:`)
+        raceSelectData.traits.forEach((trait) => {
+            $raceTraits.append(`<div class="traits" id="${trait.index}"">
+            ${trait.name}</div>`)
+        })
+    }
+
+    $raceDescription.text(raceSelectData.alignment + ' ' + raceSelectData.size_description + ' ' + raceSelectData.age)
 }
