@@ -26,7 +26,7 @@ WIP
 
 # Credits
 D&D 5th Edition API: http://www.dnd5eapi.co/
->The whole reason this is possible - thank you to bagelbits and contributors!
+>The whole reason this is possible - thank you to bagelbits and contributors for setting up this API!
 
 <br><br>
 
