@@ -11,7 +11,7 @@ Mobile devices are not currently supported.
 <br>
 <br>
 
-*Developed using VanillaJS on Ubuntu 20.04.3 LTS*
+*Developed using VanillaJS, JQuery, and Bootstrap on Ubuntu 20.04.3 LTS*
 
 **Homebrew support and local storage to be added in future updates*
 

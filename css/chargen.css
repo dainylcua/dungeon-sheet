@@ -1,0 +1,14 @@
+#tranScreen {
+    position: absolute;
+    margin: 0 auto;
+    font-size: xx-large;
+    height: 100%;
+    width: 100%;
+    transition-timing-function: ease-in;
+    display: none;
+}
+
+.next {
+    display: none;
+    transition-timing-function: ease-in;
+}
