@@ -19,27 +19,68 @@
     <div class="container col-12 border border-primary" id="interface">
         <div class="container col-12 card text-center" id="tranScreen">Loading...</div>
         <div id="content">
-            <div id="first">
-                <div class="container col-md-10 border border-secondary text-center">
-                    Welcome to DungeonSheet, a random character roller!<br>
+
+            <!-- Splash Screen -->
+            <div id="splashInfo">
+                <div class="container col-md-10 border border-secondary text-center" id="splashContent">
+                    Welcome to DungeonSheet, a Dungeons and Dragons 5th edition character generator!<br>
+                    Currently, only standard rules content is implemented. <br><br>
                     Choose an option below to begin.
                 </div>
                 <div class="container col-md-10 border border-secondary text-center" id="choices">
-                    <button class="btn btn-primary center" id="transition">Create a Character</button>
+                    <button class="btn btn-primary center transition" id="raceNext">Create a Character</button>
                     <button class="btn btn-outline-warning" id="preset">Start With a Preset</button>
                 </div>
             </div>
-            <div class="next" id="next1">
-                Test
+
+            <!-- Race Selector -->
+            <div class="next" id="raceInfo">
+                <div class="container col-md-10 border border-secondary text-center" id="raceContent">
+                    There are many races in the world of Dungeons and Dragons. <br>
+                    However, not every race behaves the same in every universe. <br><br>
+                    For starters, what race would your character be? <br>
+
+                    <select name="races" id="raceList">
+                        <option value="test">Test</option>
+                    </select>
+                </div>
+                <div class="container col-md-10 border border-secondary text-center" id="raceContainer">
+                    <div id="raceName">
+                        Test
+                    </div>
+                    <div id="raceFeats">
+
+                    </div>
+                </div>
+
+
+                <div class="container col-md-10 border border-secondary text-center" id="choices">
+                    <button class="btn btn-primary center transition">Next</button>
+                </div>
             </div>
+
+            <!-- Class Selector -->
             <div class="next" id="next2">
-                Test2
+                Choose your class: <br>
+                <select name="classes"></select>
             </div>
+
+            <!-- Stat Roller -->
             <div class="next" id="next3">
-                Test3
+                Roll your stats:
+                Point buy:
+                Manually assign:
             </div>
+
+            <!-- Background/Custom Background -->
             <div class="next" id="next4">
-                Test4
+                Choose your background:
+                Or create your own:
+            </div>
+
+            <!-- Write Your Past -->
+            <div class="next" id="next4">
+                Create your past:
             </div>
         </div>
     </div>
