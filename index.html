@@ -41,15 +41,26 @@
                     For starters, what race would your character be? <br>
 
                     <select name="races" id="raceList">
-                        <option value="test">Test</option>
+                        <option style="display:none"></option>
                     </select>
                 </div>
                 <div class="container col-md-10 border border-secondary text-center" id="raceContainer">
-                    <div id="raceName">
-                        Test
+                    <!-- Name, Speed, and Size of selected race -->
+                    <div id="raceProperties">
+                        <div id="raceName"></div>
+                        <div id="raceSpeed"></div>
+                        <div id="raceSize"></div>
                     </div>
-                    <div id="raceFeats">
 
+                    <!-- All bonuses, proficiencies, and languages for the selected race -->
+                    <div id="raceBonuses">
+                        <div id="raceBonusStats"></div>
+                        <div id="raceProficiencies"></div>
+                        <div id="raceLanguages"></div>
+                    </div>
+
+                    
+                    <div id="raceTraits">
                     </div>
                 </div>
 

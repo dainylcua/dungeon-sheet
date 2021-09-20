@@ -10,16 +10,30 @@ $('.transition').on('click', function() {
 
 
 // Race Functions
-$('#raceNext').on('click', populateRaces)
+$('#raceNext').on('click', populateRaceList)
+$('#raceList').change(populateRaceDetails)
 
-let raceData
-const $raceName = $('#raceInfo #raceName')
-const $raceFeats = $('#raceInfo #raceFeats')
+let raceData, raceSelectDate
+let raceSelection = $('#raceList option:selected').val()
+
 const $raceList = $('#raceInfo #raceList')
 
-function populateRaces() {
+const $raceProperties = $('#raceProperties')
+const $raceName = $('#raceName')
+const $raceSpeed = $('#raceSpeed')
+const $raceSize = $('#raceSize')
+
+const $raceBonuses = $('#raceBonuses')
+const $raceBonusStats = $('#raceBonusStats')
+const $raceProficiencies = $('#raceProficiencies')
+const $raceLanguages = $('#raceLanguages')
+
+const $raceFeats = $('#raceTraits')
+
+
+function populateRaceList() {
     $.ajax({
-        url: BASEURL + 'races'
+        url: BASEURL + 'races/'
     }).then(
         (data) => {
             raceData = data
@@ -29,7 +43,6 @@ function populateRaces() {
             console.log('Bad Request: ', error)
         }
     )
-    
 }
 
 
@@ -39,6 +52,22 @@ function raceAddList() {
     })
 }
 
-function raceRender() {
+function populateRaceDetails() {
+    raceSelection = $('#raceList option:selected').val()
+    $.ajax({
+        url: BASEURL + 'races/' + raceSelection
+    }).then(
+        (data) => {
+            raceSelectData = data
+            console.log('selected', raceSelection)
+            raceRender()
+        },
+        (error) => {
+            console.log('Bad Request: ', error)
+        }
+    )
+}
 
+function raceRender() {
+    $raceName.text(raceSelectData.name)
 }
