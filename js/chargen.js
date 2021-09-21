@@ -258,8 +258,7 @@ function classRender() {
     $classProfOptions.text('')
     if(classSelectData.hasOwnProperty("proficiency_choices")) {
         classSelectData.proficiency_choices.forEach((choice) => {
-            $classProfOptions.append(`Choose from ${choice.choose} of the following:`)
-            $classProfOptions.append('<br>')
+            $classProfOptions.append(`<div class="prof-options choose${choice.choose}">Choose from ${choice.choose} of the following:</div>`)
             choice.from.forEach((prof) => {
                 $classProfOptions.append(`<button class="chosen-profs btn btn-primary m-1" id=${prof.index}>
                 ${prof.name}</button>`)
@@ -277,7 +276,7 @@ function classRender() {
     $classEquipChoices.text('')
     classSelectData.starting_equipment_options.forEach((option) => {
         // For every equipment group option, choose an amount from multiple groups
-        $classEquipChoices.append(`<div class="equip-option">Choose from ${option.choose} of the following:</div>`)
+        $classEquipChoices.append(`<div class="equip-option choose${option.choose}">Choose from ${option.choose} of the following:</div>`)
 
         // Reset group number for every group option
         // groupNumber = 1
@@ -329,90 +328,6 @@ function classRender() {
                 id="${equipGroup.equipment_option.from.equipment_category.index}-${equipGroup.equipment_option.choose}">
                 ${equipGroup.equipment_option.from.equipment_category.name} x${equipGroup.equipment_option.choose} </button>`)
             }
-
-
-            Object.keys(equipGroup).forEach((equipOption) => {
-                // console.log('equip option', equipOption)
-                // For each key in the equip group, acces the value
-
-
-
-
-
-                // if(equipGroup[equipOption].hasOwnProperty('equipment')) {
-                //     console.log('equipment', equipGroup[equipOption])
-                //     // If equipment group is a single item, list it
-                //     $classEquipChoices.append(`<button class="equips btn btn-primary m-1" id=${equip.equipment.index}>
-                //     ${equip.equipment.name} x${equip.quantity}</button>`)
-                // } else if(equipGroup[equipOption].hasOwnProperty('equipment_option')) {
-                //     // If equipment group is a single option, go to the options
-    
-                // } else if(Object.values(equipGroup[equipOption]).length > 1){
-                //     // If equipment group contains multiple items which are in an object, become recursive
-                //     Object.values(equipGroup[equipOption]).forEach((equipOption2) => {
-                //         console.log(equipOption2)
-                //         if(equipGroup[equipOption2].hasOwnProperty('equipment')) {
-                //             // If equipment group is a single item, list it
-                //             $classEquipChoices.append(`<button class="equips btn btn-primary m-1" id=${equipGroup[equipOption2].equipment.index}>
-                //             ${equipGroup[equipOption2].equipment.name} x${equipGroup[equipOption2].quantity}</button>`)
-                //         } else if(equipGroup[equipOption2].hasOwnProperty('equipment_option')) {
-                //             // If equipment group is a single option, go to the options
-                //         }
-                //     })
-                // }
-            })
         })
-
-        
-
-        // If the equipment tree links to marital weapons or simple weapons, list them
-
-        // If object hasOwnProperty 'from', tree continues
-
-
-
-    //     Object.keysoption.from.forEach((equipChoice) => {
-    //         // Lists groups
-    //         $classEquipChoices.append(`<div class="equip-group">Group: ${groupNumber}</div>`)
-    //         if(equipChoice.length === 1) {
-    //             // If single equip choice, list equip choice
-    //             Object.keys(equipChoice).forEach((equip) => {
-    //                 // If choice expands again, run another loop
-    //                 if(equip.from !== undefined) {
-    //                     Object.keys(equip).forEach((choice) => {
-    //                         $classEquipChoices.append(`<button class="chosen-equips btn btn-primary m-1" id=${choice.index}>
-    //                         ${choice.name} x${choice.quantity}</button>`)
-    //                     })
-    //                 } else {
-    //                     $classEquipChoices.append(`<button class="chosen-equips btn btn-primary m-1" id=${equip.index}>
-    //                     ${equip.name} x${equip.quantity}</button>`)
-    //                 }
-    //             })
-    //         } else {
-    //             // If multiple equip choices, list equip choices
-    //             Object.keys(equipChoice).forEach((equipChoice2) => {
-    //                 // If choice expands again, run another loop
-    //                 if(equipChoice2.from !== undefined) {
-    //                     Object.keys(equipChoice2).forEach((equip) => {
-    //                         equip.forEach((choice) => {
-    //                             $classEquipChoices.append(`<button class="chosen-equips btn btn-primary m-1" id=${choice.index}>
-    //                             ${choice.name} x${choice.quantity}</button>`)
-    //                         })
-    //                     })
-    //                 } else {
-    //                 Object.keys(equipChoice2).forEach((equip) => {
-    //                     $classEquipChoices.append(`<button class="chosen-equips btn btn-primary m-1" id=${equip.index}>
-    //                     ${equip.name} x${equip.quantity}</button>`)
-    //                 })
-    //                 }
-    //             })
-    //         }
-    //         // Increase group number
-    //         groupNumber++
-    //         $classEquipChoices.append(`<br><br>`)
-    //     })
-    //     // For every option, run a for loop 
-    // })
-
     })
 }
