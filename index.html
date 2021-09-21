@@ -16,7 +16,7 @@
     <header>
         <h1 class="text-center mt-5 col-12" id="test">DungeonSheet</h1>
     </header>
-    <div class="container col-12 border border-primary" id="interface">
+    <div class="container col-12 border border-primary d-flex" id="interface">
         <div class="container col-12 card text-center" id="tranScreen">Loading...</div>
         <div id="content">
 
@@ -29,7 +29,7 @@
                 </div>
                 <div class="container col-md-10 border border-secondary text-center" id="choices">
                     <button class="btn btn-primary center transition" id="race-next">Create a Character</button>
-                    <button class="btn btn-outline-warning" id="preset">Start With a Preset</button>
+                    <button class="btn btn-outline-warning" data-toggle="tooltip" title="Not yet enabled" id="preset">Start With a Preset</button>
                 </div>
             </div>
 
@@ -115,19 +115,19 @@
                     Do you want to let the fates decide, for better or worse?
                     Or would you rather take a calculated approach?<br>
                     <div class="container col-md-10 border border-secondary text-center" id="choices">
-                        <button class="btn btn-primary center transition" data-toggle="tooltip" title="Greater stat variance - for better or worse" id="roll">Roll Stats</button>
-                        <button class="btn btn-primary center transition" data-toggle="tooltip" title="Less variance - better lows but worse highs" id="buy">Point Buy</button>
+                        <button class="btn btn-primary center" data-toggle="tooltip" title="Greater stat variance - for better or worse" id="roll">Roll Stats</button>
+                        <button class="btn btn-primary center" data-toggle="tooltip" title="Less variance - better lows but worse highs" id="buy">Point Buy</button>
                     </div>
                 </div>
 
                 <div class="container col-md-10 border border-secondary text-center" id="stat-roll">
 
-                    <div id="container col-md-10 border border-secondary text-center roll-info">
+                    <div class="container col-md-10 border border-secondary text-center roll-info">
                         For each stat, 4 regular dice (d6) are rolled.</br>
                         Press the roll button to generate a new set of stats.
                     </div>
 
-                    <div id="container col-md-10 border border-secondary text-center roll-stat-container">
+                    <div class="container col-md-10 border border-secondary text-center roll-stat-container d-flex">
                         <div class="stat card col-md-2" id="roll-str">
                             <div class="card-header">STR</div>
                             <div class="roll-stat" id="roll-str-num">Number Here</div>
@@ -161,59 +161,79 @@
                     </div>
 
                     <div class="container col-md-10 border border-secondary text-center" id="choices">
-                        <button class="btn btn-primary center transition" id="roll-btn">Roll</button>
+                        <button class="btn btn-primary center" id="roll-btn">Roll</button>
                     </div>
                 </div>
 
                 <div class="container col-md-10 border border-secondary text-center" id="point-buy">
-                    <div class="container col-md-9 border border-secondary" id="buy-info">
-                        A total of 27 stat points are given to distribute amongst every stat.<br>
-                        Upgrading any stat to 9, 10, 11, 12, or 13 costs one stat point.<br>
-                        Upgrading any stat to 14 or 15 costs two stat points.<br>
-                        With point buy, the minimum stat value you can have is 8 and the maximum stat value you can have is 15.<br>
+                    <div class="container col-md-10 border border-secondary text-center d-flex" id="point-buy-content">
+                        <div class="container col-md-9 border border-secondary" id="buy-info">
+                            A total of 27 stat points are given to distribute amongst every stat.<br>
+                            Upgrading any stat to 9, 10, 11, 12, or 13 costs one stat point.<br>
+                            Upgrading any stat to 14 or 15 costs two stat points.<br>
+                            With point buy, the minimum stat value you can have is 8 and the maximum stat value you can have is 15.<br>
+                        </div>
+    
+                        <div class="point card col-md-3" id="point-container">
+                            <div class="point-total card">Points Remaining</div>
+                            <div class="card-body" id="points-remaining"></div>
+                        </div>
                     </div>
 
-                    <div class="point card col-md-3" id="point-container">
-                        <div class="point-total card">Points Remaining</div>
-                        <div class="card-body" id="points-remaining"></div>
-                    </div>
-
-                    <div id="container col-md-10 border border-secondary text-center buy-stat-container">
+                    <div class="container col-md-10 border border-secondary text-center buy-stat-container d-flex">
                         <div class="stat card col-md-2" id="buy-str">
                             <div class="card-header">STR</div>
                             <div class="buy-stat" id="buy-str-num">Number Here</div>
                             <div class="card-subtitle">Strength</div>
-                            <div class="increment">+</div><div class="decrement">-</div>
+                            <div class="alteration d-flex justify-content-evenly">
+                                <button class="increment btn btn-outline-secondary">+</button>
+                                <button class="decrement btn btn-outline-secondary">-</button>
+                            </div>
                         </div>
                         <div class="stat card col-md-2" id="buy-dex">
                             <div class="card-header">DEX</div>
                             <div class="buy-stat" id="buy-dex-num">Number Here</div>
                             <div class="card-subtitle">Dexterity</div>
-                            <div class="increment">+</div><div class="decrement">-</div>
+                            <div class="alteration d-flex justify-content-evenly">
+                                <button class="increment btn btn-outline-secondary">+</button>
+                                <button class="decrement btn btn-outline-secondary">-</button>
+                            </div>
                         </div>
                         <div class="stat card col-md-2" id="buy-con">
                             <div class="card-header">CON</div>
                             <div class="buy-stat" id="buy-con-num">Number Here</div>
                             <div class="card-subtitle">Constitution</div>
-                            <div class="increment">+</div><div class="decrement">-</div>
+                            <div class="alteration d-flex justify-content-evenly">
+                                <button class="increment btn btn-outline-secondary">+</button>
+                                <button class="decrement btn btn-outline-secondary">-</button>
+                            </div>
                         </div>
                         <div class="stat card col-md-2" id="buy-int">
                             <div class="card-header">INT</div>
                             <div class="buy-stat" id="buy-int-num">Number Here</div>
                             <div class="card-subtitle">Intelligence</div>
-                            <div class="increment">+</div><div class="decrement">-</div>
+                            <div class="alteration d-flex justify-content-evenly">
+                                <button class="increment btn btn-outline-secondary">+</button>
+                                <button class="decrement btn btn-outline-secondary">-</button>
+                            </div>
                         </div>
                         <div class="stat card col-md-2" id="buy-wis">
                             <div class="card-header">WIS</div>
                             <div class="buy-stat" id="buy-wis-num">Number Here</div>
                             <div class="card-subtitle">Wisdom</div>
-                            <div class="increment">+</div><div class="decrement">-</div>
+                            <div class="alteration d-flex justify-content-evenly">
+                                <button class="increment btn btn-outline-secondary">+</button>
+                                <button class="decrement btn btn-outline-secondary">-</button>
+                            </div>
                         </div>
                         <div class="stat card col-md-2" id="buy-cha">
                             <div class="card-header">CHA</div>
                             <div class="buy-stat" id="buy-cha-num">Number Here</div>
                             <div class="card-subtitle">Charisma</div>
-                            <div class="increment">+</div><div class="decrement">-</div>
+                            <div class="alteration d-flex justify-content-evenly">
+                                <button class="increment btn btn-outline-secondary">+</button>
+                                <button class="decrement btn btn-outline-secondary">-</button>
+                            </div>
                         </div>
                     </div>
                 </div>

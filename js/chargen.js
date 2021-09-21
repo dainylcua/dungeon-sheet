@@ -3,9 +3,10 @@ BASEURL = 'https://www.dnd5eapi.co/api/'
 
 // Simple CSS Fade Transition
 $('.transition').on('click', function() {
-    $('#tranScreen').fadeIn().fadeOut(2000)
-    $(this).parent().parent().fadeOut().remove(1000)
-    $(this).parent().parent().next().fadeIn(3000)
+    $(this).parent().parent().fadeOut(500).remove(5)
+    $('#tranScreen').fadeIn().fadeOut(1000, () => {
+        $(this).parent().parent().next().fadeIn(300)
+    })
 })
 
 
@@ -243,6 +244,7 @@ function populateClassDetails() {
 // }
 
 
+
 function classRender() {
     $className.text(classSelectData.name)
     $classHitDice.text(classSelectData.hit_die)
@@ -332,5 +334,31 @@ function classRender() {
         })
     })
 }
+// TODO: ADD TOGGLE BUTTONS, WHEN REACH MAX CHOICE DISABLE BUTTONS
 
 // Stat Functions
+$('#roll-btn').on('click', rollStats)
+
+let currentStat, currentArray = []
+
+const statNames = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA']
+const baseStats = [8, 8, 8, 8, 8, 8]
+
+
+function rollStats() {
+    for (i = 0; i < 6; i++) {
+        currentArray = []
+        for (j = 0; j < 4; j++) {
+            currentArray.push(Math.floor(Math.random() * (6 - 1 + 1) + 1))
+        }
+        currentArray = currentArray.sort()
+        currentArray.shift()
+        console.log(currentArray)
+        currentStat = currentArray.reduce((total, current) => total + current)
+        console.log(currentStat)
+    }
+}
+
+function updateStats() {
+
+}
