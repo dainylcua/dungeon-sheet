@@ -190,55 +190,57 @@ function populateClassDetails() {
     )
 }
 
-function populateWeapons() {
-    $.ajax({
-        // Pull Martial Melee Weapons
-        url: BASEURL + 'equipment/martial-melee-weapons'
-    }).then(
-        (data) => {
-            martialMeleeData = data
-        },
-        (error) => {
-            console.log('Bad Request: ', error)
-        }
-    )
 
-    $.ajax({
-        // Pull Martial Ranged Weapons
-        url: BASEURL + 'equipment/martial-ranged-weapons'
-    }).then(
-        (data) => {
-            martialRangedData = data
-        },
-        (error) => {
-            console.log('Bad Request: ', error)
-        }
-    )
+// TO BE ADDED LATER
+// function populateWeapons() {
+//     $.ajax({
+//         // Pull Martial Melee Weapons
+//         url: BASEURL + 'equipment/martial-melee-weapons'
+//     }).then(
+//         (data) => {
+//             martialMeleeData = data
+//         },
+//         (error) => {
+//             console.log('Bad Request: ', error)
+//         }
+//     )
 
-    $.ajax({
-        // Pull Simple Melee Weapons
-        url: BASEURL + 'equipment/simple-melee-weapons'
-    }).then(
-        (data) => {
-            martialData = data
-        },
-        (error) => {
-            console.log('Bad Request: ', error)
-        }
-    )
+//     $.ajax({
+//         // Pull Martial Ranged Weapons
+//         url: BASEURL + 'equipment/martial-ranged-weapons'
+//     }).then(
+//         (data) => {
+//             martialRangedData = data
+//         },
+//         (error) => {
+//             console.log('Bad Request: ', error)
+//         }
+//     )
 
-    $.ajax({
-        // Pull Simple Ranged Weapons
-        url: BASEURL + 'equipment/simple-ranged-weapons'
-    }).then(
-        (data) => {
-            martialData = data
-        },
-        (error) => {
-            console.log('Bad Request: ', error)
-        }
-    )
-}
+//     $.ajax({
+//         // Pull Simple Melee Weapons
+//         url: BASEURL + 'equipment/simple-melee-weapons'
+//     }).then(
+//         (data) => {
+//             martialData = data
+//         },
+//         (error) => {
+//             console.log('Bad Request: ', error)
+//         }
+//     )
+
+//     $.ajax({
+//         // Pull Simple Ranged Weapons
+//         url: BASEURL + 'equipment/simple-ranged-weapons'
+//     }).then(
+//         (data) => {
+//             martialData = data
+//         },
+//         (error) => {
+//             console.log('Bad Request: ', error)
+//         }
+//     )
+// }
 
 
 function classRender() {
@@ -279,7 +281,6 @@ function classRender() {
         $classEquipChoices.append(`<div class="equip-option choose${option.choose}">Choose from ${option.choose} of the following:</div>`)
 
         // Reset group number for every group option
-        // groupNumber = 1
         // console.log('option', option)
         // For every group option, list all the equipment groups per group option
         option.from.forEach((equipGroup) => {
@@ -331,3 +332,5 @@ function classRender() {
         })
     })
 }
+
+// Stat Functions
