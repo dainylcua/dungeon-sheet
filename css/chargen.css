@@ -27,7 +27,46 @@
     height: 100%;
 }
 
+.roll-stat {
+    display: flex;
+    flex-grow: 4;
+    justify-content: center;
+    align-items: center;
+}
+
+.roll-stat > .stat {
+    display:flex;
+    flex-flow: column nowrap;
+}
+
 .next {
+    display: none;
+    transition-timing-function: ease-in;
+}
+
+.alteration {
+    display: flex;
+}
+
+.increment, .decrement {
+    flex: 1 1 auto
+}
+
+.select {
+    padding: 2rem
+}
+
+.next {
+    border-color: #0d6efd;
+    border: 1px solid;
+    padding: 1rem;
+}
+
+.choices {
+    padding: 1rem;
+}
+
+#stat-roll, #point-buy {
     display: none;
     transition-timing-function: ease-in;
 }

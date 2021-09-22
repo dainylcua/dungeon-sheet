@@ -16,22 +16,22 @@
     <header>
         <h1 class="text-center mt-5 col-12" id="test">DungeonSheet</h1>
     </header>
-    <div class="container col-12 border border-primary d-flex" id="interface">
+    <div class="container col-12 p-3 border border-primary d-flex" id="interface">
 
         <!-- Loading Screen -->
         <div class="container col-12 card text-center border-success" id="tranScreen">
             <div class="d-flex justify-content-md-center align-items-center">Loading...</div>
         </div>
 
-        <div id="content">
+        <div class = "container col-12" id="content">
             <!-- Splash Screen -->
-            <div id="splash-info">
-                <div class="container col-md-10 border border-secondary text-center" id="splash-content">
-                    <br>Welcome to DungeonSheet, a Dungeons and Dragons 5th edition character generator!<br>
+            <div class="border border-primary p-3" id="splash-info">
+                <div class="container col-md-10 text-center" id="splash-content">
+                    Welcome to DungeonSheet, a Dungeons and Dragons 5th edition character generator!<br>
                     Currently, only standard rules content is implemented. <br><br>
-                    Choose an option below to begin.<br><br>
+                    Choose an option below to begin.
                 </div>
-                <div class="container col-md-10 border border-secondary text-center" id="choices">
+                <div class="container col-md-10 text-center choices">
                     <button class="btn btn-primary col-5 center transition" id="race-next">Create a Character</button>
                     <button class="btn btn-outline-warning col-5" data-bs-toggle="tooltip" title="Not yet enabled" id="preset" aria-disabled="true">Start With a Preset</button>
                 </div>
@@ -39,7 +39,7 @@
 
             <!-- Race Selector -->
             <div class="next" id="race-info">
-                <div class="container col-md-10 border border-secondary text-center" id="race-content">
+                <div class="container col-md-10 text-center" id="race-content">
                     <br>There are many races in the world of Dungeons and Dragons. <br>
                     However, not every race behaves the same in every universe. <br><br>
                     For starters, what race would your character be? <br><br>
@@ -47,9 +47,8 @@
                     <select name="races" id="race-list">
                         <option style="display:none"></option>
                     </select>
-                    <br><br>
                 </div>
-                <div class="container col-md-10 border border-secondary text-center" id="race-container">
+                <div class="container col-md-10 text-center" id="race-container">
                     <!-- Name, Speed, and Size of selected race -->
                     <div id="race-properties">
                         <div id="race-name"></div>
@@ -76,26 +75,24 @@
                     </div>
 
                 </div>
-
-
-                <div class="container col-md-10 border border-secondary text-center" id="choices">
-                    <button class="btn btn-primary center transition" id="class-next">Next</button>
+                <div class="container col-md-10 text-center choices">
+                    <button class="btn btn-primary transition" id="class-next">Next</button>
                 </div>
             </div>
 
             <!-- Class Selector -->
             <div class="next" id="class-info">
-                <div class="container col-md-10 border border-secondary text-center" id="class-content">
-                    <br>Travelers across the land take up craft to keep them alive one way or another.<br>
+                <div class="container col-md-10 text-center" id="class-content">
+                    Travelers across the land take up craft to keep them alive one way or another.<br>
                     Classes provide these denizens the tools to succes, and many often dabble in multiple fields.<br>
                     However, you may only start with one for now.<br><br>
                     Choose your class. <br><br>
+
                     <select name="classes" id="class-list">
                         <option style="display:none"></option>
                     </select>
-                    <br><br>
                 </div>
-                <div class="container col-md-10 border border-secondary text-center" id="class-container">
+                <div class="container col-md-10 text-center" id="class-container">
                     <div id="class-properties">
                         <div id="class-name"></div>
                         <div id="hit-dice"></div>
@@ -108,144 +105,136 @@
                     <div id="class-equip-choices"></div>
                 </div>
 
-                <div class="container col-md-10 border border-secondary text-center" id="choices">
-                    <button class="btn btn-primary center transition" id="stat-next">Next</button>
+                <div class="container col-md-10 text-center choices">
+                    <button class="btn btn-primary transition" id="stat-next">Next</button>
                 </div>
             </div>
-            <!-- ADD SECOND EQUIPMENT LIST TO CHOOSE MARTIAL WEAPONS LATER -->
+            <!-- ADD SECOND EQUIPMENT LIST TO CHOOSE WEAPONS LATER -->
 
             <!-- Stat Roller -->
             <div class="next" id="stat-info">
-                <div class="container col-md-10 border border-secondary text-center" id="stat-content">
-                    <br>Your overall prowess is determined by you.
+                <div class="container col-md-10 text-center" id="stat-content">
+                    <br>Your overall prowess is determined by numbers.
                     Do you want to let the fates decide, for better or worse?
-                    Or would you rather take a calculated approach?<br><br>
-                    <div class="container col-md-10 border border-secondary text-center" id="choices">
-                        <button class="btn btn-primary center" data-bs-toggle="tooltip" title="Greater stat variance - for better or worse" id="roll">Roll Stats</button>
-                        <button class="btn btn-primary center" data-bs-toggle="tooltip" title="Less variance - better lows but worse highs" id="buy">Point Buy</button>
+                    Or would you rather take a calculated approach yourself?<br><br>
+                    <div class="container col-md-10 text-center choices">
+                        <button class="btn btn-primary" data-bs-toggle="tooltip" title="Greater stat variance - for better or worse" id="roll">Roll Stats</button>
+                        <button class="btn btn-primary" data-bs-toggle="tooltip" title="Less variance - better lows but worse highs" id="buy">Point Buy</button>
                     </div>
                 </div>
 
-                <div class="container col-md-10 border border-secondary text-center" id="stat-roll">
+                <div class="container col-md-10 text-center" id="stat-roll">
 
-                    <div class="container col-md-10 border border-secondary text-center roll-info">
+                    <div class="container col-md-10 text-center roll-info">
                         <br>For each stat, 4 regular dice (d6) are rolled.</br><br>
                         Press the roll button to generate a new set of stats.<br><br>
                     </div>
 
-                    <div class="container col-md-10 border border-secondary text-center roll-stat-container d-flex flex-wrap">
-                        <div class="stat card col-6 col-lg-2" id="roll-str">
+                    <div class="container col-md-10 text-center roll-stat-container d-flex flex-wrap">
+                        <div class="stat card col-6 col-lg-2 text-center" id="roll-str">
                             <div class="card-header">STR</div>
-                            <div class="roll-stat" id="roll-str-num">1</div>
-                            <div class="card-subtitle">Strength</div>
+                            <div class="card-body roll-stat" id="roll-str-num">1</div>
                         </div>
                         <div class="stat card col-6 col-lg-2" id="roll-dex">
                             <div class="card-header">DEX</div>
-                            <div class="roll-stat" id="roll-dex-num">1</div>
-                            <div class="card-subtitle">Dexterity</div>
+                            <div class="card-body roll-stat" id="roll-dex-num">1</div>
                         </div>
                         <div class="stat card col-6 col-lg-2" id="roll-con">
                             <div class="card-header">CON</div>
-                            <div class="roll-stat" id="roll-con-num">1</div>
-                            <div class="card-subtitle">Constitution</div>
+                            <div class="card-body roll-stat" id="roll-con-num">1</div>
                         </div>
                         <div class="stat card col-6 col-lg-2" id="roll-int">
                             <div class="card-header">INT</div>
-                            <div class="roll-stat" id="roll-int-num">1</div>
-                            <div class="card-subtitle">Intelligence</div>
+                            <div class="card-body roll-stat" id="roll-int-num">1</div>
                         </div>
                         <div class="stat card col-6 col-lg-2" id="roll-wis">
                             <div class="card-header">WIS</div>
-                            <div class="roll-stat" id="roll-wis-num">1</div>
-                            <div class="card-subtitle">Wisdom</div>
+                            <div class="card-body roll-stat" id="roll-wis-num">1</div>
                         </div>
                         <div class="stat card col-6 col-lg-2" id="roll-cha">
                             <div class="card-header">CHA</div>
-                            <div class="roll-stat" id="roll-cha-num">1</div>
-                            <div class="card-subtitle">Charisma</div>
+                            <div class="card-body roll-stat" id="roll-cha-num">1</div>
                         </div>
                     </div>
 
-                    <div class="container col-md-10 border border-secondary text-center" id="choices">
-                        <button class="btn btn-primary center" id="roll-btn">Roll</button>
+                    <div class="container col-md-10 text-center choices">
+                        <button class="btn btn-primary" id="roll-btn">Roll</button>
+                    </div>
+
+                    <div class="container col-md-10 text-center choices">
+                        <button class="btn btn-primary transition-stat" id="background-next">Next</button>
                     </div>
                 </div>
 
-                <div class="container col-12 col-md-10 border border-secondary text-center" id="point-buy">
-                    <div class="container col-md-10 border border-secondary text-center d-flex flex-wrap" id="point-buy-content">
-                        <div class="container col-md-9 border border-secondary" id="buy-info">
+                <div class="container col-12 col-md-10 text-center" id="point-buy">
+                    <div class="container col-md-10 text-center d-flex flex-wrap" id="point-buy-content">
+                        <div class="container col-md-9" id="buy-info">
                             <br>A total of 27 stat points are given to distribute amongst every stat.<br><br>
                             Upgrading any stat to 9, 10, 11, 12, or 13 costs one stat point.<br><br>
                             Upgrading any stat to 14 or 15 costs two stat points.<br><br>
                             With point buy, the minimum stat value you can have is 8 and the maximum stat value you can have is 15.<br><br>
                         </div>
     
-                        <div class="point card col-12 col-md-3" id="point-container">
+                        <div class="point card col-12 col-md-3 align-self-center" id="point-container">
                             <div class="point-total card">Points Remaining</div>
                             <div class="card-body" id="points-remaining">27</div> <!-- SET TO 27 -->
                         </div>
                     </div>
 
-                    <div class="container col-md-10 border border-secondary text-center buy-stat-container d-flex flex-wrap">
-                        <div class="stat card col-6 col-lg-2" id="buy-str">
+                    <div class="container col-md-10 text-center buy-stat-container d-flex flex-wrap">
+                        <div class="stat card col-6 col-lg-2 text-center" id="buy-str">
                             <div class="card-header">STR</div>
-                            <div class="buy-stat" id="buy-str-num">8</div>
-                            <div class="card-subtitle">Strength</div>
-                            <div class="alteration d-flex justify-content-evenly">
+                            <div class="card-body buy-stat" id="buy-str-num">8</div>
+                            <div class="alteration d-flex">
                                 <button class="increment btn btn-outline-secondary">+</button>
                                 <button class="decrement btn btn-outline-danger" data-bs-toggle="true" title="Cannot go lower than 8">-</button>
                             </div>
                         </div>
                         <div class="stat card col-6 col-lg-2" id="buy-dex">
                             <div class="card-header">DEX</div>
-                            <div class="buy-stat" id="buy-dex-num">8</div>
-                            <div class="card-subtitle">Dexterity</div>
-                            <div class="alteration d-flex justify-content-evenly">
+                            <div class="card-body buy-stat" id="buy-dex-num">8</div>
+                            <div class="alteration d-flex">
                                 <button class="increment btn btn-outline-secondary">+</button>
                                 <button class="decrement btn btn-outline-danger" data-bs-toggle="true" title="Cannot go lower than 8">-</button>
                             </div>
                         </div>
                         <div class="stat card col-6 col-lg-2" id="buy-con">
                             <div class="card-header">CON</div>
-                            <div class="buy-stat" id="buy-con-num">8</div>
-                            <div class="card-subtitle">Constitution</div>
-                            <div class="alteration d-flex justify-content-evenly">
+                            <div class="card-body buy-stat" id="buy-con-num">8</div>
+                            <div class="alteration d-flex">
                                 <button class="increment btn btn-outline-secondary">+</button>
                                 <button class="decrement btn btn-outline-danger" data-bs-toggle="true" title="Cannot go lower than 8">-</button>
                             </div>
                         </div>
                         <div class="stat card col-6 col-lg-2" id="buy-int">
                             <div class="card-header">INT</div>
-                            <div class="buy-stat" id="buy-int-num">8</div>
-                            <div class="card-subtitle">Intelligence</div>
-                            <div class="alteration d-flex justify-content-evenly">
+                            <div class="card-body buy-stat" id="buy-int-num">8</div>
+                            <div class="alteration d-flex">
                                 <button class="increment btn btn-outline-secondary">+</button>
                                 <button class="decrement btn btn-outline-danger" data-bs-toggle="true" title="Cannot go lower than 8">-</button>
                             </div>
                         </div>
                         <div class="stat card col-6 col-lg-2" id="buy-wis">
                             <div class="card-header">WIS</div>
-                            <div class="buy-stat" id="buy-wis-num">8</div>
-                            <div class="card-subtitle">Wisdom</div>
-                            <div class="alteration d-flex justify-content-evenly">
+                            <div class="card-body buy-stat" id="buy-wis-num">8</div>
+                            <div class="alteration d-flex">
                                 <button class="increment btn btn-outline-secondary">+</button>
                                 <button class="decrement btn btn-outline-danger" data-bs-toggle="true" title="Cannot go lower than 8">-</button>
                             </div>
                         </div>
                         <div class="stat card col-6 col-lg-2" id="buy-cha">
                             <div class="card-header">CHA</div>
-                            <div class="buy-stat" id="buy-cha-num">8</div>
-                            <div class="card-subtitle">Charisma</div>
-                            <div class="alteration d-flex justify-content-evenly">
+                            <div class="card-body buy-stat" id="buy-cha-num">8</div>
+                            <div class="alteration d-flex">
                                 <button class="increment btn btn-outline-secondary">+</button>
                                 <button class="decrement btn btn-outline-danger" data-bs-toggle="true" title="Cannot go lower than 8">-</button>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="container col-md-10 border border-secondary text-center" id="choices">
-                    <button class="btn btn-primary center transition" id="background-next">Next</button>
+                    <div class="container col-md-10 text-center choices">
+                        <button class="btn btn-primary transition-stat" id="background-next">Next</button>
+                    </div>
                 </div>
 
             </div>
@@ -255,7 +244,7 @@
                 Choose your background:
                 Or create your own:
 
-                <div class="container col-md-10 border border-secondary text-center" id="choices">
+                <div class="container col-md-10 text-center choices">
                     <button class="btn btn-primary center transition" id="background-next">Next</button>
                 </div>
             </div>

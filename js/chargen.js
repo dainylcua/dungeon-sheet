@@ -76,22 +76,28 @@ function populateRaceDetails() {
 
 // Manipulates data for selected race and renders
 function raceRender() {
-    $raceName.text(raceSelectData.name)
-    $raceSpeed.text(`${raceSelectData.speed} ft`)
-    $raceSize.text(`${raceSelectData.size}-sized creature`)
+    $raceName.text(raceSelectData.name).css('font-size','35px')
+    $raceSpeed.text(`Speed: ${raceSelectData.speed} ft/6 seconds`)
+    $raceSize.text(`Size: ${raceSelectData.size}-sized creature`)
 
-    $raceBonusStats.text('')
+    $raceBonusStats.text('Saving throw proficiencies: ')
     raceSelectData.ability_bonuses.forEach((ability) => {
-        $raceBonusStats.append(`<div class="bonusStat" id=${ability.ability_score.index}>
-            ${ability.ability_score.name} + ${ability.bonus}</div>`)
+        if (raceSelectData.ability_bonuses.indexOf(ability) === raceSelectData.ability_bonuses.length-1) {
+            $raceBonusStats.append(`<span class="bonusStat" id=${ability.ability_score.index}>${ability.ability_score.name} + ${ability.bonus}</span>`)
+        } else {
+            $raceBonusStats.append(`<span class="bonusStat" id=${ability.ability_score.index}>${ability.ability_score.name} + ${ability.bonus}, </span>`)
+        }
     })
 
     $raceProficiencies.text('')
     if(raceSelectData.starting_proficiencies.length !== 0) {
-        $raceProficiencies.text('Starting proficiencies:')
+        $raceProficiencies.text('Equipment and tool proficiencies: ')
         raceSelectData.starting_proficiencies.forEach((proficiency) => {
-            $raceProficiencies.append(`<div class="proficiencies" id=${proficiency.index}>
-                ${proficiency.name}`)
+            if(raceSelectData.starting_proficiencies.indexOf(proficiency) === raceSelectData.starting_proficiencies.length-1) {
+                $raceProficiencies.append(`<span class="proficiencies" id=${proficiency.index}>${proficiency.name}</span>`)
+            } else {
+                $raceProficiencies.append(`<span class="proficiencies" id=${proficiency.index}>${proficiency.name}, </span>`)
+            }
         })
     }
 
@@ -101,15 +107,17 @@ function raceRender() {
         $raceProfOptions.text(`Choose from ${raceSelectData.starting_proficiency_options.choose} of the following:`)
         $raceProfOptions.append('<br>')
         raceSelectData.starting_proficiency_options.from.forEach((proficiency) => {
-            $raceProfOptions.append(`<button class="chosen-proficiencies btn btn-primary m-1" id=${proficiency.index}>
-            ${proficiency.name}</button>`)
+            $raceProfOptions.append(`<button class="chosen-proficiencies btn btn-primary m-1" id=${proficiency.index}>${proficiency.name}</button>`)
         })
     }
 
-    $raceLanguages.text(`Languages known:`)
+    $raceLanguages.text(`Languages known: `)
     raceSelectData.languages.forEach((language) => {
-        $raceLanguages.append(`<div class="languages" id=${language.index}>
-        ${language.name}</div>`)
+        if(raceSelectData.languages.indexOf(language) === raceSelectData.languages.length-1) {
+            $raceLanguages.append(`<span class="languages" id=${language.index}>${language.name}</span>`)    
+        } else {
+            $raceLanguages.append(`<span class="languages" id=${language.index}>${language.name}, </span>`)
+        }
     })
 
     $raceLangOptions.text('')
@@ -117,17 +125,19 @@ function raceRender() {
         $raceLangOptions.text(`Choose from ${raceSelectData.language_options.choose} of the following:`)
         $raceLangOptions.append('<br>')
         raceSelectData.language_options.from.forEach((language) => {
-            $raceLangOptions.append(`<button class="chosen-languages btn btn-primary m-1" id=${language.index}>
-            ${language.name}</button>`)
+            $raceLangOptions.append(`<button class="chosen-languages btn btn-primary m-1" id=${language.index}>${language.name}</button>`)
         })
     }
 
     $raceTraits.text('')
     if(raceSelectData.traits.length !== 0) {
-        $raceTraits.text(`Traits:`)
+        $raceTraits.text(`Racial Traits: `)
         raceSelectData.traits.forEach((trait) => {
-            $raceTraits.append(`<div class="traits" id=${trait.index}>
-            ${trait.name}</div>`)
+            if(raceSelectData.traits.indexOf(trait) === raceSelectData.traits.length-1) {
+                $raceTraits.append(`<span class="traits" id=${trait.index}>${trait.name}</span>`)
+            } else {
+                $raceTraits.append(`<span class="traits" id=${trait.index}>${trait.name}, </span>`)
+            }
         })
     }
 
@@ -246,20 +256,30 @@ function populateClassDetails() {
 
 
 function classRender() {
-    $className.text(classSelectData.name)
-    $classHitDice.text(classSelectData.hit_die)
+    $className.text(classSelectData.name).css('font-size', '35px')
+    $classHitDice.text('Hit dice size: ' + classSelectData.hit_die)
 
-    $classSavingThrows.text('')
+    $classSavingThrows.text('Saving throw proficiencies: ')
     classSelectData.saving_throws.forEach((save) => {
-        $classSavingThrows.append(`<div class="saves" index=${save.index}>${save.name}</div>`)
+        if (classSelectData.saving_throws.indexOf(save) === classSelectData.saving_throws.length-1) {
+            $classSavingThrows.append(`<span class="saves" id=${save.index}>${save.name}</span>`)
+        } else {
+            $classSavingThrows.append(`<span class="saves" id=${save.index}>${save.name}, </span>`)
+        }
     })
+    $classSavingThrows.splice(0, -3)
 
-    $classProficiencies.text('')
+    $classProficiencies.text('Equipment and tool proficiencies: ')
     classSelectData.proficiencies.forEach((prof) => {
-        $classProficiencies.append(`<div class="profs" index=${prof.index}>${prof.name}</div>`)
+        if (classSelectData.proficiencies.indexOf(prof) === classSelectData.proficiencies.length -1) {
+            $classProficiencies.append(`<span class="profs" id=${prof.index}>${prof.name}</span>`)
+        } else {
+            $classProficiencies.append(`<span class="profs" id=${prof.index}>${prof.name}, </span>`)
+        }
     })
+    $classProficiencies.splice(0, -3)
 
-    $classProfOptions.text('')
+    $classProfOptions.text('Skill proficiencies: ')
     if(classSelectData.hasOwnProperty("proficiency_choices")) {
         classSelectData.proficiency_choices.forEach((choice) => {
             $classProfOptions.append(`<div class="prof-options choose${choice.choose}">Choose from ${choice.choose} of the following:</div>`)
@@ -271,9 +291,9 @@ function classRender() {
         })
     }
 
-    $classEquipment.text('')
+    $classEquipment.text('Starting equipment: ')
     classSelectData.starting_equipment.forEach((equip) => {
-        $classEquipment.append(`<div class="equips" index=${equip.equipment.index}>${equip.equipment.name}
+        $classEquipment.append(`<div class="equips" id=${equip.equipment.index}>${equip.equipment.name}
         x${equip.quantity}</div>`)
     })
     
@@ -337,9 +357,19 @@ function classRender() {
 // TODO: ADD TOGGLE BUTTONS, WHEN REACH MAX CHOICE DISABLE BUTTONS
 
 // Stat Functions
+$('button#roll').on('click', showRoll)
+$('button#buy').on('click', showBuy)
 $('#roll-btn').on('click', rollStats)
 $('.increment').on('click', increaseStat)
 $('.decrement').on('click', decreaseStat)
+
+$('.transition-stat').on('click', function() {
+    $(this).parent().parent().parent().fadeOut(500).remove(5)
+    $('#tranScreen').fadeIn().fadeOut(1000, () => {
+        $(this).parent().parent().parent().next().fadeIn(300)
+    })
+})
+
 
 let currentStat, currentArray = [], statNum
 
@@ -347,6 +377,24 @@ let remainingPoints = parseInt($('#points-remaining').text())
 const $statPoints = $('#points-remaining')
 
 const statNames = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA']
+
+function showRoll () {
+    $(this).parent().parent().parent().fadeOut(500)
+    $(this).parent().parent().fadeOut(500).remove(5)
+    $('#tranScreen').fadeIn().fadeOut(1000, () => {
+        $(this).parent().parent().parent().fadeIn(500)
+        $('#stat-roll').fadeIn(300)
+    })
+}
+
+function showBuy () {
+    $(this).parent().parent().parent().fadeOut(500)
+    $(this).parent().parent().fadeOut(500).remove(5)
+    $('#tranScreen').fadeIn().fadeOut(1000, () => {
+        $(this).parent().parent().parent().fadeIn(500)
+        $('#point-buy').fadeIn(300)
+    })
+}
 
 
 function rollStats() {
@@ -359,6 +407,7 @@ function rollStats() {
         currentArray.shift()
         currentStat = currentArray.reduce((total, current) => total + current)
     }
+
 }
 
 function increaseStat() {
