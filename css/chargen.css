@@ -20,7 +20,7 @@
     height: 80vh;
 }
 
-#tranScreen > div {
+#tranScreen>div {
     position: absolute;
     margin: 0 auto;
     width: 100%;
@@ -34,8 +34,8 @@
     align-items: center;
 }
 
-.roll-stat > .stat {
-    display:flex;
+.roll-stat>.stat {
+    display: flex;
     flex-flow: column nowrap;
 }
 
@@ -48,7 +48,8 @@
     display: flex;
 }
 
-.increment, .decrement {
+.increment,
+.decrement {
     flex: 1 1 auto
 }
 
@@ -66,7 +67,8 @@
     padding: 1rem;
 }
 
-#stat-roll, #point-buy {
+#stat-roll,
+#point-buy {
     display: none;
     transition-timing-function: ease-in;
 }
