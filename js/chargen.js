@@ -9,6 +9,16 @@ $('.transition').on('click', function () {
     })
 })
 
+// TODO: Toggle button limiter
+// $('[data-bs-toggle]').not('.increment, .decrement, #roll, #buy, #preset').on('click', toggleLimit)
+
+// function toggleLimit(evt) {
+//     if(($this).siblings(':checked').length === limit) {
+//         evt.preventDefault()
+//         $(this)
+
+//     }
+// }
 
 // Race Functions
 $('#race-next').on('click', populateRaceList)
@@ -394,7 +404,6 @@ function classRender() {
         $classEquipChoices.append('<br><br>')
     })
 }
-// TODO: ADD TOGGLE BUTTONS, WHEN REACH MAX CHOICE DISABLE BUTTONS
 
 // Stat Functions
 $('button#roll').on('click', showRoll)
@@ -447,6 +456,7 @@ function rollStats() {
         currentArray = currentArray.sort()
         currentArray.shift()
         currentStat = currentArray.reduce((total, current) => total + current)
+        $(`#stat-roll .card-header:contains(${statNames[i]})`).siblings().text(currentStat)
     }
 
 }
