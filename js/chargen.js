@@ -72,20 +72,25 @@ function populateRaceDetails() {
             console.log('Bad Request: ', error)
         }
     )
+    $('#race-container .props').css('border-bottom', '1px solid ghostwhite').css('padding', '1rem')
 }
 
 // Manipulates data for selected race and renders
 function raceRender() {
-    $raceName.text(raceSelectData.name).css('font-size', '35px')
-    $raceSpeed.text(`Speed: ${raceSelectData.speed} ft/6 seconds`)
+    $raceName.text(raceSelectData.name).css('font-size', '3rem').css('border-bottom', '1px solid black')
+    $raceSpeed.text(`Speed: ${raceSelectData.speed} ft/6 seconds`).css('padding-top', '1rem')
     $raceSize.text(`Size: ${raceSelectData.size}-sized creature`)
 
     $raceBonusStats.text('Saving throw proficiencies: ')
     raceSelectData.ability_bonuses.forEach((ability) => {
         if (raceSelectData.ability_bonuses.indexOf(ability) === raceSelectData.ability_bonuses.length - 1) {
-            $raceBonusStats.append(`<span class="bonusStat" id=${ability.ability_score.index}>${ability.ability_score.name} + ${ability.bonus}</span>`)
+            $raceBonusStats.append(`<span class="bonusStat" 
+                id=${ability.ability_score.index}>
+                ${ability.ability_score.name} + ${ability.bonus}</span>`)
         } else {
-            $raceBonusStats.append(`<span class="bonusStat" id=${ability.ability_score.index}>${ability.ability_score.name} + ${ability.bonus}, </span>`)
+            $raceBonusStats.append(`<span class="bonusStat" 
+                id=${ability.ability_score.index}>
+                ${ability.ability_score.name} + ${ability.bonus}, </span>`)
         }
     })
 
@@ -94,9 +99,13 @@ function raceRender() {
         $raceProficiencies.text('Equipment and tool proficiencies: ')
         raceSelectData.starting_proficiencies.forEach((proficiency) => {
             if (raceSelectData.starting_proficiencies.indexOf(proficiency) === raceSelectData.starting_proficiencies.length - 1) {
-                $raceProficiencies.append(`<span class="proficiencies" id=${proficiency.index}>${proficiency.name}</span>`)
+                $raceProficiencies.append(`<span class="proficiencies" 
+                    id=${proficiency.index}>
+                    ${proficiency.name}</span>`)
             } else {
-                $raceProficiencies.append(`<span class="proficiencies" id=${proficiency.index}>${proficiency.name}, </span>`)
+                $raceProficiencies.append(`<span class="proficiencies" 
+                    id=${proficiency.index}>
+                    ${proficiency.name}, </span>`)
             }
         })
     }
@@ -107,25 +116,36 @@ function raceRender() {
         $raceProfOptions.text(`Choose from ${raceSelectData.starting_proficiency_options.choose} of the following proficiencies:`)
         $raceProfOptions.append('<br>')
         raceSelectData.starting_proficiency_options.from.forEach((proficiency) => {
-            $raceProfOptions.append(`<button class="chosen-proficiencies btn btn-outline-dark m-1" data-bs-toggle="button" id=${proficiency.index}>${proficiency.name}</button>`)
+            $raceProfOptions.append(`<button class="chosen-proficiencies btn btn-outline-dark m-1" 
+                data-bs-toggle="button" 
+                id=${proficiency.index}>
+                ${proficiency.name}</button>`)
         })
     }
 
     $raceLanguages.text(`Languages known: `)
     raceSelectData.languages.forEach((language) => {
         if (raceSelectData.languages.indexOf(language) === raceSelectData.languages.length - 1) {
-            $raceLanguages.append(`<span class="languages" id=${language.index}>${language.name}</span>`)
+            $raceLanguages.append(`<span class="languages" 
+                id=${language.index}>
+                ${language.name}</span>`)
         } else {
-            $raceLanguages.append(`<span class="languages" id=${language.index}>${language.name}, </span>`)
+            $raceLanguages.append(`<span class="languages" 
+                id=${language.index}>
+                ${language.name}, </span>`)
         }
     })
 
     $raceLangOptions.text('')
     if (raceSelectData.language_options !== undefined) {
+        $raceLanguages.append('<br>')
         $raceLangOptions.text(`Choose from ${raceSelectData.language_options.choose} of the following:`)
         $raceLangOptions.append('<br>')
         raceSelectData.language_options.from.forEach((language) => {
-            $raceLangOptions.append(`<button class="chosen-languages btn btn-outline-dark m-1" data-bs-toggle="button" id=${language.index}>${language.name}</button>`)
+            $raceLangOptions.append(`<button class="chosen-languages btn btn-outline-dark m-1" 
+                data-bs-toggle="button" 
+                id=${language.index}>
+                ${language.name}</button>`)
         })
     }
 
@@ -134,11 +154,17 @@ function raceRender() {
         $raceTraits.text(`Racial Traits: `)
         raceSelectData.traits.forEach((trait) => {
             if (raceSelectData.traits.indexOf(trait) === raceSelectData.traits.length - 1) {
-                $raceTraits.append(`<span class="traits" id=${trait.index}>${trait.name}</span>`)
+                $raceTraits.append(`<span class="traits" 
+                    id=${trait.index}>
+                    ${trait.name}</span>`)
             } else {
-                $raceTraits.append(`<span class="traits" id=${trait.index}>${trait.name}, </span>`)
+                $raceTraits.append(`<span class="traits" 
+                    id=${trait.index}>
+                    ${trait.name}, </span>`)
             }
         })
+    } else {
+        $('#race-traits').css('border-bottom', '').css('padding', '')
     }
 
     $raceDescription.text(raceSelectData.alignment + ' ' + raceSelectData.size_description + ' ' + raceSelectData.age)
@@ -199,6 +225,7 @@ function populateClassDetails() {
             console.log('Bad Request: ', error)
         }
     )
+    $('#class-container .props').css('border-bottom', '1px solid ghostwhite').css('padding', '1rem')
 }
 
 
@@ -256,36 +283,45 @@ function populateClassDetails() {
 
 
 function classRender() {
-    $className.text(classSelectData.name).css('font-size', '35px')
-    $classHitDice.text('Hit dice size: ' + classSelectData.hit_die)
+    $className.text(classSelectData.name).css('font-size', '3rem').css('border-bottom', '1px solid black')
+    $classHitDice.text('Hit dice size: ' + classSelectData.hit_die).css('padding-top', '1rem')
 
     $classSavingThrows.text('Saving throw proficiencies: ')
     classSelectData.saving_throws.forEach((save) => {
         if (classSelectData.saving_throws.indexOf(save) === classSelectData.saving_throws.length - 1) {
-            $classSavingThrows.append(`<span class="saves" id=${save.index}>${save.name}</span>`)
+            $classSavingThrows.append(`<span class="saves" 
+                id=${save.index}>
+                ${save.name}</span>`)
         } else {
-            $classSavingThrows.append(`<span class="saves" id=${save.index}>${save.name}, </span>`)
+            $classSavingThrows.append(`<span class="saves" 
+                id=${save.index}>
+                ${save.name}, </span>`)
         }
     })
-    $classSavingThrows.splice(0, -3)
 
     $classProficiencies.text('Equipment and tool proficiencies: ')
     classSelectData.proficiencies.forEach((prof) => {
         if (classSelectData.proficiencies.indexOf(prof) === classSelectData.proficiencies.length - 1) {
-            $classProficiencies.append(`<span class="profs" id=${prof.index}>${prof.name}</span>`)
+            $classProficiencies.append(`<span class="profs" 
+                id=${prof.index}>
+                ${prof.name}</span>`)
         } else {
-            $classProficiencies.append(`<span class="profs" id=${prof.index}>${prof.name}, </span>`)
+            $classProficiencies.append(`<span class="profs" 
+                id=${prof.index}>
+                ${prof.name}, </span>`)
         }
     })
-    $classProficiencies.splice(0, -3)
+    $classProficiencies.append('<br>')
 
     $classProfOptions.text('Skill proficiencies: ')
     if (classSelectData.hasOwnProperty("proficiency_choices")) {
         classSelectData.proficiency_choices.forEach((choice) => {
             $classProfOptions.append(`<div class="prof-options choose${choice.choose}">Choose from ${choice.choose} of the following:</div>`)
             choice.from.forEach((prof) => {
-                $classProfOptions.append(`<button class="chosen-profs btn btn-outline-dark m-1" data-bs-toggle="button" id=${prof.index}>
-                ${prof.name}</button>`)
+                $classProfOptions.append(`<button class="chosen-profs btn btn-outline-dark m-1" 
+                    data-bs-toggle="button" 
+                    id=${prof.index}>
+                    ${prof.name}</button>`)
             })
             $classProfOptions.append('<br>')
         })
@@ -293,14 +329,17 @@ function classRender() {
 
     $classEquipment.text('Starting equipment: ')
     classSelectData.starting_equipment.forEach((equip) => {
-        $classEquipment.append(`<div class="equips" id=${equip.equipment.index}>${equip.equipment.name}
+        $classEquipment.append(`<div class="equips" 
+        id=${equip.equipment.index}>${equip.equipment.name}
         x${equip.quantity}</div>`)
     })
+    $classEquipment.append('<br>')
 
     $classEquipChoices.text('')
     classSelectData.starting_equipment_options.forEach((option) => {
         // For every equipment group option, choose an amount from multiple groups
-        $classEquipChoices.append(`<div class="equip-option choose${option.choose}">Choose from ${option.choose} of the following:</div>`)
+        $classEquipChoices.append(`<div class="equip-option choose${option.choose}">
+        Choose from ${option.choose} of the following:</div>`)
 
         // Reset group number for every group option
         // console.log('option', option)
@@ -325,10 +364,8 @@ function classRender() {
                         fragId += `${eqObjOpt.equipment.index}-${eqObjOpt.quantity}-`
                     } else if (eqObjOpt.hasOwnProperty('equipment_option')) {
                         // If equip group has options
-                        fragEquip += `${eqObjOpt.equipment_option.from.equipment_category.name} 
-                        x${eqObjOpt.equipment_option.choose} `
-                        fragId += `${eqObjOpt.equipment_option.from.equipment_category.index} 
-                        -${eqObjOpt.equipment_option.choose}-`
+                        fragEquip += `${eqObjOpt.equipment_option.from.equipment_category.name} x${eqObjOpt.equipment_option.choose} `
+                        fragId += `${eqObjOpt.equipment_option.from.equipment_category.index}-${eqObjOpt.equipment_option.choose}-`
                     }
                 })
                 fragEquip = fragEquip.slice(0, -1)
@@ -340,14 +377,18 @@ function classRender() {
             } else if (equipGroup.hasOwnProperty('equipment')) {
                 // If equip group is a single item
                 // console.log('hasequip')
-                $classEquipChoices.append(`<button class="equips btn btn-outline-dark m-1" data-bs-toggle="button" id="${equipGroup.equipment.index}-${equipGroup.quantity}">${equipGroup.equipment.name} x${equipGroup.quantity}`)
+                $classEquipChoices.append(`<button class="equips btn btn-outline-dark m-1" 
+                    data-bs-toggle="button" 
+                    id="${equipGroup.equipment.index}-${equipGroup.quantity}">
+                    ${equipGroup.equipment.name} x${equipGroup.quantity}`)
 
             } else if (equipGroup.hasOwnProperty('equipment_option')) {
                 // If equip group has options -- solely for choosing multiple martial/simple weapons
                 // console.log('hasequipoption')
-                $classEquipChoices.append(`<button class="equips btn btn-outline-dark m-1" 
-                id="${equipGroup.equipment_option.from.equipment_category.index}-${equipGroup.equipment_option.choose}">
-                ${equipGroup.equipment_option.from.equipment_category.name} x${equipGroup.equipment_option.choose} </button>`)
+                $classEquipChoices.append(`<button class="equips btn btn-outline-dark m-1"
+                    data-bs-toggle="button" 
+                    id="${equipGroup.equipment_option.from.equipment_category.index}-${equipGroup.equipment_option.choose}">
+                    ${equipGroup.equipment_option.from.equipment_category.name} x${equipGroup.equipment_option.choose} </button>`)
             }
         })
     })

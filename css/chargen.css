@@ -4,6 +4,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 1.1rem;
+    line-height: 1.6;
 }
 
 #content {
@@ -26,6 +28,7 @@
     width: 100%;
     height: 100%;
 }
+
 
 .roll-stat {
     display: flex;
@@ -72,3 +75,4 @@
     display: none;
     transition-timing-function: ease-in;
 }
+

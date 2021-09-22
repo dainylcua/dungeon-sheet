@@ -45,7 +45,7 @@
             <!-- Race Selector -->
             <div class="next" id="race-info">
                 <div class="container col-md-10 text-center" id="race-content">
-                    <br>There are many races in the world of Dungeons and Dragons. <br>
+                    There are many races in the world of Dungeons and Dragons. <br>
                     However, not every race behaves the same in every universe. <br><br>
                     For starters, what race would your character be? <br><br>
 
@@ -55,27 +55,30 @@
                 </div>
                 <div class="container col-md-10 text-center" id="race-container">
                     <!-- Name, Speed, and Size of selected race -->
-                    <div id="race-properties">
+                    <div class="props" id="race-properties">
                         <div id="race-name"></div>
                         <div id="race-speed"></div>
                         <div id="race-size"></div>
                     </div>
 
                     <!-- All bonuses, proficiencies, and languages for the selected race -->
-                    <div id="race-bonuses">
+                    <div class="props" id="race-bonuses">
                         <div id="race-bonus-stats"></div>
                         <div id="race-proficiencies"></div>
                         <div id="race-prof-options"></div>
+                    </div>
+                    
+                    <div class="props" id="race-language-all">
                         <div id="race-languages"></div>
                         <div id="race-lang-options"></div>
                     </div>
 
-                    <!-- Traits that the selected race gets -->
-                    <div id="race-traits">
+                    <!-- All traits for the selected race -->
+                    <div class="props" id="race-traits">
                     </div>
 
                     <!-- Verbose description of selected race, including alignment, age, size, and langauge. -->
-                    <div id="race-description">
+                    <div class="props" id="race-description">
 
                     </div>
 
@@ -97,17 +100,26 @@
                         <option style="display:none"></option>
                     </select>
                 </div>
+                
                 <div class="container col-md-10 text-center" id="class-container">
-                    <div id="class-properties">
+                    <!-- Name, hit dice, and saving throw proficiency of the selected class -->
+                    <div class="props" id="class-properties">
                         <div id="class-name"></div>
                         <div id="hit-dice"></div>
                         <div id="saving-throws"></div>
+                    </div>
+
+                    <!-- All proficiency choices of the selected class -->
+                    <div class="props" id="class-bonuses">
                         <div id="class-proficiencies"></div>
                         <div id="class-prof-choices"></div>
                     </div>
 
-                    <div id="class-equipment"></div>
-                    <div id="class-equip-choices"></div>
+                    <!-- All equipment and equipment choices of the selected class -->
+                    <div class="props" id="class-equips">
+                        <div id="class-equipment"></div>
+                        <div id="class-equip-choices"></div>
+                    </div>
                 </div>
 
                 <div class="container col-md-10 text-center choices">
@@ -119,9 +131,9 @@
             <!-- Stat Roller -->
             <div class="next" id="stat-info">
                 <div class="container col-md-10 text-center" id="stat-content">
-                    <br>Your overall prowess is determined by numbers.
-                    Do you want to let the fates decide, for better or worse?
-                    Or would you rather take a calculated approach yourself?<br><br>
+                    Your overall prowess is determined by numbers.<br>
+                    Do you want to let the fates decide, for better or worse?<br>
+                    Or would you rather take a calculated approach yourself?<br>
                     <div class="container col-md-10 text-center choices">
                         <button class="btn btn-primary" data-bs-toggle="tooltip"
                             title="Greater stat variance - for better or worse" id="roll">Roll Stats</button>
@@ -130,14 +142,14 @@
                     </div>
                 </div>
 
-                <div class="container col-md-10 text-center" id="stat-roll">
+                <div class="container col-12 col-md-10 text-center" id="stat-roll">
 
-                    <div class="container col-md-10 text-center roll-info">
-                        <br>For each stat, 4 regular dice (d6) are rolled.</br><br>
+                    <div class="container text-center roll-info">
+                        For each stat, 4 regular dice (d6) are rolled.</br><br>
                         Press the roll button to generate a new set of stats.<br><br>
                     </div>
 
-                    <div class="container col-md-10 text-center roll-stat-container d-flex flex-wrap">
+                    <div class="container text-center roll-stat-container d-flex flex-wrap">
                         <div class="stat card col-6 col-lg-2 text-center" id="roll-str">
                             <div class="card-header">STR</div>
                             <div class="card-body roll-stat" id="roll-str-num">1</div>
@@ -165,7 +177,7 @@
                     </div>
 
                     <div class="container col-md-10 text-center choices">
-                        <button class="btn btn-primary" id="roll-btn">Roll</button>
+                        <button class="btn btn-secondary" id="roll-btn">Roll</button>
                     </div>
 
                     <div class="container col-md-10 text-center choices">
@@ -174,7 +186,7 @@
                 </div>
 
                 <div class="container col-12 col-md-10 text-center" id="point-buy">
-                    <div class="container col-md-10 text-center d-flex flex-wrap" id="point-buy-content">
+                    <div class="container text-center d-flex flex-wrap" id="point-buy-content">
                         <div class="container col-md-9" id="buy-info">
                             <br>A total of 27 stat points are given to distribute amongst every stat.<br><br>
                             Upgrading any stat to 9, 10, 11, 12, or 13 costs one stat point.<br><br>
@@ -189,7 +201,7 @@
                         </div>
                     </div>
 
-                    <div class="container col-md-10 text-center buy-stat-container d-flex flex-wrap">
+                    <div class="container text-center buy-stat-container d-flex flex-wrap">
                         <div class="stat card col-6 col-lg-2 text-center" id="buy-str">
                             <div class="card-header">STR</div>
                             <div class="card-body buy-stat" id="buy-str-num">8</div>
