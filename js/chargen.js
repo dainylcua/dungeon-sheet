@@ -96,7 +96,7 @@ function raceRender() {
 
     $raceProficiencies.text('')
     if (raceSelectData.starting_proficiencies.length !== 0) {
-        $raceProficiencies.text('Equipment and tool proficiencies: ')
+        $raceProficiencies.text('Proficiencies: ')
         raceSelectData.starting_proficiencies.forEach((proficiency) => {
             if (raceSelectData.starting_proficiencies.indexOf(proficiency) === raceSelectData.starting_proficiencies.length - 1) {
                 $raceProficiencies.append(`<span class="proficiencies" 
@@ -139,7 +139,7 @@ function raceRender() {
     $raceLangOptions.text('')
     if (raceSelectData.language_options !== undefined) {
         $raceLanguages.append('<br>')
-        $raceLangOptions.text(`Choose from ${raceSelectData.language_options.choose} of the following:`)
+        $raceLangOptions.text(`Choose from ${raceSelectData.language_options.choose} of the following languages:`)
         $raceLangOptions.append('<br>')
         raceSelectData.language_options.from.forEach((language) => {
             $raceLangOptions.append(`<button class="chosen-languages btn btn-outline-dark m-1" 
@@ -311,12 +311,12 @@ function classRender() {
                 ${prof.name}, </span>`)
         }
     })
-    $classProficiencies.append('<br>')
+    $classProficiencies.append('<br><br>')
 
-    $classProfOptions.text('Skill proficiencies: ')
+    $classProfOptions.text('')
     if (classSelectData.hasOwnProperty("proficiency_choices")) {
         classSelectData.proficiency_choices.forEach((choice) => {
-            $classProfOptions.append(`<div class="prof-options choose${choice.choose}">Choose from ${choice.choose} of the following:</div>`)
+            $classProfOptions.append(`<div class="prof-options choose${choice.choose}">Choose from ${choice.choose} of the following skill proficiencies:</div>`)
             choice.from.forEach((prof) => {
                 $classProfOptions.append(`<button class="chosen-profs btn btn-outline-dark m-1" 
                     data-bs-toggle="button" 
@@ -391,6 +391,7 @@ function classRender() {
                     ${equipGroup.equipment_option.from.equipment_category.name} x${equipGroup.equipment_option.choose} </button>`)
             }
         })
+        $classEquipChoices.append('<br><br>')
     })
 }
 // TODO: ADD TOGGLE BUTTONS, WHEN REACH MAX CHOICE DISABLE BUTTONS
