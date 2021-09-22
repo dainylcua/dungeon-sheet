@@ -338,11 +338,15 @@ function classRender() {
 
 // Stat Functions
 $('#roll-btn').on('click', rollStats)
+$('.increment').on('click', increaseStat)
+$('.decrement').on('click', decreaseStat)
 
-let currentStat, currentArray = []
+let currentStat, currentArray = [], statNum
+
+let remainingPoints = parseInt($('#points-remaining').text())
+const $statPoints = $('#points-remaining')
 
 const statNames = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA']
-const baseStats = [8, 8, 8, 8, 8, 8]
 
 
 function rollStats() {
@@ -353,12 +357,99 @@ function rollStats() {
         }
         currentArray = currentArray.sort()
         currentArray.shift()
-        console.log(currentArray)
         currentStat = currentArray.reduce((total, current) => total + current)
-        console.log(currentStat)
     }
 }
 
-function updateStats() {
+function increaseStat() {
+    let $statTarget = $(this).parent().parent().children('.buy-stat')
+    statNum = parseInt($statTarget.text())
+    let decSib = $(this).parent().children('.decrement')
 
+    // Exits loop if no points
+    if(remainingPoints === 0) {
+        return
+    }
+
+    // Adds stats, decreases remaining points
+    if(statNum < 13) {
+        if(statNum === 8 && decSib.hasClass('btn-outline-danger')) {
+            decSib.addClass('btn-outline-secondary').removeClass('btn-outline-danger')
+            decSib.removeAttr('data-bs-toggle title')
+        }
+        statNum += 1
+        remainingPoints -= 1
+        $statTarget.text(statNum)
+        $statPoints.text(remainingPoints)
+    } else if(statNum < 15) {
+        statNum +=1
+        remainingPoints -= 2
+        $statTarget.text(statNum)
+        $statPoints.text(remainingPoints)
+    }
+
+    // If stat is 15 after adding, cannot go higher
+    if(statNum === 15) {
+        $(this).attr('data-bs-toggle',"true")
+        $(this).attr('title',"Cannot go higher than 15")
+        $(this).removeClass('btn-outline-secondary').addClass('btn-outline-danger')
+    }
+
+    // If no points left, alerts user that they need points
+    if(remainingPoints === 0) {
+        $('.increment').attr('data-bs-toggle',"true")
+        $('.increment').attr('title',"No points remaining!")
+        $('.increment').removeClass('btn-outline-secondary').addClass('btn-outline-danger')
+        return
+    }
+    
+    
+}
+
+function decreaseStat() {
+    let $statTarget = $(this).parent().parent().children('.buy-stat')
+    statNum = parseInt($statTarget.text())
+    let incSib = $(this).parent().children('.increment')
+
+    // If regaining points, remove danger from all except if stat = 15
+    if(remainingPoints === 0) {
+        $('.increment').removeClass('btn-outline-danger').addClass('btn-outline-secondary')
+        $('.increment').removeAttr('data-bs-toggle title')
+        pointAlert()
+    }
+
+    // Remove stats, increases remaining points
+    if(statNum > 13) {
+        if(statNum === 15 && incSib.hasClass('btn-outline-danger')) {
+            incSib.addClass('btn-outline-secondary').removeClass('btn-outline-danger')
+            incSib.removeAttr('data-bs-toggle title')
+        }
+        statNum -= 1
+        remainingPoints += 2
+        $statTarget.text(statNum)
+        $statPoints.text(remainingPoints)
+    } else if(statNum > 8) {
+        if(statNum === 9) {
+            $(this).attr('data-bs-toggle',"true")
+            $(this).attr('title',"Cannot go lower than 8")
+            $(this).removeClass('btn-outline-secondary').addClass('btn-outline-danger')
+        }
+        statNum -=1
+        remainingPoints += 1
+        $statTarget.text(statNum)
+        $statPoints.text(remainingPoints)
+    }
+    
+}
+
+function pointAlert() {
+    let $eachIncrement = $('.buy-stat-container').children().children('.alteration').children('.increment')
+    let $eachStat = $('.buy-stat-container').children().children('.buy-stat')
+    for (i = 0; i < 5; i++) {
+        if (parseInt($($eachStat[i]).text()) === 15) {
+            $($eachIncrement[i]).removeClass('btn-outline-secondary').addClass('btn-outline-danger')
+            $($eachIncrement[i]).attr('data-bs-toggle',"true")
+            $($eachIncrement[i]).attr('title',"Cannot go higher than 15")
+        }
+    }
 }

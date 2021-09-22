@@ -29,7 +29,7 @@
                 </div>
                 <div class="container col-md-10 border border-secondary text-center" id="choices">
                     <button class="btn btn-primary center transition" id="race-next">Create a Character</button>
-                    <button class="btn btn-outline-warning" data-toggle="tooltip" title="Not yet enabled" id="preset">Start With a Preset</button>
+                    <button class="btn btn-outline-warning" data-bs-toggle="tooltip" title="Not yet enabled" id="preset" aria-disabled="true">Start With a Preset</button>
                 </div>
             </div>
 
@@ -115,8 +115,8 @@
                     Do you want to let the fates decide, for better or worse?
                     Or would you rather take a calculated approach?<br>
                     <div class="container col-md-10 border border-secondary text-center" id="choices">
-                        <button class="btn btn-primary center" data-toggle="tooltip" title="Greater stat variance - for better or worse" id="roll">Roll Stats</button>
-                        <button class="btn btn-primary center" data-toggle="tooltip" title="Less variance - better lows but worse highs" id="buy">Point Buy</button>
+                        <button class="btn btn-primary center" data-bs-toggle="tooltip" title="Greater stat variance - for better or worse" id="roll">Roll Stats</button>
+                        <button class="btn btn-primary center" data-bs-toggle="tooltip" title="Less variance - better lows but worse highs" id="buy">Point Buy</button>
                     </div>
                 </div>
 
@@ -130,32 +130,32 @@
                     <div class="container col-md-10 border border-secondary text-center roll-stat-container d-flex">
                         <div class="stat card col-md-2" id="roll-str">
                             <div class="card-header">STR</div>
-                            <div class="roll-stat" id="roll-str-num">Number Here</div>
+                            <div class="roll-stat" id="roll-str-num">1</div>
                             <div class="card-subtitle">Strength</div>
                         </div>
                         <div class="stat card col-md-2" id="roll-dex">
                             <div class="card-header">DEX</div>
-                            <div class="roll-stat" id="roll-dex-num">Number Here</div>
+                            <div class="roll-stat" id="roll-dex-num">1</div>
                             <div class="card-subtitle">Dexterity</div>
                         </div>
                         <div class="stat card col-md-2" id="roll-con">
                             <div class="card-header">CON</div>
-                            <div class="roll-stat" id="roll-con-num">Number Here</div>
+                            <div class="roll-stat" id="roll-con-num">1</div>
                             <div class="card-subtitle">Constitution</div>
                         </div>
                         <div class="stat card col-md-2" id="roll-int">
                             <div class="card-header">INT</div>
-                            <div class="roll-stat" id="roll-int-num">Number Here</div>
+                            <div class="roll-stat" id="roll-int-num">1</div>
                             <div class="card-subtitle">Intelligence</div>
                         </div>
                         <div class="stat card col-md-2" id="roll-wis">
                             <div class="card-header">WIS</div>
-                            <div class="roll-stat" id="roll-wis-num">Number Here</div>
+                            <div class="roll-stat" id="roll-wis-num">1</div>
                             <div class="card-subtitle">Wisdom</div>
                         </div>
                         <div class="stat card col-md-2" id="roll-cha">
                             <div class="card-header">CHA</div>
-                            <div class="roll-stat" id="roll-cha-num">Number Here</div>
+                            <div class="roll-stat" id="roll-cha-num">1</div>
                             <div class="card-subtitle">Charisma</div>
                         </div>
                     </div>
@@ -176,63 +176,63 @@
     
                         <div class="point card col-md-3" id="point-container">
                             <div class="point-total card">Points Remaining</div>
-                            <div class="card-body" id="points-remaining"></div>
+                            <div class="card-body" id="points-remaining">10</div> <!-- SET TO 27 -->
                         </div>
                     </div>
 
                     <div class="container col-md-10 border border-secondary text-center buy-stat-container d-flex">
                         <div class="stat card col-md-2" id="buy-str">
                             <div class="card-header">STR</div>
-                            <div class="buy-stat" id="buy-str-num">Number Here</div>
+                            <div class="buy-stat" id="buy-str-num">8</div>
                             <div class="card-subtitle">Strength</div>
                             <div class="alteration d-flex justify-content-evenly">
                                 <button class="increment btn btn-outline-secondary">+</button>
-                                <button class="decrement btn btn-outline-secondary">-</button>
+                                <button class="decrement btn btn-outline-danger" data-bs-toggle="true" title="Cannot go lower than 8">-</button>
                             </div>
                         </div>
                         <div class="stat card col-md-2" id="buy-dex">
                             <div class="card-header">DEX</div>
-                            <div class="buy-stat" id="buy-dex-num">Number Here</div>
+                            <div class="buy-stat" id="buy-dex-num">8</div>
                             <div class="card-subtitle">Dexterity</div>
                             <div class="alteration d-flex justify-content-evenly">
                                 <button class="increment btn btn-outline-secondary">+</button>
-                                <button class="decrement btn btn-outline-secondary">-</button>
+                                <button class="decrement btn btn-outline-danger" data-bs-toggle="true" title="Cannot go lower than 8">-</button>
                             </div>
                         </div>
                         <div class="stat card col-md-2" id="buy-con">
                             <div class="card-header">CON</div>
-                            <div class="buy-stat" id="buy-con-num">Number Here</div>
+                            <div class="buy-stat" id="buy-con-num">8</div>
                             <div class="card-subtitle">Constitution</div>
                             <div class="alteration d-flex justify-content-evenly">
                                 <button class="increment btn btn-outline-secondary">+</button>
-                                <button class="decrement btn btn-outline-secondary">-</button>
+                                <button class="decrement btn btn-outline-danger" data-bs-toggle="true" title="Cannot go lower than 8">-</button>
                             </div>
                         </div>
                         <div class="stat card col-md-2" id="buy-int">
                             <div class="card-header">INT</div>
-                            <div class="buy-stat" id="buy-int-num">Number Here</div>
+                            <div class="buy-stat" id="buy-int-num">8</div>
                             <div class="card-subtitle">Intelligence</div>
                             <div class="alteration d-flex justify-content-evenly">
                                 <button class="increment btn btn-outline-secondary">+</button>
-                                <button class="decrement btn btn-outline-secondary">-</button>
+                                <button class="decrement btn btn-outline-danger" data-bs-toggle="true" title="Cannot go lower than 8">-</button>
                             </div>
                         </div>
                         <div class="stat card col-md-2" id="buy-wis">
                             <div class="card-header">WIS</div>
-                            <div class="buy-stat" id="buy-wis-num">Number Here</div>
+                            <div class="buy-stat" id="buy-wis-num">8</div>
                             <div class="card-subtitle">Wisdom</div>
                             <div class="alteration d-flex justify-content-evenly">
                                 <button class="increment btn btn-outline-secondary">+</button>
-                                <button class="decrement btn btn-outline-secondary">-</button>
+                                <button class="decrement btn btn-outline-danger" data-bs-toggle="true" title="Cannot go lower than 8">-</button>
                             </div>
                         </div>
                         <div class="stat card col-md-2" id="buy-cha">
                             <div class="card-header">CHA</div>
-                            <div class="buy-stat" id="buy-cha-num">Number Here</div>
+                            <div class="buy-stat" id="buy-cha-num">8</div>
                             <div class="card-subtitle">Charisma</div>
                             <div class="alteration d-flex justify-content-evenly">
                                 <button class="increment btn btn-outline-secondary">+</button>
-                                <button class="decrement btn btn-outline-secondary">-</button>
+                                <button class="decrement btn btn-outline-danger" data-bs-toggle="true" title="Cannot go lower than 8">-</button>
                             </div>
                         </div>
                     </div>
