@@ -131,10 +131,6 @@ function raceRender() {
             $raceProfOptions.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
             id="race-${proficiency.index}" autocomplete="off">`)
             $raceProfOptions.append(`<label class="btn btn-outline-dark m-1" for="race-${proficiency.index}">${proficiency.name}</label>`)
-            // $raceProfOptions.append(`<button class="chosen-proficiencies btn btn-outline-dark m-1" 
-            //     data-bs-toggle="button" 
-            //     id=${proficiency.index}>
-            //     ${proficiency.name}</button>`)
         })
     }
 
@@ -159,10 +155,6 @@ function raceRender() {
             $raceLangOptions.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
             id="race-${language.index}" autocomplete="off">`)
             $raceLangOptions.append(`<label class="btn btn-outline-dark m-1" for="race-${language.index}">${language.name}</label>`)
-            // $raceLangOptions.append(`<button class="chosen-languages btn btn-outline-dark m-1" 
-            //     data-bs-toggle="button" 
-            //     id=${language.index}>
-            //     ${language.name}</button>`)
         })
     }
 
@@ -335,15 +327,9 @@ function classRender() {
             $classProfOptions.append('<br>')
             $classProfOptions.append(`<div>Choose from ${choice.choose} of the following skill proficiencies:</div>`)
             choice.from.forEach((prof) => {
-
                 $classProfOptions.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
                 id="class-${prof.index}" autocomplete="off">`)
                 $classProfOptions.append(`<label class="btn btn-outline-dark m-1" for="class-${prof.index}">${prof.name}</label>`)
-
-                // $classProfOptions.append(`<button class="chosen-profs btn btn-outline-dark m-1" 
-                //     data-bs-toggle="button" 
-                //     id=${prof.index}>
-                //     ${prof.name}</button>`)
             })
             $classProfOptions.append('<br>')
         })
@@ -360,19 +346,21 @@ function classRender() {
     let optionNo = 0;
     classSelectData.starting_equipment_options.forEach((option) => {
         $classEquipChoices.append('<br>')
+
         // Create new div for group
         $classEquipChoices.append('<div class="equip-group"></div>')
+
         // For every equipment group option, choose an amount from multiple groups
         $classEquipChoices.append(`<div class="choose-text">Choose from ${option.choose} of the following:</div>`)
 
         let closeGroup = $classEquipChoices.children('.equip-group').last()
-        // Reset group number for every group option
-        // console.log('option', option)
+
+
         // For every group option, list all the equipment groups per group option
         option.from.forEach((equipGroup) => {
             optionNo += 1
             console.log('in equipGroup', optionNo)
-            // console.log('equip group', equipGroup)
+
             // Convert equip group object names into a completely new array
 
             if (equipGroup.hasOwnProperty('0')) {
@@ -381,9 +369,7 @@ function classRender() {
                 let equipInputFrag = '<input type="checkbox" class="btn-check btn-outline-dark m-1" autocomplete="off">'
                 let equipLabelFrag = '<label class="btn btn-outline-dark m-1">'
                 fragId = `class-${optionNo}-`
-                // fragEquip = '<button class="equips btn btn-outline-dark m-1" data-bs-toggle="button">'
-                // fragId = ''
-                // console.log('equip group', eqObj)
+
                 // Loop over the entire object and perform the same checks
                 Object.keys(eqObj).forEach((key) => {
                     eqObjOpt = eqObj[key]
@@ -401,12 +387,6 @@ function classRender() {
                 equipLabelFrag = equipLabelFrag.slice(0, -1)
                 equipLabelFrag += `</label>`
                 fragId = fragId.slice(0, -1)
-                // let inputTemp = document.createElement('template')
-                // inputTemp.innerHTML = equipInputFrag
-                // inputTemp.setAttribute('id',`${fragId}`)
-                // let labelTemp = document.createElement('template')
-                // labelTemp.innerHTML = equipLabelFrag
-                // labelTemp.setAttribute('for',`${fragId}`)
 
                 $classEquipChoices.append(equipInputFrag)
                 $classEquipChoices.children(':last-child')[0].setAttribute('id',`${fragId}`)
@@ -423,10 +403,6 @@ function classRender() {
                 $classEquipChoices.append(`<label class="btn btn-outline-dark m-1" 
                 for="class-${optionNo}-${equipGroup.equipment.index}-${equipGroup.quantity}">
                 ${equipGroup.equipment.name} x${equipGroup.quantity}</label>`)
-                // $classEquipChoices.append(`<button class="equips btn btn-outline-dark m-1" 
-                //     data-bs-toggle="button" 
-                //     id="${equipGroup.equipment.index}-${equipGroup.quantity}">
-                //     ${equipGroup.equipment.name} x${equipGroup.quantity}`)
 
             } else if (equipGroup.hasOwnProperty('equipment_option')) {
                 // If equip group has options -- solely for choosing multiple martial/simple weapons
@@ -437,11 +413,6 @@ function classRender() {
                 $classEquipChoices.append(`<label class="btn btn-outline-dark m-1" 
                 for="class-${optionNo}-${equipGroup.equipment_option.from.equipment_category.index}-${equipGroup.equipment_option.choose}">
                 ${equipGroup.equipment_option.from.equipment_category.name} x${equipGroup.equipment_option.choose}</label>`)
-
-                // $classEquipChoices.append(`<button class="equips btn btn-outline-dark m-1"
-                //     data-bs-toggle="button" 
-                //     id="${equipGroup.equipment_option.from.equipment_category.index}-${equipGroup.equipment_option.choose}">
-                //     ${equipGroup.equipment_option.from.equipment_category.name} x${equipGroup.equipment_option.choose} </button>`)
             }
             console.log($classEquipChoices.children('input'))
             $classEquipChoices.children('input').detach().appendTo(closeGroup)
