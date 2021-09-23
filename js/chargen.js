@@ -418,7 +418,16 @@ function classRender() {
                 $classEquipChoices.append(`<label class="btn btn-outline-dark m-1" 
                 for="class-${optionNo}-${equipGroup.equipment_option.from.equipment_category.index}-${equipGroup.equipment_option.choose}">
                 ${equipGroup.equipment_option.from.equipment_category.name} x${equipGroup.equipment_option.choose}</label>`)
+            } else if (equipGroup.hasOwnProperty('equipment_category')) {
+                // if equip group has category -- solely for foci
+                $classEquipChoices.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
+                id="class-${optionNo}-${equipGroup.equipment_category.index}-${option.choose}" 
+                autocomplete="off">`)
+                $classEquipChoices.append(`<label class="btn btn-outline-dark m-1" 
+                for="class-${optionNo}-${equipGroup.equipment_category.index}-${option.choose}">
+                ${equipGroup.equipment_category.name} x${option.choose}</label>`)
             }
+            // FIXME: VERY INEFFICIENT: CHANGE TO ADD NEW DIV UP TOP
             $classEquipChoices.children('input').detach().appendTo(closeGroup)
             $classEquipChoices.children('label').detach().appendTo(closeGroup)
         })
@@ -593,7 +602,7 @@ const $backgroundProperties = $('#background-properties')
 const $backgroundName = $('#background-name')
 const $backgroundFeature = $('#background-feature')
 
-const $backgroundProficiencies = $('#background-properties')
+const $backgroundProficiencies = $('#background-proficiencies')
 const $backgroundProfOptions = $('#background-prof-choices')
 
 const $backgroundEquipment = $('#background-equipment')
@@ -644,5 +653,133 @@ function populateBackgroundDetails() {
 }
 
 function backgroundRender() {
+    $backgroundName.text(backgroundSelectData.name).css('font-size', '3rem').css('border-bottom', '1px solid black')
 
+    $backgroundFeature.text('')
+    $backgroundFeature.text('Background feature: ' + backgroundSelectData.feature.name).css('padding-top', '1rem')
+    $backgroundFeature.append(`<div id="background-feature-text" style="border-top:1px dashed black">${backgroundSelectData.feature.desc.join(' ')}</div>`)
+
+    // Identical to race proficiency
+    $backgroundProficiencies.text('')
+    if (backgroundSelectData.starting_proficiencies.length !== 0) {
+        $backgroundProficiencies.text('Proficiencies: ')
+        backgroundSelectData.starting_proficiencies.forEach((proficiency) => {
+            if (backgroundSelectData.starting_proficiencies.indexOf(proficiency) === backgroundSelectData.starting_proficiencies.length - 1) {
+                $backgroundProficiencies.append(`<span class="proficiencies" 
+                    id=${proficiency.index}>
+                    ${proficiency.name}</span>`)
+            } else {
+                $backgroundProficiencies.append(`<span class="proficiencies" 
+                    id=${proficiency.index}>
+                    ${proficiency.name}, </span>`)
+            }
+        })
+    }
+
+    // Identical to race proficiency options
+    $backgroundProfOptions.text('')
+    if (backgroundSelectData.starting_proficiency_options !== undefined) {
+        $backgroundProfOptions.append(`<br>`)
+        $backgroundProfOptions.append(`<div>Choose from ${backgroundSelectData.starting_proficiency_options.choose} of the following proficiencies:</div>`)
+        backgroundSelectData.starting_proficiency_options.from.forEach((proficiency) => {
+            $backgroundProfOptions.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
+            id="background-${proficiency.index}" autocomplete="off">`)
+            $backgroundProfOptions.append(`<label class="btn btn-outline-dark m-1" for="background-${proficiency.index}">${proficiency.name}</label>`)
+        })
+    }
+
+    // Identical to class equipment
+    $backgroundEquipment.text('Starting equipment: ')
+    backgroundSelectData.starting_equipment.forEach((equip) => {
+        $backgroundEquipment.append(`<div class="equips" 
+        id=${equip.equipment.index}>${equip.equipment.name}
+        x${equip.quantity}</div>`)
+    })
+
+    // Identical to class equipment choices, minus equipment category addition to a loop in choices
+    $backgroundEquipChoices.text('')
+    let optionNo = 0;
+    backgroundSelectData.starting_equipment_options.forEach((option) => {
+        $backgroundEquipChoices.append('<br>')
+
+        // Create new div for group
+        $backgroundEquipChoices.append('<div class="equip-group"></div>')
+
+        // For every equipment group option, choose an amount from multiple groups
+        $backgroundEquipChoices.append(`<div class="choose-text">Choose from ${option.choose} of the following:</div>`)
+
+        let closeGroup = $backgroundEquipChoices.children('.equip-group').last()
+
+
+        // For every group option, list all the equipment groups per group option
+        option.from.forEach((equipGroup) => {
+            optionNo += 1
+
+            // Convert equip group object names into a completely new array
+
+            if (equipGroup.hasOwnProperty('0')) {
+                // If equip group has an object which is an object-array
+                eqObj = equipGroup
+                let equipInputFrag = '<input type="checkbox" class="btn-check btn-outline-dark m-1" autocomplete="off">'
+                let equipLabelFrag = '<label class="btn btn-outline-dark m-1">'
+                fragId = `background-${optionNo}-`
+
+                // Loop over the entire object and perform the same checks
+                Object.keys(eqObj).forEach((key) => {
+
+                    eqObjOpt = eqObj[key]
+                    if (eqObjOpt.hasOwnProperty('equipment')) {
+                        // If equip group is a single item
+                        equipLabelFrag += `${eqObjOpt.equipment.name} x${eqObjOpt.quantity} `
+                        fragId += `${eqObjOpt.equipment.index}-${eqObjOpt.quantity}-`
+                    } else if (eqObjOpt.hasOwnProperty('equipment_option')) {
+                        // If equip group has options
+                        equipLabelFrag += `${eqObjOpt.equipment_option.from.equipment_category.name} x${eqObjOpt.equipment_option.choose} `
+                        fragId += `${eqObjOpt.equipment_option.from.equipment_category.index}-${eqObjOpt.equipment_option.choose}-`
+                    }
+                })
+                equipLabelFrag = equipLabelFrag.slice(0, -1)
+                equipLabelFrag += `</label>`
+                fragId = fragId.slice(0, -1)
+
+                $backgroundEquipChoices.append(equipInputFrag)
+                $backgroundEquipChoices.children(':last-child')[0].setAttribute('id',`${fragId}`)
+                
+                $backgroundEquipChoices.append(equipLabelFrag)
+                $backgroundEquipChoices.children(':last-child')[0].setAttribute('for',`${fragId}`)
+
+            } else if (equipGroup.hasOwnProperty('equipment')) {
+                // If equip group is a single item
+                $backgroundEquipChoices.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
+                id="background-${optionNo}-${equipGroup.equipment.index}-${equipGroup.quantity}" 
+                autocomplete="off">`)
+                $backgroundEquipChoices.append(`<label class="btn btn-outline-dark m-1" 
+                for="background-${optionNo}-${equipGroup.equipment.index}-${equipGroup.quantity}">
+                ${equipGroup.equipment.name} x${equipGroup.quantity}</label>`)
+
+            } else if (equipGroup.hasOwnProperty('equipment_option')) {
+                // If equip group has options -- for choosing multiple martial/simple weapons or foci
+                $backgroundEquipChoices.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
+                id="background-${optionNo}-${equipGroup.equipment_option.from.equipment_category.index}-${equipGroup.equipment_option.choose}" 
+                autocomplete="off">`)
+                $backgroundEquipChoices.append(`<label class="btn btn-outline-dark m-1" 
+                for="background-${optionNo}-${equipGroup.equipment_option.from.equipment_category.index}-${equipGroup.equipment_option.choose}">
+                ${equipGroup.equipment_option.from.equipment_category.name} x${equipGroup.equipment_option.choose}</label>`)
+
+            } else if (equipGroup.hasOwnProperty('equipment_category')) {
+                // if equip group has category -- solely for foci
+                $backgroundEquipChoices.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
+                id="background-${optionNo}-${equipGroup.equipment_category.index}-${option.choose}" 
+                autocomplete="off">`)
+                $backgroundEquipChoices.append(`<label class="btn btn-outline-dark m-1" 
+                for="background-${optionNo}-${equipGroup.equipment_category.index}-${option.choose}">
+                ${equipGroup.equipment_category.name} x${option.choose}</label>`)
+            }
+
+            $backgroundEquipChoices.children('input').detach().appendTo(closeGroup)
+            $backgroundEquipChoices.children('label').detach().appendTo(closeGroup)
+            // FIXME: INEFFICIENT, SAME AS CLASS
+        })
+        $backgroundEquipChoices.children('.choose-text').detach().prependTo($backgroundEquipChoices.children('.equip-group').last())
+    })
 }
