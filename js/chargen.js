@@ -13,6 +13,8 @@ $('.transition').on('click', function () {
 $('.props').on('change', ':checkbox', function() {
     let limit = parseInt($(this).siblings('div').text().match(/\d/)[0])
     let checkedAmount = $(this).parent().children(':checkbox:checked').length
+    console.log(limit, checkedAmount)
+    console.log($(this))
     if (checkedAmount === limit && $(this).prop('checked')) {
         $(this).siblings(':checkbox').not(':checked').prop('disabled', true)
     } else if (checkedAmount === limit-1 && $(this).prop('checked') === false) {
@@ -127,8 +129,8 @@ function raceRender() {
         $raceProfOptions.append(`<div>Choose from ${raceSelectData.starting_proficiency_options.choose} of the following proficiencies:</div>`)
         raceSelectData.starting_proficiency_options.from.forEach((proficiency) => {
             $raceProfOptions.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
-            id="${proficiency.index}" autocomplete="off">`)
-            $raceProfOptions.append(`<label class="btn btn-outline-dark m-1" for="${proficiency.index}">${proficiency.name}</label>`)
+            id="race-${proficiency.index}" autocomplete="off">`)
+            $raceProfOptions.append(`<label class="btn btn-outline-dark m-1" for="race-${proficiency.index}">${proficiency.name}</label>`)
             // $raceProfOptions.append(`<button class="chosen-proficiencies btn btn-outline-dark m-1" 
             //     data-bs-toggle="button" 
             //     id=${proficiency.index}>
@@ -155,8 +157,8 @@ function raceRender() {
         $raceLangOptions.append(`<div>Choose from ${raceSelectData.language_options.choose} of the following languages:</div>`)
         raceSelectData.language_options.from.forEach((language) => {
             $raceLangOptions.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
-            id="${language.index}" autocomplete="off">`)
-            $raceLangOptions.append(`<label class="btn btn-outline-dark m-1" for="${language.index}">${language.name}</label>`)
+            id="race-${language.index}" autocomplete="off">`)
+            $raceLangOptions.append(`<label class="btn btn-outline-dark m-1" for="race-${language.index}">${language.name}</label>`)
             // $raceLangOptions.append(`<button class="chosen-languages btn btn-outline-dark m-1" 
             //     data-bs-toggle="button" 
             //     id=${language.index}>
@@ -244,7 +246,7 @@ function populateClassDetails() {
 }
 
 
-// TO BE ADDED LATER
+// TODO: ADD LATER WHEN EQ CHOICE PAGE IS DONE
 // function populateWeapons() {
 //     $.ajax({
 //         // Pull Martial Melee Weapons
@@ -335,8 +337,8 @@ function classRender() {
             choice.from.forEach((prof) => {
 
                 $classProfOptions.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
-                id="${prof.index}" autocomplete="off">`)
-                $classProfOptions.append(`<label class="btn btn-outline-dark m-1" for="${prof.index}">${prof.name}</label>`)
+                id="class-${prof.index}" autocomplete="off">`)
+                $classProfOptions.append(`<label class="btn btn-outline-dark m-1" for="class-${prof.index}">${prof.name}</label>`)
 
                 // $classProfOptions.append(`<button class="chosen-profs btn btn-outline-dark m-1" 
                 //     data-bs-toggle="button" 
@@ -353,18 +355,23 @@ function classRender() {
         id=${equip.equipment.index}>${equip.equipment.name}
         x${equip.quantity}</div>`)
     })
-    $classEquipment.append('<br>')
 
     $classEquipChoices.text('')
+    let optionNo = 0;
     classSelectData.starting_equipment_options.forEach((option) => {
+        $classEquipChoices.append('<br>')
+        // Create new div for group
+        $classEquipChoices.append('<div class="equip-group"></div>')
         // For every equipment group option, choose an amount from multiple groups
-        $raceProfOptions.append('<br>')
-        $classEquipChoices.append(`<div>Choose from ${option.choose} of the following:</div>`)
+        $classEquipChoices.append(`<div class="choose-text">Choose from ${option.choose} of the following:</div>`)
 
+        let closeGroup = $classEquipChoices.children('.equip-group').last()
         // Reset group number for every group option
         // console.log('option', option)
         // For every group option, list all the equipment groups per group option
         option.from.forEach((equipGroup) => {
+            optionNo += 1
+            console.log('in equipGroup', optionNo)
             // console.log('equip group', equipGroup)
             // Convert equip group object names into a completely new array
 
@@ -373,7 +380,7 @@ function classRender() {
                 eqObj = equipGroup
                 let equipInputFrag = '<input type="checkbox" class="btn-check btn-outline-dark m-1" autocomplete="off">'
                 let equipLabelFrag = '<label class="btn btn-outline-dark m-1">'
-                fragId = ''
+                fragId = `class-${optionNo}-`
                 // fragEquip = '<button class="equips btn btn-outline-dark m-1" data-bs-toggle="button">'
                 // fragId = ''
                 // console.log('equip group', eqObj)
@@ -411,10 +418,10 @@ function classRender() {
                 // If equip group is a single item
                 // console.log('hasequip')
                 $classEquipChoices.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
-                id="${equipGroup.equipment.index}-${equipGroup.quantity}" 
+                id="class-${optionNo}-${equipGroup.equipment.index}-${equipGroup.quantity}" 
                 autocomplete="off">`)
                 $classEquipChoices.append(`<label class="btn btn-outline-dark m-1" 
-                for="${equipGroup.equipment.index}-${equipGroup.quantity}">
+                for="class-${optionNo}-${equipGroup.equipment.index}-${equipGroup.quantity}">
                 ${equipGroup.equipment.name} x${equipGroup.quantity}</label>`)
                 // $classEquipChoices.append(`<button class="equips btn btn-outline-dark m-1" 
                 //     data-bs-toggle="button" 
@@ -425,10 +432,10 @@ function classRender() {
                 // If equip group has options -- solely for choosing multiple martial/simple weapons
                 // console.log('hasequipoption')
                 $classEquipChoices.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
-                id="${equipGroup.equipment_option.from.equipment_category.index}-${equipGroup.equipment_option.choose}" 
+                id="class-${optionNo}-${equipGroup.equipment_option.from.equipment_category.index}-${equipGroup.equipment_option.choose}" 
                 autocomplete="off">`)
                 $classEquipChoices.append(`<label class="btn btn-outline-dark m-1" 
-                for="${equipGroup.equipment_option.from.equipment_category.index}-${equipGroup.equipment_option.choose}">
+                for="class-${optionNo}-${equipGroup.equipment_option.from.equipment_category.index}-${equipGroup.equipment_option.choose}">
                 ${equipGroup.equipment_option.from.equipment_category.name} x${equipGroup.equipment_option.choose}</label>`)
 
                 // $classEquipChoices.append(`<button class="equips btn btn-outline-dark m-1"
@@ -436,8 +443,12 @@ function classRender() {
                 //     id="${equipGroup.equipment_option.from.equipment_category.index}-${equipGroup.equipment_option.choose}">
                 //     ${equipGroup.equipment_option.from.equipment_category.name} x${equipGroup.equipment_option.choose} </button>`)
             }
+            console.log($classEquipChoices.children('input'))
+            $classEquipChoices.children('input').detach().appendTo(closeGroup)
+            console.log($classEquipChoices.children('label'))
+            $classEquipChoices.children('label').detach().appendTo(closeGroup)
         })
-        $classEquipChoices.append('<br><br>')
+        $classEquipChoices.children('.choose-text').detach().prependTo($classEquipChoices.children('.equip-group').last())
     })
 }
 
