@@ -31,8 +31,20 @@ $('.props').on('change', ':checkbox', function() {
 //// RACE FUNCTIONS
 $('#race-next').on('click', populateRaceList)
 $('#race-list').change(populateRaceDetails)
+$('#class-next').on('click', raceSave)
 
 let raceData, raceSelectData, raceSelection
+
+const raceStorage = {
+    name: '',
+    speed: 0,
+    size: '',
+    stats: [],
+    statBonuses: [],
+    profs: [],
+    langs: [],
+    traits: []
+}
 
 const $raceList = $('#race-list')
 
@@ -43,6 +55,7 @@ const $raceSize = $('#race-size')
 
 const $raceBonuses = $('#race-bonuses')
 const $raceBonusStats = $('#race-bonus-stats')
+const $raceBonusOptions = $('#race-bonus-options')
 
 const $raceProficiencies = $('#race-proficiencies')
 const $raceProfOptions = $('#race-prof-options')
@@ -95,22 +108,38 @@ function populateRaceDetails() {
 
 // Manipulates data for selected race and renders
 function raceRender() {
-    $raceName.text(raceSelectData.name).css('font-size', '3rem').css('border-bottom', '1px solid black')
-    $raceSpeed.text(`Speed: ${raceSelectData.speed} ft/6 seconds`).css('padding-top', '1rem')
-    $raceSize.text(`Size: ${raceSelectData.size}-sized creature`)
 
-    $raceBonusStats.text('Saving throw proficiencies: ')
+    $raceName.text('')
+    $raceName.append(`<span id="race-name-${raceSelectData.name}">${raceSelectData.name}</span>`).css('font-size', '3rem').css('border-bottom', '1px solid black')
+    $raceSpeed.text('')
+    $raceSpeed.append(`<span id="race-speed-${raceSelectData.speed}">Speed: ${raceSelectData.speed} ft/6 seconds</span>`).css('padding-top', '1rem')
+    $raceSize.text('')
+    $raceSize.append(`<span id="race-size-${raceSelectData.size}">Size: ${raceSelectData.size}-sized creature</span>`)
+
+    $raceBonusStats.text('Ability bonuses: ')
     raceSelectData.ability_bonuses.forEach((ability) => {
         if (raceSelectData.ability_bonuses.indexOf(ability) === raceSelectData.ability_bonuses.length - 1) {
             $raceBonusStats.append(`<span class="bonusStat" 
-                id=${ability.ability_score.index}>
+                id=race-boon-${ability.ability_score.index}-${ability.bonus}>
                 ${ability.ability_score.name} + ${ability.bonus}</span>`)
         } else {
             $raceBonusStats.append(`<span class="bonusStat" 
-                id=${ability.ability_score.index}>
+                id=race-boon-${ability.ability_score.index}-${ability.bonus}>
                 ${ability.ability_score.name} + ${ability.bonus}, </span>`)
         }
     })
+
+    $raceBonusOptions.text('')
+    if (raceSelectData.ability_bonus_options !== undefined) {
+        $raceBonusOptions.append(`<br>`)
+        $raceBonusOptions.append(`<div>Choose from ${raceSelectData.ability_bonus_options.choose} of the following stat bonuses:</div>`)
+        raceSelectData.ability_bonus_options.from.forEach((option) => {
+            $raceBonusOptions.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
+                id="race-ability-choice-${option.ability_score.index}" autocomplete="off">`)
+            $raceBonusOptions.append(`<label class="btn btn-outline-dark m-1" 
+                for="race-ability-choice-${option.ability_score.index}">${option.ability_score.name} + ${option.bonus}</label>`)
+        })
+    }
 
     $raceProficiencies.text('')
     if (raceSelectData.starting_proficiencies.length !== 0) {
@@ -118,25 +147,25 @@ function raceRender() {
         raceSelectData.starting_proficiencies.forEach((proficiency) => {
             if (raceSelectData.starting_proficiencies.indexOf(proficiency) === raceSelectData.starting_proficiencies.length - 1) {
                 $raceProficiencies.append(`<span class="proficiencies" 
-                    id=${proficiency.index}>
+                    id=race-prof-${proficiency.index}>
                     ${proficiency.name}</span>`)
             } else {
                 $raceProficiencies.append(`<span class="proficiencies" 
-                    id=${proficiency.index}>
+                    id=race-prof-${proficiency.index}>
                     ${proficiency.name}, </span>`)
             }
         })
     }
 
-
+    // TODO: ADD PROFICIENCY: TEXT TO OPTIONS
     $raceProfOptions.text('')
     if (raceSelectData.starting_proficiency_options !== undefined) {
         $raceProfOptions.append(`<br>`)
         $raceProfOptions.append(`<div>Choose from ${raceSelectData.starting_proficiency_options.choose} of the following proficiencies:</div>`)
         raceSelectData.starting_proficiency_options.from.forEach((proficiency) => {
             $raceProfOptions.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
-            id="race-${proficiency.index}" autocomplete="off">`)
-            $raceProfOptions.append(`<label class="btn btn-outline-dark m-1" for="race-${proficiency.index}">${proficiency.name}</label>`)
+            id="race-prof-choice-${proficiency.index}" autocomplete="off">`)
+            $raceProfOptions.append(`<label class="btn btn-outline-dark m-1" for="race-prof-choice-${proficiency.index}">${proficiency.name}</label>`)
         })
     }
 
@@ -144,11 +173,11 @@ function raceRender() {
     raceSelectData.languages.forEach((language) => {
         if (raceSelectData.languages.indexOf(language) === raceSelectData.languages.length - 1) {
             $raceLanguages.append(`<span class="languages" 
-                id=${language.index}>
+                id=race-language-${language.index}>
                 ${language.name}</span>`)
         } else {
             $raceLanguages.append(`<span class="languages" 
-                id=${language.index}>
+                id=race-language-${language.index}>
                 ${language.name}, </span>`)
         }
     })
@@ -159,8 +188,8 @@ function raceRender() {
         $raceLangOptions.append(`<div>Choose from ${raceSelectData.language_options.choose} of the following languages:</div>`)
         raceSelectData.language_options.from.forEach((language) => {
             $raceLangOptions.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
-            id="race-${language.index}" autocomplete="off">`)
-            $raceLangOptions.append(`<label class="btn btn-outline-dark m-1" for="race-${language.index}">${language.name}</label>`)
+            id="race-language-choice-${language.index}" autocomplete="off">`)
+            $raceLangOptions.append(`<label class="btn btn-outline-dark m-1" for="race-language-choice-${language.index}">${language.name}</label>`)
         })
     }
 
@@ -170,11 +199,11 @@ function raceRender() {
         raceSelectData.traits.forEach((trait) => {
             if (raceSelectData.traits.indexOf(trait) === raceSelectData.traits.length - 1) {
                 $raceTraits.append(`<span class="traits" 
-                    id=${trait.index}>
+                    id=race-trait-${trait.index}>
                     ${trait.name}</span>`)
             } else {
                 $raceTraits.append(`<span class="traits" 
-                    id=${trait.index}>
+                    id=race-trait-${trait.index}>
                     ${trait.name}, </span>`)
             }
         })
@@ -183,6 +212,21 @@ function raceRender() {
     }
 
     $raceDescription.text(raceSelectData.alignment + ' ' + raceSelectData.size_description + ' ' + raceSelectData.age)
+}
+
+function raceSave() {
+    raceStorage.name = $raceName.children().attr('id').slice(10)
+    raceStorage.speed = $raceSpeed.children().attr('id').slice(11)
+    raceStorage.size = $raceSize.children().attr('id').slice(10)
+    $.each($raceBonusStats.children(), function(index, stat) {
+        raceStorage.stats.push(stat.getAttribute('id').slice(10,13))
+        raceStorage.statBonuses.push(stat.getAttribute('id').slice(14))
+    })
+    // raceStorage.proficiencies = 
+    $.each($raceLanguages.children(), function(index, lang) {
+        raceStorage.langs.push(lang.getAttribute('id').slice(14))
+    })
+    // raceStorage.traits =
 }
 
 
