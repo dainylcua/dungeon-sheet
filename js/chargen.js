@@ -696,7 +696,7 @@ function backgroundRender() {
         x${equip.quantity}</div>`)
     })
 
-    // Identical to class equipment choices, minus equipment category addition to a loop in choices
+    // Identical to class equipment choices
     $backgroundEquipChoices.text('')
     let optionNo = 0;
     backgroundSelectData.starting_equipment_options.forEach((option) => {
@@ -782,4 +782,32 @@ function backgroundRender() {
         })
         $backgroundEquipChoices.children('.choose-text').detach().prependTo($backgroundEquipChoices.children('.equip-group').last())
     })
+
+    // Identical to race languages but includes if statement, depending if background has language or not
+    $backgroundLanguages.text(`Languages known: `)
+    if (backgroundSelectData.languages !== undefined) {
+        backgroundSelectData.languages.forEach((language) => {
+            if (backgroundSelectData.languages.indexOf(language) === backgroundSelectData.languages.length - 1) {
+                $backgroundLanguages.append(`<span class="languages" 
+                    id=${language.index}>
+                    ${language.name}</span>`)
+            } else {
+                $backgroundLanguages.append(`<span class="languages" 
+                    id=${language.index}>
+                    ${language.name}, </span>`)
+            }
+        })
+    }
+
+    // Identical to race language options
+    $backgroundLangOptions.text('')
+    if (backgroundSelectData.language_options !== undefined) {
+        $backgroundLanguages.append('<br><br>')
+        $backgroundLangOptions.append(`<div>Choose from ${backgroundSelectData.language_options.choose} of the following languages:</div>`)
+        backgroundSelectData.language_options.from.forEach((language) => {
+            $backgroundLangOptions.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
+            id="background-${language.index}" autocomplete="off">`)
+            $backgroundLangOptions.append(`<label class="btn btn-outline-dark m-1" for="background-${language.index}">${language.name}</label>`)
+        })
+    }
 }
