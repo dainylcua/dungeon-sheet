@@ -6,6 +6,8 @@
 // TODO: ADD BACKSTORY WRITE-IN
 // TODO: ADD CUSTOM BACKGROUNDS
 // TODO: ADD NOTIFICATION THAT PROFICIENCY CONFLICTS
+// TODO: ADD BLOCKER IF ALL CHOICES AREN'T MADE
+// TODO: ADD FADE-IN ON LIST LOADS
 
 // CONSTANTS
 BASEURL = 'https://www.dnd5eapi.co/api/'
@@ -32,7 +34,7 @@ $('.props').on('change', ':checkbox', function() {
 //// RACE FUNCTIONS
 $('#race-next').on('click', populateRaceList)
 $('#race-list').change(populateRaceDetails)
-$('#class-next').on('click', raceSave)
+// $('#class-next').on('click', raceSave) FIXME: ENABLE WHEN DONE TESTING
 
 let raceData, raceSelectData, raceSelection
 
@@ -258,13 +260,22 @@ function raceSave() {
     })
 }
 
-// TODO: ADD BLOCKER IF ALL CHOICES AREN'T MADE
+
 
 //// CLASS Functions
 $('#class-next').on('click', populateClassList)
 $('#class-list').change(populateClassDetails)
+$('#stat-next').on('click', classSave)
 
 let classData, classSelectData, classSelection, martialData, simpleData, groupNumber, eqObj, eqObjOpt, fragEquip, fragId
+
+const classStorage = {
+    name: '',
+    hitDice: 0,
+    savingThrows: '',
+    profs: [],
+    equips: [],
+}
 
 const $classList = $('#class-list')
 
@@ -404,16 +415,24 @@ function classRender() {
     })
 
     $classProfOptions.text('')
+    $classProfOptions.append('<br>')
+    let optionNo = 0
     if (classSelectData.hasOwnProperty("proficiency_choices")) {
         classSelectData.proficiency_choices.forEach((choice) => {
-            $classProfOptions.append('<br>')
-            $classProfOptions.append(`<div>Choose from ${choice.choose} of the following skill proficiencies:</div>`)
+            optionNo += 1
+            $classProfOptions.append(`<div class="prof-group"><div>Choose from ${choice.choose} of the following skill proficiencies:</div></div>`)
+            $classProfOptions.children('.prof-group').last().append(`<br>`)
             choice.from.forEach((prof) => {
-                $classProfOptions.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
-                id="class-${prof.index}" autocomplete="off">`)
-                $classProfOptions.append(`<label class="btn btn-outline-dark m-1" for="class-${prof.index}">${prof.name}</label>`)
+                $classProfOptions.children('.prof-group').last().append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
+                    id="class-${optionNo}-${prof.index}" autocomplete="off">`)
+                $classProfOptions.children('.prof-group').last().append(`<label class="btn btn-outline-dark m-1" 
+                    for="class-${optionNo}-${prof.index}">${prof.name}</label>`)
             })
-            $classProfOptions.append('<br>')
+            if(classSelectData.proficiency_choices.indexOf(choice) === classSelectData.proficiency_choices.length-1) {
+                $classProfOptions.children('.prof-group').last().append(`<br>`)
+            } else {
+                $classProfOptions.children('.prof-group').last().append(`<br><br>`)
+            }
         })
     }
 
@@ -425,7 +444,7 @@ function classRender() {
     })
 
     $classEquipChoices.text('')
-    let optionNo = 0;
+    optionNo = 0
     classSelectData.starting_equipment_options.forEach((option) => {
         $classEquipChoices.append('<br>')
 
@@ -501,7 +520,7 @@ function classRender() {
                 for="class-${optionNo}-${equipGroup.equipment_category.index}-${option.choose}">
                 ${equipGroup.equipment_category.name} x${option.choose}</label>`)
             }
-            // FIXME: VERY INEFFICIENT: CHANGE TO ADD NEW DIV UP TOP
+            // TODO: VERY INEFFICIENT: CHANGE TO ADD NEW DIV UP TOP
             $classEquipChoices.children('input').detach().appendTo(closeGroup)
             $classEquipChoices.children('label').detach().appendTo(closeGroup)
         })
@@ -509,6 +528,41 @@ function classRender() {
     })
 }
 // Renders class data
+
+function classSave() {
+    classStorage.name = $className.children().attr('id').slice(10)
+    classStorage.hitDice = $classHitDice.children().attr('id').slice(11)
+    
+    $.each($classSavingThrows.children(), function(index, save) {
+        if(save.getAttribute('id') !== undefined && save.getAttribute('id') !== null) {
+            classStorage.savingThrows.push(save.children().getAttribute('id').slice(10))
+        }
+    })
+
+
+    $.each($classProficiencies.children(), function(index, prof) {
+        if(prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
+            classStorage.profs.push(prof.getAttribute('id').slice(10))
+        }
+    })
+
+    $.each($classProfOptions.children(':checkbox:checked'), function(index, prof) {
+        if(prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
+            classStorage.profs.push(prof.getAttribute('id').slice(17))
+        }
+    })
+
+    $.each($classEquipment.children(), function(index, eqs) {
+        if(eqs.getAttribute('id') !== undefined && eqs.getAttribute('id') !== null) {
+            classStorage.equips.push(eqs.getAttribute('id').slice(10,13))
+        }
+    })
+    $.each($classEquipChoices.children(':checkbox:checked'), function(index, eqs) {
+        if(eqs.getAttribute('id') !== undefined && eqs.getAttribute('id') !== null) {
+            classStorage.equips.push(eqs.getAttribute('id').slice(20, 23))
+        }
+    })
+}
 
 
 // Stat Functions
@@ -852,7 +906,7 @@ function backgroundRender() {
 
             $backgroundEquipChoices.children('input').detach().appendTo(closeGroup)
             $backgroundEquipChoices.children('label').detach().appendTo(closeGroup)
-            // FIXME: INEFFICIENT, SAME AS CLASS
+            // TODO: INEFFICIENT, SAME AS CLASS
         })
         $backgroundEquipChoices.children('.choose-text').detach().prependTo($backgroundEquipChoices.children('.equip-group').last())
     })
