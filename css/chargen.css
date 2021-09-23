@@ -1,3 +1,7 @@
+:root {
+    --darker-blue: #013B92;
+}
+
 #interface {
     height: 80vh;
     width: 90vw;
@@ -61,8 +65,7 @@
 }
 
 .next {
-    border-color: #0d6efd;
-    border: 1px solid;
+    border: 1px var(--darker-blue) solid;
     padding: 1rem;
 }
 
@@ -76,3 +79,8 @@
     transition-timing-function: ease-in;
 }
 
+.btn-primary {
+    color: white;
+    background-color: var(--darker-blue);
+    border-color: var(--darker-blue)
+}
