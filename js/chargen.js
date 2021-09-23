@@ -1,3 +1,11 @@
+// TODO LIST:
+// TODO: !!IMPORTANT!! STORE VARIABLES
+//
+// TODO: IMPROVE CODE READABILITY
+// TODO: ADD EQUIPMENT CHOOSE SECTION
+// TODO: ADD BACKSTORY WRITE-IN
+// TODO: ADD CUSTOM BACKGROUNDS
+
 // CONSTANTS
 BASEURL = 'https://www.dnd5eapi.co/api/'
 
@@ -13,8 +21,6 @@ $('.transition').on('click', function () {
 $('.props').on('change', ':checkbox', function() {
     let limit = parseInt($(this).siblings('div').text().match(/\d/)[0])
     let checkedAmount = $(this).parent().children(':checkbox:checked').length
-    console.log(limit, checkedAmount)
-    console.log($(this))
     if (checkedAmount === limit && $(this).prop('checked')) {
         $(this).siblings(':checkbox').not(':checked').prop('disabled', true)
     } else if (checkedAmount === limit-1 && $(this).prop('checked') === false) {
@@ -22,7 +28,7 @@ $('.props').on('change', ':checkbox', function() {
     }
 })
 
-// Race Functions
+//// RACE FUNCTIONS
 $('#race-next').on('click', populateRaceList)
 $('#race-list').change(populateRaceDetails)
 
@@ -180,7 +186,7 @@ function raceRender() {
 }
 
 
-// Class Functions
+//// CLASS Functions
 $('#class-next').on('click', populateClassList)
 $('#class-list').change(populateClassDetails)
 
@@ -200,6 +206,7 @@ const $classEquipment = $('#class-equipment')
 const $classEquipChoices = $('#class-equip-choices')
 
 
+// Populates class data from API
 function populateClassList() {
     $.ajax({
         url: BASEURL + 'classes/'
@@ -214,13 +221,14 @@ function populateClassList() {
     )
 }
 
+// Adds classes to selector list
 function classAddList() {
     classData.results.forEach(function (cls) {
         $classList.append(`<option value=${cls.index}>${cls.name}</option>`)
     })
 }
 
-
+// Populates class data from API
 function populateClassDetails() {
     classSelection = $('#class-list option:selected').val()
     $.ajax({
@@ -359,7 +367,6 @@ function classRender() {
         // For every group option, list all the equipment groups per group option
         option.from.forEach((equipGroup) => {
             optionNo += 1
-            console.log('in equipGroup', optionNo)
 
             // Convert equip group object names into a completely new array
 
@@ -372,8 +379,8 @@ function classRender() {
 
                 // Loop over the entire object and perform the same checks
                 Object.keys(eqObj).forEach((key) => {
+
                     eqObjOpt = eqObj[key]
-                    // console.log('equip title', eqObjOpt)
                     if (eqObjOpt.hasOwnProperty('equipment')) {
                         // If equip group is a single item
                         equipLabelFrag += `${eqObjOpt.equipment.name} x${eqObjOpt.quantity} `
@@ -396,7 +403,6 @@ function classRender() {
 
             } else if (equipGroup.hasOwnProperty('equipment')) {
                 // If equip group is a single item
-                // console.log('hasequip')
                 $classEquipChoices.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
                 id="class-${optionNo}-${equipGroup.equipment.index}-${equipGroup.quantity}" 
                 autocomplete="off">`)
@@ -406,7 +412,6 @@ function classRender() {
 
             } else if (equipGroup.hasOwnProperty('equipment_option')) {
                 // If equip group has options -- solely for choosing multiple martial/simple weapons
-                // console.log('hasequipoption')
                 $classEquipChoices.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
                 id="class-${optionNo}-${equipGroup.equipment_option.from.equipment_category.index}-${equipGroup.equipment_option.choose}" 
                 autocomplete="off">`)
@@ -414,14 +419,14 @@ function classRender() {
                 for="class-${optionNo}-${equipGroup.equipment_option.from.equipment_category.index}-${equipGroup.equipment_option.choose}">
                 ${equipGroup.equipment_option.from.equipment_category.name} x${equipGroup.equipment_option.choose}</label>`)
             }
-            console.log($classEquipChoices.children('input'))
             $classEquipChoices.children('input').detach().appendTo(closeGroup)
-            console.log($classEquipChoices.children('label'))
             $classEquipChoices.children('label').detach().appendTo(closeGroup)
         })
         $classEquipChoices.children('.choose-text').detach().prependTo($classEquipChoices.children('.equip-group').last())
     })
 }
+// Renders class data
+
 
 // Stat Functions
 $('button#roll').on('click', showRoll)
@@ -430,6 +435,7 @@ $('#roll-btn').on('click', rollStats)
 $('.increment').on('click', increaseStat)
 $('.decrement').on('click', decreaseStat)
 
+// Fade transition specific for stat section
 $('.transition-stat').on('click', function () {
     $(this).parent().parent().parent().fadeOut(500).remove(5)
     $('#tranScreen').fadeIn().fadeOut(1000, () => {
@@ -437,15 +443,14 @@ $('.transition-stat').on('click', function () {
     })
 })
 
-
-let currentStat, currentArray = [],
-    statNum
+let currentStat, statNum, currentArray = []
 
 let remainingPoints = parseInt($('#points-remaining').text())
 const $statPoints = $('#points-remaining')
 
 const statNames = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA']
 
+// Shows stat roll section
 function showRoll() {
     $(this).parent().parent().parent().fadeOut(500)
     $(this).parent().parent().fadeOut(500).remove(5)
@@ -455,6 +460,7 @@ function showRoll() {
     })
 }
 
+// Shows point buy section
 function showBuy() {
     $(this).parent().parent().parent().fadeOut(500)
     $(this).parent().parent().fadeOut(500).remove(5)
@@ -464,7 +470,7 @@ function showBuy() {
     })
 }
 
-
+// Rolls stats
 function rollStats() {
     for (i = 0; i < 6; i++) {
         currentArray = []
@@ -479,6 +485,7 @@ function rollStats() {
 
 }
 
+// Increases stat
 function increaseStat() {
     let $statTarget = $(this).parent().parent().children('.buy-stat')
     statNum = parseInt($statTarget.text())
@@ -524,6 +531,7 @@ function increaseStat() {
 
 }
 
+// Decreases stat
 function decreaseStat() {
     let $statTarget = $(this).parent().parent().children('.buy-stat')
     statNum = parseInt($statTarget.text())
@@ -560,6 +568,7 @@ function decreaseStat() {
 
 }
 
+// Alerts user if points run out
 function pointAlert() {
     let $eachIncrement = $('.buy-stat-container').children().children('.alteration').children('.increment')
     let $eachStat = $('.buy-stat-container').children().children('.buy-stat')
@@ -570,4 +579,70 @@ function pointAlert() {
             $($eachIncrement[i]).attr('title', "Cannot go higher than 15")
         }
     }
+}
+
+//// BACKGROUND FUNCTIONS
+$('.background-next').on('click', populateBackgroundList)
+$('#background-list').change(populateBackgroundDetails)
+
+let backgroundSelection
+
+const $backgroundList = $('#background-list')
+
+const $backgroundProperties = $('#background-properties')
+const $backgroundName = $('#background-name')
+const $backgroundFeature = $('#background-feature')
+
+const $backgroundProficiencies = $('#background-properties')
+const $backgroundProfOptions = $('#background-prof-choices')
+
+const $backgroundEquipment = $('#background-equipment')
+const $backgroundEquipChoices = $('#background-equip-choices')
+
+const $backgroundLanguages = $('#background-languages')
+const $backgroundLangOptions = $('#background-lang-options')
+
+//
+function populateBackgroundList() {
+    $.ajax({
+        url: BASEURL + 'backgrounds/'
+    }).then(
+        (data) => {
+            backgroundData = data
+            console.log('background list populated')
+            backgroundAddList()
+        },
+        (error) => {
+            console.log('Bad Request: ', error)
+        }
+    )
+}
+
+function backgroundAddList() {
+    backgroundData.results.forEach(function (bg) {
+        console.log('background populated')
+        $backgroundList.append(`<option value=${bg.index}>${bg.name}</option>`)
+    })
+}
+
+function populateBackgroundDetails() {
+    backgroundSelection = $('#background-list option:selected').val()
+    $.ajax({
+        url: BASEURL + 'backgrounds/' + backgroundSelection
+    }).then(
+        (data) => {
+            backgroundSelectData = data
+            console.log('background selected')
+            backgroundRender()
+        },
+        (error) => {
+            console.log('Bad Request: ', error)
+        }
+    )
+    // TODO: CHECK TO SEE IF THIS IS NEEDED
+    $('#background-container .props').css('border-bottom', '1px solid ghostwhite').css('padding', '1rem')
+}
+
+function backgroundRender() {
+
 }

@@ -50,7 +50,7 @@
                 <div class="container col-md-10 text-center" id="race-content">
                     There are many races in the world of Dungeons and Dragons. <br>
                     However, not every race behaves the same in every universe. <br><br>
-                    For starters, what race would your character be? <br><br>
+                    Choose your race. <br><br>
 
                     <select name="races" id="race-list">
                         <option style="display:none"></option>
@@ -262,7 +262,7 @@
                     </div>
 
                     <div class="container col-md-10 text-center choices">
-                        <button class="btn btn-primary transition-stat" id="background-next">Next</button>
+                        <button class="btn btn-primary transition-stat background-next">Next</button>
                     </div>
                 </div>
 
@@ -270,11 +270,44 @@
 
             <!-- Background/Custom Background -->
             <div class="next" id="background-info">
-                Choose your background:
-                Or create your own:
+                <div class="container col-md-10 text-center" id="background-content">
+                    Everyone comes from somewhere.<br>
+                    Where do you come from? <br><br>
+                    Choose your background.<br><br>
+
+                    <select name="backgrounds" id="background-list">
+                        <option style="display:none"></option>
+                    </select>
+                </div>
+
+                <div class="container col-md-10 text-center" id="background-container">
+                    <!-- Name and special feat of background -->
+                    <div class="props" id="background-properties">
+                        <div id="background-name"></div>
+                        <div id="background-feature"></div>
+                    </div>
+
+                    <div class="props" id="background-bonuses">
+                        <div id="background-proficiencies"></div>
+                        <div id="background-prof-choices"></div>
+                    </div>
+
+                    <div class="props" id="background-equips">
+                        <div id="background-equipment"></div>
+                        <div id="background-equip-choices"></div>
+                    </div>
+
+                    <div class="props" id="background-language-all">
+                        <div id="background-languages"></div>
+                        <div id="background-lang-options"></div>
+                    </div>
+                </div>
+                
+
+                
 
                 <div class="container col-md-10 text-center choices">
-                    <button class="btn btn-primary center transition" id="background-next">Next</button>
+                    <button class="btn btn-primary center transition background-next">Next</button>
                 </div>
             </div>
 
