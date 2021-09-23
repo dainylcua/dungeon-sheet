@@ -8,15 +8,27 @@
 // TODO: ADD NOTIFICATION THAT PROFICIENCY CONFLICTS
 // TODO: ADD BLOCKER IF ALL CHOICES AREN'T MADE
 // TODO: ADD FADE-IN ON LIST LOADS
+// TODO: CONVERT TO REGEX
+// TODO: ENSURE INDEX/NAME AGREEMENT WITH IDS
 
 // CONSTANTS
 BASEURL = 'https://www.dnd5eapi.co/api/'
 
+
+// EVENTS
 // Simple CSS Fade Transition
 $('.transition').on('click', function () {
     $(this).parent().parent().fadeOut(500).remove(5)
     $('#tranScreen').fadeIn().fadeOut(1000, () => {
         $(this).parent().parent().next().fadeIn(300)
+    })
+})
+
+// Fade transition specific for stat section
+$('.transition-stat').on('click', function () {
+    $(this).parent().parent().parent().fadeOut(500).remove(5)
+    $('#tranScreen').fadeIn().fadeOut(1000, () => {
+        $(this).parent().parent().parent().next().fadeIn(300)
     })
 })
 
@@ -34,7 +46,7 @@ $('.props').on('change', ':checkbox', function() {
 //// RACE FUNCTIONS
 $('#race-next').on('click', populateRaceList)
 $('#race-list').change(populateRaceDetails)
-// $('#class-next').on('click', raceSave) FIXME: ENABLE WHEN DONE TESTING
+$('#class-next').on('click', raceSave)
 
 let raceData, raceSelectData, raceSelection
 
@@ -113,11 +125,16 @@ function populateRaceDetails() {
 function raceRender() {
 
     $raceName.text('')
-    $raceName.append(`<span id="race-name-${raceSelectData.name}">${raceSelectData.name}</span>`).css('font-size', '3rem').css('border-bottom', '1px solid black')
+    $raceName.append(`<span id="race-name-${raceSelectData.name}">
+        ${raceSelectData.name}</span>`).css('font-size', '3rem').css('border-bottom', '1px solid black')
+
     $raceSpeed.text('')
-    $raceSpeed.append(`<span id="race-speed-${raceSelectData.speed}">Speed: ${raceSelectData.speed} ft/6 seconds</span>`).css('padding-top', '1rem')
+    $raceSpeed.append(`<span id="race-speed-${raceSelectData.speed}">
+        Speed: ${raceSelectData.speed} ft/6 seconds</span>`).css('padding-top', '1rem')
+
     $raceSize.text('')
-    $raceSize.append(`<span id="race-size-${raceSelectData.size}">Size: ${raceSelectData.size}-sized creature</span>`)
+    $raceSize.append(`<span id="race-size-${raceSelectData.size}">
+        Size: ${raceSelectData.size}-sized creature</span>`)
 
     $raceBonusStats.text('Ability bonuses: ')
     raceSelectData.ability_bonuses.forEach((ability) => {
@@ -217,6 +234,7 @@ function raceRender() {
     $raceDescription.text(raceSelectData.alignment + ' ' + raceSelectData.size_description + ' ' + raceSelectData.age)
 }
 
+// Stores race values
 function raceSave() {
     raceStorage.name = $raceName.children().attr('id').slice(10)
     raceStorage.speed = $raceSpeed.children().attr('id').slice(11)
@@ -272,7 +290,7 @@ let classData, classSelectData, classSelection, martialData, simpleData, groupNu
 const classStorage = {
     name: '',
     hitDice: 0,
-    savingThrows: '',
+    savingThrows: [],
     profs: [],
     equips: [],
 }
@@ -385,18 +403,23 @@ function populateClassDetails() {
 
 
 function classRender() {
-    $className.text(classSelectData.name).css('font-size', '3rem').css('border-bottom', '1px solid black')
-    $classHitDice.text('Hit dice size: ' + classSelectData.hit_die).css('padding-top', '1rem')
+    $className.text('')
+    $className.append(`<span id="class-name-${classSelectData.name}">
+        ${classSelectData.name}</span>`).css('font-size', '3rem').css('border-bottom', '1px solid black')
+    
+    $classHitDice.text('')
+    $classHitDice.append(`<span id="class-hit-die-${classSelectData.hit_die}">
+        Hit dice size: ${classSelectData.hit_die}</span>`).css('padding-top', '1rem')
 
     $classSavingThrows.text('Saving throw proficiencies: ')
     classSelectData.saving_throws.forEach((save) => {
         if (classSelectData.saving_throws.indexOf(save) === classSelectData.saving_throws.length - 1) {
             $classSavingThrows.append(`<span class="saves" 
-                id=${save.index}>
+                id="class-save-${save.index}">
                 ${save.name}</span>`)
         } else {
             $classSavingThrows.append(`<span class="saves" 
-                id=${save.index}>
+                id="class-save-${save.index}">
                 ${save.name}, </span>`)
         }
     })
@@ -405,11 +428,11 @@ function classRender() {
     classSelectData.proficiencies.forEach((prof) => {
         if (classSelectData.proficiencies.indexOf(prof) === classSelectData.proficiencies.length - 1) {
             $classProficiencies.append(`<span class="profs" 
-                id=${prof.index}>
+                id="class-prof-${prof.index}">
                 ${prof.name}</span>`)
         } else {
             $classProficiencies.append(`<span class="profs" 
-                id=${prof.index}>
+                id="class-prof-${prof.index}">
                 ${prof.name}, </span>`)
         }
     })
@@ -420,13 +443,12 @@ function classRender() {
     if (classSelectData.hasOwnProperty("proficiency_choices")) {
         classSelectData.proficiency_choices.forEach((choice) => {
             optionNo += 1
-            $classProfOptions.append(`<div class="prof-group"><div>Choose from ${choice.choose} of the following skill proficiencies:</div></div>`)
-            $classProfOptions.children('.prof-group').last().append(`<br>`)
+            $classProfOptions.append(`<div class="prof-group"><div>Choose from ${choice.choose} of the following proficiencies:</div></div>`)
             choice.from.forEach((prof) => {
                 $classProfOptions.children('.prof-group').last().append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
-                    id="class-${optionNo}-${prof.index}" autocomplete="off">`)
+                    id="class-prof-${optionNo}-${prof.index}" autocomplete="off">`)
                 $classProfOptions.children('.prof-group').last().append(`<label class="btn btn-outline-dark m-1" 
-                    for="class-${optionNo}-${prof.index}">${prof.name}</label>`)
+                    for="class-prof-${optionNo}-${prof.index}">${prof.name}</label>`)
             })
             if(classSelectData.proficiency_choices.indexOf(choice) === classSelectData.proficiency_choices.length-1) {
                 $classProfOptions.children('.prof-group').last().append(`<br>`)
@@ -439,7 +461,7 @@ function classRender() {
     $classEquipment.text('Starting equipment: ')
     classSelectData.starting_equipment.forEach((equip) => {
         $classEquipment.append(`<div class="equips" 
-        id=${equip.equipment.index}>${equip.equipment.name}
+        id="class-${equip.equipment.index}-${equip.quantity}">${equip.equipment.name}
         x${equip.quantity}</div>`)
     })
 
@@ -529,37 +551,37 @@ function classRender() {
 }
 // Renders class data
 
+// Stores class values
 function classSave() {
-    classStorage.name = $className.children().attr('id').slice(10)
-    classStorage.hitDice = $classHitDice.children().attr('id').slice(11)
+    classStorage.name = $className.children().attr('id').slice(11)
+    classStorage.hitDice = $classHitDice.children().attr('id').slice(14)
     
     $.each($classSavingThrows.children(), function(index, save) {
         if(save.getAttribute('id') !== undefined && save.getAttribute('id') !== null) {
-            classStorage.savingThrows.push(save.children().getAttribute('id').slice(10))
+            classStorage.savingThrows.push(save.getAttribute('id').slice(11))
         }
     })
-
 
     $.each($classProficiencies.children(), function(index, prof) {
         if(prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
-            classStorage.profs.push(prof.getAttribute('id').slice(10))
+            classStorage.profs.push(prof.getAttribute('id').slice(11))
         }
     })
 
-    $.each($classProfOptions.children(':checkbox:checked'), function(index, prof) {
+    $.each($classProfOptions.find(':checkbox:checked'), function(index, prof) {
         if(prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
-            classStorage.profs.push(prof.getAttribute('id').slice(17))
+            classStorage.profs.push(prof.getAttribute('id').slice(13))
         }
     })
 
     $.each($classEquipment.children(), function(index, eqs) {
         if(eqs.getAttribute('id') !== undefined && eqs.getAttribute('id') !== null) {
-            classStorage.equips.push(eqs.getAttribute('id').slice(10,13))
+            classStorage.equips.push(eqs.getAttribute('id').slice(6))
         }
     })
-    $.each($classEquipChoices.children(':checkbox:checked'), function(index, eqs) {
+    $.each($classEquipChoices.find(':checkbox:checked'), function(index, eqs) {
         if(eqs.getAttribute('id') !== undefined && eqs.getAttribute('id') !== null) {
-            classStorage.equips.push(eqs.getAttribute('id').slice(20, 23))
+            classStorage.equips.push(eqs.getAttribute('id').slice(8))
         }
     })
 }
@@ -571,39 +593,52 @@ $('button#buy').on('click', showBuy)
 $('#roll-btn').on('click', rollStats)
 $('.increment').on('click', increaseStat)
 $('.decrement').on('click', decreaseStat)
+$('#roll-finish').on('click', saveRoll)
+$('#buy-finish').on('click', saveBuy)
 
-// Fade transition specific for stat section
-$('.transition-stat').on('click', function () {
-    $(this).parent().parent().parent().fadeOut(500).remove(5)
-    $('#tranScreen').fadeIn().fadeOut(1000, () => {
-        $(this).parent().parent().parent().next().fadeIn(300)
-    })
-})
-
-let currentStat, statNum, currentArray = []
-
+let currentStat, statNum, incSib, decSib, currentArray = []
+let $statTarget
 let remainingPoints = parseInt($('#points-remaining').text())
-const $statPoints = $('#points-remaining')
 
 const statNames = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA']
 
+const statStorage = {
+    stats: statNames,
+    statValues: []
+}
+
+const $statPoints = $('#points-remaining')
+const $eachIncrement = $('.buy-stat-container').children().children('.alteration').children('.increment')
+const $eachStat = $('.buy-stat-container').children().children('.buy-stat')
+const $statRoll = $('#stat-roll')
+const $pointBuy = $('#point-buy')
+const $statInfo = $('#stat-info')
+const $statContent = $('#stat-content')
+const $rollStatSection = $('.roll-stat-container')
+const $buyStatSection = $('.buy-stat-container')
+
 // Shows stat roll section
 function showRoll() {
-    $(this).parent().parent().parent().fadeOut(500)
-    $(this).parent().parent().fadeOut(500).remove(5)
+    // $(this).parent().parent().parent().fadeOut(500)
+    $statInfo.fadeOut(500)
+    // $(this).parent().parent().fadeOut(500).remove(5)
+    $statContent.fadeOut(500).remove(5)
     $('#tranScreen').fadeIn().fadeOut(1000, () => {
-        $(this).parent().parent().parent().fadeIn(500)
-        $('#stat-roll').fadeIn(300)
+        // $(this).parent().parent().parent().fadeIn(500)
+        $statInfo.fadeIn(500)
+        $statRoll.fadeIn(300)
     })
 }
 
 // Shows point buy section
 function showBuy() {
-    $(this).parent().parent().parent().fadeOut(500)
-    $(this).parent().parent().fadeOut(500).remove(5)
+    // $(this).parent().parent().parent().fadeOut(500)
+    $statInfo.fadeOut(500)
+    $statContent.fadeOut(500).remove(5)
     $('#tranScreen').fadeIn().fadeOut(1000, () => {
-        $(this).parent().parent().parent().fadeIn(500)
-        $('#point-buy').fadeIn(300)
+        // $(this).parent().parent().parent().fadeIn(500)
+        $statInfo.fadeIn(500)
+        $pointBuy.fadeIn(300)
     })
 }
 
@@ -624,17 +659,20 @@ function rollStats() {
 
 // Increases stat
 function increaseStat() {
-    let $statTarget = $(this).parent().parent().children('.buy-stat')
+    $statTarget = $(this).parent().parent().children('.buy-stat')
     statNum = parseInt($statTarget.text())
-    let decSib = $(this).parent().children('.decrement')
+    decSib = $(this).parent().children('.decrement')
 
-    // Exits loop if no points
+    // Exits loop if not enough points
     if (remainingPoints === 0) {
+        return
+    } else if(remainingPoints === 1 && (statNum === 13 || statNum === 14)) {
         return
     }
 
     // Adds stats, decreases remaining points
     if (statNum < 13) {
+        // Removes decrement limiter if adding point
         if (statNum === 8 && decSib.hasClass('btn-outline-danger')) {
             decSib.addClass('btn-outline-secondary').removeClass('btn-outline-danger')
             decSib.removeAttr('data-bs-toggle title')
@@ -657,6 +695,7 @@ function increaseStat() {
         $(this).removeClass('btn-outline-secondary').addClass('btn-outline-danger')
     }
 
+    
     // If no points left, alerts user that they need points
     if (remainingPoints === 0) {
         $('.increment').attr('data-bs-toggle', "true")
@@ -665,24 +704,21 @@ function increaseStat() {
         return
     }
 
-
+    // Alerts user for stats = 13 or 14 if only 1 point left
+    if (remainingPoints === 1) {
+        pointAlert()
+    }
 }
 
 // Decreases stat
 function decreaseStat() {
-    let $statTarget = $(this).parent().parent().children('.buy-stat')
+    $statTarget = $(this).parent().parent().children('.buy-stat')
     statNum = parseInt($statTarget.text())
-    let incSib = $(this).parent().children('.increment')
-
-    // If regaining points, remove danger from all except if stat = 15
-    if (remainingPoints === 0) {
-        $('.increment').removeClass('btn-outline-danger').addClass('btn-outline-secondary')
-        $('.increment').removeAttr('data-bs-toggle title')
-        pointAlert()
-    }
+    incSib = $(this).parent().children('.increment')
 
     // Remove stats, increases remaining points
     if (statNum > 13) {
+        // Removes increment disable if stat is no longer 15
         if (statNum === 15 && incSib.hasClass('btn-outline-danger')) {
             incSib.addClass('btn-outline-secondary').removeClass('btn-outline-danger')
             incSib.removeAttr('data-bs-toggle title')
@@ -703,26 +739,61 @@ function decreaseStat() {
         $statPoints.text(remainingPoints)
     }
 
+    // If 1 or 2 points remaining, remove danger from all increments unless 15
+    if (remainingPoints === 1 || remainingPoints === 2) {
+        $('.increment').removeClass('btn-outline-danger').addClass('btn-outline-secondary')
+        $('.increment').removeAttr('data-bs-toggle title')
+        pointAlert()
+    }
 }
 
-// Alerts user if points run out
+// Globally alerts user based on limiting conditions
 function pointAlert() {
-    let $eachIncrement = $('.buy-stat-container').children().children('.alteration').children('.increment')
-    let $eachStat = $('.buy-stat-container').children().children('.buy-stat')
     for (i = 0; i < 5; i++) {
-        if (parseInt($($eachStat[i]).text()) === 15) {
-            $($eachIncrement[i]).removeClass('btn-outline-secondary').addClass('btn-outline-danger')
-            $($eachIncrement[i]).attr('data-bs-toggle', "true")
-            $($eachIncrement[i]).attr('title', "Cannot go higher than 15")
+        // If stat is 15, cannot add more
+        if (parseInt($eachStat[i].textContent) === 15) {
+            $eachIncrement[i].classList.remove('btn-outline-secondary')
+            $eachIncrement[i].classList.add('btn-outline-danger')
+            $eachIncrement[i].setAttribute('data-bs-toggle', "true")
+            $eachIncrement[i].setAttribute('title', "Cannot go higher than 15")
         }
+
+        // If only one point left and stat is 14, cannot add more
+        if (remainingPoints === 1 && (parseInt($($eachStat[i]).text()) === 13 || parseInt($($eachStat[i]).text()) === 14)) {
+            $eachIncrement[i].classList.remove('btn-outline-secondary')
+            $eachIncrement[i].classList.add('btn-outline-danger')
+            $eachIncrement[i].setAttribute('data-bs-toggle', "true")
+            $eachIncrement[i].setAttribute('title', "Needs more points")
+        }
+    }
+}
+
+function saveRoll() {
+    for (i = 0; i < 6; i++) {
+        statStorage.statValues.push(parseInt($rollStatSection.children().children('.roll-stat')[i].textContent))    
+    }
+}
+
+function saveBuy() {
+    for (i=0; i<6; i++) {
+        statStorage.statValues.push(parseInt($buyStatSection.children().children('.buy-stat')[i].textContent))
     }
 }
 
 //// BACKGROUND FUNCTIONS
 $('.background-next').on('click', populateBackgroundList)
 $('#background-list').change(populateBackgroundDetails)
+$('#overview-next').on('click', backgroundSave)
 
 let backgroundSelection
+
+const backgroundStorage = {
+    name: '',
+    feature: '',
+    profs: [],
+    equips: [],
+    langs: []
+}
 
 const $backgroundList = $('#background-list')
 
@@ -746,7 +817,6 @@ function populateBackgroundList() {
     }).then(
         (data) => {
             backgroundData = data
-            console.log('background list populated')
             backgroundAddList()
         },
         (error) => {
@@ -757,7 +827,6 @@ function populateBackgroundList() {
 
 function backgroundAddList() {
     backgroundData.results.forEach(function (bg) {
-        console.log('background populated')
         $backgroundList.append(`<option value=${bg.index}>${bg.name}</option>`)
     })
 }
@@ -769,22 +838,23 @@ function populateBackgroundDetails() {
     }).then(
         (data) => {
             backgroundSelectData = data
-            console.log('background selected')
             backgroundRender()
         },
         (error) => {
             console.log('Bad Request: ', error)
         }
     )
-    // TODO: CHECK TO SEE IF THIS IS NEEDED
     $('#background-container .props').css('border-bottom', '1px solid ghostwhite').css('padding', '1rem')
 }
 
 function backgroundRender() {
-    $backgroundName.text(backgroundSelectData.name).css('font-size', '3rem').css('border-bottom', '1px solid black')
+    $backgroundName.text('')
+    $backgroundName.append(`<span id="background-name-${backgroundSelectData.name}">
+        ${backgroundSelectData.name}</span>`).css('font-size', '3rem').css('border-bottom', '1px solid black')
 
     $backgroundFeature.text('')
-    $backgroundFeature.text('Background feature: ' + backgroundSelectData.feature.name).css('padding-top', '1rem')
+    $backgroundFeature.append(`<span id="background-feature-${backgroundSelectData.feature.name}">
+    Background feature: + ${backgroundSelectData.feature.name}</span>`).css('padding-top', '1rem')
     $backgroundFeature.append(`<div id="background-feature-text" style="border-top:1px dashed black">${backgroundSelectData.feature.desc.join(' ')}</div>`)
 
     // Identical to race proficiency
@@ -938,4 +1008,48 @@ function backgroundRender() {
             $backgroundLangOptions.append(`<label class="btn btn-outline-dark m-1" for="background-${language.index}">${language.name}</label>`)
         })
     }
+}
+
+function backgroundSave() {
+    backgroundStorage.name = $backgroundName.children().attr('id').slice(11)
+    backgroundStorage.feature = $backgroundFeature.children('').not('#background-feature-text').attr('id').slice(14)
+    
+    $.each($classSavingThrows.children(), function(index, save) {
+        if(save.getAttribute('id') !== undefined && save.getAttribute('id') !== null) {
+            classStorage.savingThrows.push(save.getAttribute('id').slice(11))
+        }
+    })
+
+    $.each($classProficiencies.children(), function(index, prof) {
+        if(prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
+            classStorage.profs.push(prof.getAttribute('id').slice(11))
+        }
+    })
+
+    $.each($classProfOptions.find(':checkbox:checked'), function(index, prof) {
+        if(prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
+            classStorage.profs.push(prof.getAttribute('id').slice(13))
+        }
+    })
+
+    $.each($classEquipment.children(), function(index, eqs) {
+        if(eqs.getAttribute('id') !== undefined && eqs.getAttribute('id') !== null) {
+            classStorage.equips.push(eqs.getAttribute('id').slice(6))
+        }
+    })
+    $.each($classEquipChoices.find(':checkbox:checked'), function(index, eqs) {
+        if(eqs.getAttribute('id') !== undefined && eqs.getAttribute('id') !== null) {
+            classStorage.equips.push(eqs.getAttribute('id').slice(8))
+        }
+    })
+    $.each($raceLanguages.children(), function(index, lang) {
+        if(lang.getAttribute('id') !== undefined && lang.getAttribute('id') !== null) {
+            raceStorage.langs.push(lang.getAttribute('id').slice(14))
+        }
+    })
+    $.each($raceLangOptions.children(':checkbox:checked'), function(index, lang) {
+        if(lang.getAttribute('id') !== undefined && lang.getAttribute('id') !== null) {
+            raceStorage.langs.push(lang.getAttribute('id').slice(21))
+        }
+    })
 }
