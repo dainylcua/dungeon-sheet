@@ -5,6 +5,7 @@
 // TODO: ADD EQUIPMENT CHOOSE SECTION
 // TODO: ADD BACKSTORY WRITE-IN
 // TODO: ADD CUSTOM BACKGROUNDS
+// TODO: ADD NOTIFICATION THAT PROFICIENCY CONFLICTS
 
 // CONSTANTS
 BASEURL = 'https://www.dnd5eapi.co/api/'
@@ -135,9 +136,9 @@ function raceRender() {
         $raceBonusOptions.append(`<div>Choose from ${raceSelectData.ability_bonus_options.choose} of the following stat bonuses:</div>`)
         raceSelectData.ability_bonus_options.from.forEach((option) => {
             $raceBonusOptions.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
-                id="race-ability-choice-${option.ability_score.index}" autocomplete="off">`)
+                id="race-ability-choice-${option.ability_score.index}-${option.bonus}" autocomplete="off">`)
             $raceBonusOptions.append(`<label class="btn btn-outline-dark m-1" 
-                for="race-ability-choice-${option.ability_score.index}">${option.ability_score.name} + ${option.bonus}</label>`)
+                for="race-ability-choice-${option.ability_score.index}-${option.bonus}">${option.ability_score.name} + ${option.bonus}</label>`)
         })
     }
 
@@ -219,16 +220,45 @@ function raceSave() {
     raceStorage.speed = $raceSpeed.children().attr('id').slice(11)
     raceStorage.size = $raceSize.children().attr('id').slice(10)
     $.each($raceBonusStats.children(), function(index, stat) {
-        raceStorage.stats.push(stat.getAttribute('id').slice(10,13))
-        raceStorage.statBonuses.push(stat.getAttribute('id').slice(14))
+        if(stat.getAttribute('id') !== undefined && stat.getAttribute('id') !== null) {
+            raceStorage.stats.push(stat.getAttribute('id').slice(10,13))
+            raceStorage.statBonuses.push(parseInt(stat.getAttribute('id').slice(14)))
+        }
     })
-    // raceStorage.proficiencies = 
+    $.each($raceBonusOptions.children(':checkbox:checked'), function(index, stat) {
+        if(stat.getAttribute('id') !== undefined && stat.getAttribute('id') !== null) {
+            raceStorage.stats.push(stat.getAttribute('id').slice(20, 23))
+            raceStorage.statBonuses.push(parseInt(stat.getAttribute('id').slice(24)))
+        }
+    })
+    $.each($raceProficiencies.children(), function(index, prof) {
+        if(prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
+            raceStorage.profs.push(prof.getAttribute('id').slice(10))
+        }
+    })
+    $.each($raceProfOptions.children(':checkbox:checked'), function(index, prof) {
+        if(prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
+            raceStorage.profs.push(prof.getAttribute('id').slice(17))
+        }
+    })
     $.each($raceLanguages.children(), function(index, lang) {
-        raceStorage.langs.push(lang.getAttribute('id').slice(14))
+        if(lang.getAttribute('id') !== undefined && lang.getAttribute('id') !== null) {
+            raceStorage.langs.push(lang.getAttribute('id').slice(14))
+        }
     })
-    // raceStorage.traits =
+    $.each($raceLangOptions.children(':checkbox:checked'), function(index, lang) {
+        if(lang.getAttribute('id') !== undefined && lang.getAttribute('id') !== null) {
+            raceStorage.langs.push(lang.getAttribute('id').slice(21))
+        }
+    })
+    $.each($raceTraits.children(), function(index, trait) {
+        if(trait.getAttribute('id') !== undefined && trait.getAttribute('id') !== null) {
+            raceStorage.traits.push(trait.getAttribute('id').slice(11))
+        }
+    })
 }
 
+// TODO: ADD BLOCKER IF ALL CHOICES AREN'T MADE
 
 //// CLASS Functions
 $('#class-next').on('click', populateClassList)
