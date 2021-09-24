@@ -13,7 +13,7 @@ The 5th Edition Dungeons and Dragons API is used to get Vanilla 5e information, 
 ## Technologies Used
 * HTML5
 * CSS3
-* VanillaJS
+* JavaScript
 * JQuery
 * Bootstrap
 * D&D 5th Edition API
