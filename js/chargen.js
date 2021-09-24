@@ -3,6 +3,7 @@
 //
 // TODO: IMPROVE CODE READABILITY
 // TODO: ADD EQUIPMENT CHOOSE SECTION
+// TODO: ADD "ARMOR" TO THE END OF ARMOR
 // TODO: ADD BACKSTORY WRITE-IN
 // TODO: ADD CUSTOM BACKGROUNDS
 // TODO: ADD NOTIFICATION THAT PROFICIENCY CONFLICTS
@@ -11,6 +12,8 @@
 // TODO: ADD REGEX TO CLEAN CODE
 // TODO: ADD TEXT INPUT SECTIONS
 // TODO: ENSURE INDEX/NAME AGREEMENT WITH IDS
+// TODO: DISABLE BUTTON ON RELOAD
+
 
 
 // CONSTANTS
@@ -53,11 +56,11 @@ $('#class-next').on('click', raceSave)
 let raceData, raceSelectData, raceSelection
 
 const raceStorage = {
-    name: '',
+    raceName: '',
     speed: 0,
     size: '',
-    stats: [],
-    statBonuses: [],
+    statBonusName: [],
+    statBonusValue: [],
     profs: [],
     langs: [],
     traits: []
@@ -238,19 +241,19 @@ function raceRender() {
 
 // Stores race values
 function raceSave() {
-    raceStorage.name = $raceName.children().attr('id').slice(10)
+    raceStorage.raceName = $raceName.children().attr('id').slice(10)
     raceStorage.speed = $raceSpeed.children().attr('id').slice(11)
     raceStorage.size = $raceSize.children().attr('id').slice(10)
     $.each($raceBonusStats.children(), function (index, stat) {
         if (stat.getAttribute('id') !== undefined && stat.getAttribute('id') !== null) {
-            raceStorage.stats.push(stat.getAttribute('id').slice(10, 13))
-            raceStorage.statBonuses.push(parseInt(stat.getAttribute('id').slice(14)))
+            raceStorage.statBonusName.push(stat.getAttribute('id').slice(10, 13))
+            raceStorage.statBonusValue.push(parseInt(stat.getAttribute('id').slice(14)))
         }
     })
     $.each($raceBonusOptions.children(':checkbox:checked'), function (index, stat) {
         if (stat.getAttribute('id') !== undefined && stat.getAttribute('id') !== null) {
-            raceStorage.stats.push(stat.getAttribute('id').slice(20, 23))
-            raceStorage.statBonuses.push(parseInt(stat.getAttribute('id').slice(24)))
+            raceStorage.statBonusName.push(stat.getAttribute('id').slice(20, 23))
+            raceStorage.statBonusValue.push(parseInt(stat.getAttribute('id').slice(24)))
         }
     })
     $.each($raceProficiencies.children(), function (index, prof) {
@@ -290,7 +293,7 @@ $('#stat-next').on('click', classSave)
 let classData, classSelectData, classSelection, martialData, simpleData, groupNumber, eqObj, eqObjOpt, fragEquip, fragId
 
 const classStorage = {
-    name: '',
+    className: '',
     hitDice: 0,
     savingThrows: [],
     profs: [],
@@ -555,7 +558,7 @@ function classRender() {
 
 // Stores class values
 function classSave() {
-    classStorage.name = $className.children().attr('id').slice(11)
+    classStorage.className = $className.children().attr('id').slice(11)
     classStorage.hitDice = $classHitDice.children().attr('id').slice(14)
 
     $.each($classSavingThrows.children(), function (index, save) {
@@ -790,7 +793,7 @@ $('#overview-next').on('click', backgroundSave)
 let backgroundSelection
 
 const backgroundStorage = {
-    name: '',
+    backName: '',
     feature: '',
     profs: [],
     equips: [],
@@ -1015,12 +1018,12 @@ function backgroundRender() {
 }
 
 function backgroundSave() {
-    backgroundStorage.name = $backgroundName.children().attr('id').slice(16)
+    backgroundStorage.backName = $backgroundName.children().attr('id').slice(16)
     backgroundStorage.feature = $backgroundFeature.children('').not('#background-feature-text').attr('id').slice(19)
 
     $.each($backgroundProficiencies.children(), function (index, prof) {
         if (prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
-            backgroundStorage.profs.push(prof.getAttribute('id').slice(17))
+            backgroundStorage.profs.push(prof.getAttribute('id').slice(16))
         }
     })
 
@@ -1052,3 +1055,45 @@ function backgroundSave() {
     })
 }
 
+//// RACE FUNCTIONS
+$('#overview-next').on('click', overviewRender)
+
+let currObj, finalStorage
+
+function overviewRender () {
+    finalStorage = storageCombiner(raceStorage, classStorage, statStorage, backgroundStorage)
+}
+
+function storageCombiner(...objs) {
+    let combinedObj = {}
+    console.log(objs)
+    // ...objs is an `array of objects`
+    // For every object in the `array of objects` passed in
+    for(let obj in objs) {
+        console.log('object', obj)
+        // currObj is the current object in the `array of objects`
+        // For every property in the current object
+        currObj = objs[obj]
+        for(let currProp in currObj) {
+            console.log('currProp', currProp)
+            // currProp is the current property in the current object in the `array of objects`
+            // Add current object properties into combinedObj if they do not exist
+            if (!combinedObj.hasOwnProperty(currProp)) {
+                // If combinedObj does NOT have the property
+                // Initialize new property in combinedObj
+                combinedObj[currProp] = currObj[currProp]
+                console.log('combinedObj declared', combinedObj)
+            } else if (combinedObj.hasOwnProperty(currProp)) {
+                // If combinedObj DOES have the property (all mergable properties are arrays)
+                // Create temporary array which is a merge of the both
+                // !! FIXME: GETS RID OF REFERENCES, BE CAREFUL IF APPLYING INTO OTHER DOCUMENTS
+                let tempArray = [...combinedObj[currProp], ...currObj[currProp]]
+                console.log('tempArray', tempArray)
+                // Merge property arrays
+                combinedObj[currProp] = tempArray
+                console.log('combinedObj merged', combinedObj)
+            }
+        }
+    }
+    return combinedObj
+}
