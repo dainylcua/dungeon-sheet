@@ -8,9 +8,10 @@
 // TODO: ADD NOTIFICATION THAT PROFICIENCY CONFLICTS
 // TODO: ADD BLOCKER IF ALL CHOICES AREN'T MADE
 // TODO: ADD FADE-IN ON LIST LOADS
-// TODO: CONVERT TO REGEX
+// TODO: ADD REGEX TO CLEAN CODE
+// TODO: ADD TEXT INPUT SECTIONS
 // TODO: ENSURE INDEX/NAME AGREEMENT WITH IDS
-// TODO: FIX EXTRA DASH FOR OPTION NUMBERS ON HOLY SYMBOLS OR FOCI
+
 
 // CONSTANTS
 BASEURL = 'https://www.dnd5eapi.co/api/'
@@ -34,12 +35,12 @@ $('.transition-stat').on('click', function () {
 })
 
 // Toggle button limiter
-$('.props').on('change', ':checkbox', function() {
+$('.props').on('change', ':checkbox', function () {
     let limit = parseInt($(this).siblings('div').text().match(/\d/)[0])
     let checkedAmount = $(this).parent().children(':checkbox:checked').length
     if (checkedAmount === limit && $(this).prop('checked')) {
         $(this).siblings(':checkbox').not(':checked').prop('disabled', true)
-    } else if (checkedAmount === limit-1 && $(this).prop('checked') === false) {
+    } else if (checkedAmount === limit - 1 && $(this).prop('checked') === false) {
         $(this).siblings(':checkbox').not(':checked').prop('disabled', false)
     }
 })
@@ -240,40 +241,40 @@ function raceSave() {
     raceStorage.name = $raceName.children().attr('id').slice(10)
     raceStorage.speed = $raceSpeed.children().attr('id').slice(11)
     raceStorage.size = $raceSize.children().attr('id').slice(10)
-    $.each($raceBonusStats.children(), function(index, stat) {
-        if(stat.getAttribute('id') !== undefined && stat.getAttribute('id') !== null) {
-            raceStorage.stats.push(stat.getAttribute('id').slice(10,13))
+    $.each($raceBonusStats.children(), function (index, stat) {
+        if (stat.getAttribute('id') !== undefined && stat.getAttribute('id') !== null) {
+            raceStorage.stats.push(stat.getAttribute('id').slice(10, 13))
             raceStorage.statBonuses.push(parseInt(stat.getAttribute('id').slice(14)))
         }
     })
-    $.each($raceBonusOptions.children(':checkbox:checked'), function(index, stat) {
-        if(stat.getAttribute('id') !== undefined && stat.getAttribute('id') !== null) {
+    $.each($raceBonusOptions.children(':checkbox:checked'), function (index, stat) {
+        if (stat.getAttribute('id') !== undefined && stat.getAttribute('id') !== null) {
             raceStorage.stats.push(stat.getAttribute('id').slice(20, 23))
             raceStorage.statBonuses.push(parseInt(stat.getAttribute('id').slice(24)))
         }
     })
-    $.each($raceProficiencies.children(), function(index, prof) {
-        if(prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
+    $.each($raceProficiencies.children(), function (index, prof) {
+        if (prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
             raceStorage.profs.push(prof.getAttribute('id').slice(10))
         }
     })
-    $.each($raceProfOptions.children(':checkbox:checked'), function(index, prof) {
-        if(prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
+    $.each($raceProfOptions.children(':checkbox:checked'), function (index, prof) {
+        if (prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
             raceStorage.profs.push(prof.getAttribute('id').slice(17))
         }
     })
-    $.each($raceLanguages.children(), function(index, lang) {
-        if(lang.getAttribute('id') !== undefined && lang.getAttribute('id') !== null) {
+    $.each($raceLanguages.children(), function (index, lang) {
+        if (lang.getAttribute('id') !== undefined && lang.getAttribute('id') !== null) {
             raceStorage.langs.push(lang.getAttribute('id').slice(14))
         }
     })
-    $.each($raceLangOptions.children(':checkbox:checked'), function(index, lang) {
-        if(lang.getAttribute('id') !== undefined && lang.getAttribute('id') !== null) {
+    $.each($raceLangOptions.children(':checkbox:checked'), function (index, lang) {
+        if (lang.getAttribute('id') !== undefined && lang.getAttribute('id') !== null) {
             raceStorage.langs.push(lang.getAttribute('id').slice(21))
         }
     })
-    $.each($raceTraits.children(), function(index, trait) {
-        if(trait.getAttribute('id') !== undefined && trait.getAttribute('id') !== null) {
+    $.each($raceTraits.children(), function (index, trait) {
+        if (trait.getAttribute('id') !== undefined && trait.getAttribute('id') !== null) {
             raceStorage.traits.push(trait.getAttribute('id').slice(11))
         }
     })
@@ -407,7 +408,7 @@ function classRender() {
     $className.text('')
     $className.append(`<span id="class-name-${classSelectData.name}">
         ${classSelectData.name}</span>`).css('font-size', '3rem').css('border-bottom', '1px solid black')
-    
+
     $classHitDice.text('')
     $classHitDice.append(`<span id="class-hit-die-${classSelectData.hit_die}">
         Hit dice size: ${classSelectData.hit_die}</span>`).css('padding-top', '1rem')
@@ -451,7 +452,7 @@ function classRender() {
                 $classProfOptions.children('.prof-group').last().append(`<label class="btn btn-outline-dark m-1" 
                     for="class-prof-${optionNo}-${prof.index}">${prof.name}</label>`)
             })
-            if(classSelectData.proficiency_choices.indexOf(choice) === classSelectData.proficiency_choices.length-1) {
+            if (classSelectData.proficiency_choices.indexOf(choice) === classSelectData.proficiency_choices.length - 1) {
                 $classProfOptions.children('.prof-group').last().append(`<br>`)
             } else {
                 $classProfOptions.children('.prof-group').last().append(`<br><br>`)
@@ -482,7 +483,7 @@ function classRender() {
         optionNo += 1
         // For every group option, list all the equipment groups per group option
         option.from.forEach((equipGroup) => {
-            
+
 
             // Convert equip group object names into a completely new array
 
@@ -512,10 +513,10 @@ function classRender() {
                 fragId = fragId.slice(0, -1)
 
                 $classEquipChoices.append(equipInputFrag)
-                $classEquipChoices.children(':last-child')[0].setAttribute('id',`${fragId}`)
-                
+                $classEquipChoices.children(':last-child')[0].setAttribute('id', `${fragId}`)
+
                 $classEquipChoices.append(equipLabelFrag)
-                $classEquipChoices.children(':last-child')[0].setAttribute('for',`${fragId}`)
+                $classEquipChoices.children(':last-child')[0].setAttribute('for', `${fragId}`)
 
             } else if (equipGroup.hasOwnProperty('equipment')) {
                 // If equip group is a single item
@@ -556,32 +557,32 @@ function classRender() {
 function classSave() {
     classStorage.name = $className.children().attr('id').slice(11)
     classStorage.hitDice = $classHitDice.children().attr('id').slice(14)
-    
-    $.each($classSavingThrows.children(), function(index, save) {
-        if(save.getAttribute('id') !== undefined && save.getAttribute('id') !== null) {
+
+    $.each($classSavingThrows.children(), function (index, save) {
+        if (save.getAttribute('id') !== undefined && save.getAttribute('id') !== null) {
             classStorage.savingThrows.push(save.getAttribute('id').slice(11))
         }
     })
 
-    $.each($classProficiencies.children(), function(index, prof) {
-        if(prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
+    $.each($classProficiencies.children(), function (index, prof) {
+        if (prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
             classStorage.profs.push(prof.getAttribute('id').slice(11))
         }
     })
 
-    $.each($classProfOptions.find(':checkbox:checked'), function(index, prof) {
-        if(prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
+    $.each($classProfOptions.find(':checkbox:checked'), function (index, prof) {
+        if (prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
             classStorage.profs.push(prof.getAttribute('id').slice(13))
         }
     })
 
-    $.each($classEquipment.children(), function(index, eqs) {
-        if(eqs.getAttribute('id') !== undefined && eqs.getAttribute('id') !== null) {
+    $.each($classEquipment.children(), function (index, eqs) {
+        if (eqs.getAttribute('id') !== undefined && eqs.getAttribute('id') !== null) {
             classStorage.equips.push(eqs.getAttribute('id').slice(6))
         }
     })
-    $.each($classEquipChoices.find(':checkbox:checked'), function(index, eqs) {
-        if(eqs.getAttribute('id') !== undefined && eqs.getAttribute('id') !== null) {
+    $.each($classEquipChoices.find(':checkbox:checked'), function (index, eqs) {
+        if (eqs.getAttribute('id') !== undefined && eqs.getAttribute('id') !== null) {
             classStorage.equips.push(eqs.getAttribute('id').slice(8))
         }
     })
@@ -667,7 +668,7 @@ function increaseStat() {
     // Exits loop if not enough points
     if (remainingPoints === 0) {
         return
-    } else if(remainingPoints === 1 && (statNum === 13 || statNum === 14)) {
+    } else if (remainingPoints === 1 && (statNum === 13 || statNum === 14)) {
         return
     }
 
@@ -696,7 +697,7 @@ function increaseStat() {
         $(this).removeClass('btn-outline-secondary').addClass('btn-outline-danger')
     }
 
-    
+
     // If no points left, alerts user that they need points
     if (remainingPoints === 0) {
         $('.increment').attr('data-bs-toggle', "true")
@@ -771,12 +772,12 @@ function pointAlert() {
 
 function saveRoll() {
     for (i = 0; i < 6; i++) {
-        statStorage.statValues.push(parseInt($rollStatSection.children().children('.roll-stat')[i].textContent))    
+        statStorage.statValues.push(parseInt($rollStatSection.children().children('.roll-stat')[i].textContent))
     }
 }
 
 function saveBuy() {
-    for (i=0; i<6; i++) {
+    for (i = 0; i < 6; i++) {
         statStorage.statValues.push(parseInt($buyStatSection.children().children('.buy-stat')[i].textContent))
     }
 }
@@ -913,7 +914,7 @@ function backgroundRender() {
         optionNo += 1
         // For every group option, list all the equipment groups per group option
         option.from.forEach((equipGroup) => {
-            
+
 
             // Convert equip group object names into a completely new array
 
@@ -943,10 +944,10 @@ function backgroundRender() {
                 fragId = fragId.slice(0, -1)
 
                 $backgroundEquipChoices.append(equipInputFrag)
-                $backgroundEquipChoices.children(':last-child')[0].setAttribute('id',`${fragId}`)
-                
+                $backgroundEquipChoices.children(':last-child')[0].setAttribute('id', `${fragId}`)
+
                 $backgroundEquipChoices.append(equipLabelFrag)
-                $backgroundEquipChoices.children(':last-child')[0].setAttribute('for',`${fragId}`)
+                $backgroundEquipChoices.children(':last-child')[0].setAttribute('for', `${fragId}`)
 
             } else if (equipGroup.hasOwnProperty('equipment')) {
                 // If equip group is a single item
@@ -1016,37 +1017,38 @@ function backgroundRender() {
 function backgroundSave() {
     backgroundStorage.name = $backgroundName.children().attr('id').slice(16)
     backgroundStorage.feature = $backgroundFeature.children('').not('#background-feature-text').attr('id').slice(19)
-    
-    $.each($backgroundProficiencies.children(), function(index, prof) {
-        if(prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
+
+    $.each($backgroundProficiencies.children(), function (index, prof) {
+        if (prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
             backgroundStorage.profs.push(prof.getAttribute('id').slice(17))
         }
     })
 
-    $.each($backgroundProfOptions.find(':checkbox:checked'), function(index, prof) {
-        if(prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
+    $.each($backgroundProfOptions.find(':checkbox:checked'), function (index, prof) {
+        if (prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
             backgroundStorage.profs.push(prof.getAttribute('id').slice(13))
         }
     })
 
-    $.each($backgroundEquipment.children(), function(index, eqs) {
-        if(eqs.getAttribute('id') !== undefined && eqs.getAttribute('id') !== null) {
+    $.each($backgroundEquipment.children(), function (index, eqs) {
+        if (eqs.getAttribute('id') !== undefined && eqs.getAttribute('id') !== null) {
             backgroundStorage.equips.push(eqs.getAttribute('id').slice(17))
         }
     })
-    $.each($backgroundEquipChoices.find(':checkbox:checked'), function(index, eqs) {
-        if(eqs.getAttribute('id') !== undefined && eqs.getAttribute('id') !== null) {
+    $.each($backgroundEquipChoices.find(':checkbox:checked'), function (index, eqs) {
+        if (eqs.getAttribute('id') !== undefined && eqs.getAttribute('id') !== null) {
             backgroundStorage.equips.push(eqs.getAttribute('id').slice(13))
         }
     })
-    $.each($backgroundLanguages.children(), function(index, lang) {
-        if(lang.getAttribute('id') !== undefined && lang.getAttribute('id') !== null) {
+    $.each($backgroundLanguages.children(), function (index, lang) {
+        if (lang.getAttribute('id') !== undefined && lang.getAttribute('id') !== null) {
             backgroundStorage.langs.push(lang.getAttribute('id').slice(14))
         }
     })
-    $.each($backgroundLangOptions.children(':checkbox:checked'), function(index, lang) {
-        if(lang.getAttribute('id') !== undefined && lang.getAttribute('id') !== null) {
+    $.each($backgroundLangOptions.children(':checkbox:checked'), function (index, lang) {
+        if (lang.getAttribute('id') !== undefined && lang.getAttribute('id') !== null) {
             backgroundStorage.langs.push(lang.getAttribute('id').slice(16))
         }
     })
 }
+
