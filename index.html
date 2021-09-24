@@ -329,32 +329,52 @@
                 </div>
 
                 <div class="container col-md-10 text-center" id="overview-container">
-                    <!-- Race, class, and background -->
-                    <div class="props" id="overview-names">
+                    <!-- Race -->
+                    <div class="props" id="overview-race-info">
                         <div id="overview-race"></div>
-                        <div id="overview-class"></div>
-                        <div id="overview-background"></div>
-                        
-                    </div>
-
-                    <!-- Properties of character  -->
-                    <div class="props" id="overview-properties">
-                        <div id="overview-hit-dice"></div>
                         <div id="overview-speed"></div>
                         <div id="overview-size"></div>
-                        <div id="overview-language"></div>
+                        <ul class="list-group" id="overview-language">
+                            <li class="list-group-item active">Languages Spoken:</li>
+                        </ul>
+                        <br>
+                        <ul class="list-group" id="overview-traits">
+                            <li class="list-group-item active">Racial Traits:</li>
+                        </ul>
                     </div>
 
-                    <!-- Traits, features, and proficiencies -->
-                    <div class="props" id="overview-bonuses">
-                        <div id="overview-traits"></div>
+                    <!-- Background -->
+                    <div class="props" id="overview-background-info">
+                        <div id="overview-background"></div>
                         <div id="overview-features"></div>
-                        <div id="overview-proficiencies"></div>
+                    </div>
+
+                    <!-- Class -->
+                    <div class="props" id="overview-class-info">
+                        <div id="overview-class"></div>
+                        <div id="overview-hit-dice"></div>
+                        <div id="overview-saving-throws"></div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="props" id="overview-stats-info">
+                        <ul class="list-group" id="overview-stat-vals">
+                            <li class="list-group-item active">Stat Values: (final stat = stat value + race bonus)</li>
+                        </ul>
+                    </div>
+
+                    <!-- Proficiencies -->
+                    <div class="props" id="overview-profs-info">
+                        <ul class="list-group" id="overview-proficiencies">
+                            <li class="list-group-item active">Proficiencies:</li>
+                        </ul>
                     </div>
 
                     <!-- Equipment -->
-                    <div class="props" id="overview-equips">
-                        <div id="overview-equipment"></div>
+                    <div class="props" id="overview-equips-info">
+                        <ul class="list-group" id="overview-equipment">
+                            <li class="list-group-item active">Equipment:</li>
+                        </ul>
                     </div>
                 </div>
             </div>

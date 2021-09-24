@@ -123,7 +123,6 @@ function populateRaceDetails() {
             console.log('Bad Request: ', error)
         }
     )
-    $('#race-container .props').css('border-bottom', '1px solid ghostwhite').css('padding', '1rem')
 }
 
 // Manipulates data for selected race and renders
@@ -350,7 +349,6 @@ function populateClassDetails() {
             console.log('Bad Request: ', error)
         }
     )
-    $('#class-container .props').css('border-bottom', '1px solid ghostwhite').css('padding', '1rem')
 }
 
 
@@ -849,7 +847,6 @@ function populateBackgroundDetails() {
             console.log('Bad Request: ', error)
         }
     )
-    $('#background-container .props').css('border-bottom', '1px solid ghostwhite').css('padding', '1rem')
 }
 
 function backgroundRender() {
@@ -1060,38 +1057,91 @@ $('#overview-next').on('click', overviewRender)
 
 let currObj, finalStorage
 
+const $overviewRace = $('#overview-race')
+const $overviewClass = $('#overview-class')
+const $overviewBackground = $('#overview-background')
+
+const $overviewHitDice = $('#overview-hit-dice')
+const $overviewSpeed = $('#overview-speed')
+const $overviewSize = $('#overview-size')
+const $overviewLanguage = $('#overview-language')
+
+const $overviewTraits = $('#overview-traits')
+const $overviewFeature = $('#overview-features')
+
+const $overviewSavingThrows = $('#overview-saving-throws')
+const $overviewStatVals = $('#overview-stat-vals')
+const $overviewProficiencies = $('#overview-proficiencies')
+
+const $overviewEquipment = $('#overview-equipment')
+
 function overviewRender () {
     finalStorage = storageCombiner(raceStorage, classStorage, statStorage, backgroundStorage)
+
+    $overviewRace.append(`<span>Race: ${finalStorage.raceName}</span>`).css('font-size', '2rem').css('border-bottom', '1px solid black')
+    $overviewSpeed.append(`<span>Speed: ${finalStorage.speed}ft per 6 seconds</span>`)
+    $overviewSize.append(`<span>Size: ${finalStorage.size}-sized creature</span>`)
+    finalStorage.langs.forEach((lang) => {
+        $overviewLanguage.append(`<li class="list-group-item">${lang}</li>`)
+    })
+    if(finalStorage.traits !== undefined) {
+        finalStorage.traits.forEach((trait) => {
+            $overviewTraits.append(`<li class="list-group-item">${trait}</li>`)
+        })
+    }
+
+
+    $overviewBackground.append(`<span>Background: ${finalStorage.backName}</span>`).css('font-size', '2rem').css('border-bottom', '1px solid black')
+    $overviewFeature.append(`<span>Background Feature: ${finalStorage.feature}</span>`)
+
+
+    $overviewClass.append(`<span>Class: ${finalStorage.className}</span>`).css('font-size', '2rem').css('border-bottom', '1px solid black')
+    $overviewHitDice.append(`<span>Hit Dice: ${finalStorage.hitDice}</span>`)
+    $overviewSavingThrows.append(`<span>Proficient Saving Throws: ${finalStorage.savingThrows.join(', ').toUpperCase()}</span>`)
+
+
+    finalStorage.stats.forEach((stat, idx) => {
+        // For each stat
+        let bonusValue = 0
+        finalStorage.statBonusName.forEach((bonusStat, idxBonus) => {
+            // For every stat that has a race bonus
+            if(bonusStat.toUpperCase() === stat) {
+                // If the bonus stat is the current stat, add value
+                bonusValue = finalStorage.statBonusValue[idxBonus]
+            }
+        })
+        $overviewStatVals.append(`<li class="list-group-item">${stat}: ${finalStorage.statValues[idx]} + ${bonusValue} = ${finalStorage.statValues[idx] + bonusValue}</li>`)
+    })
+    finalStorage.profs.forEach((prof) => {
+        $overviewProficiencies.append(`<li class="list-group-item">${prof}</li>`)
+    })
+    finalStorage.equips.forEach((equip) => {
+        $overviewEquipment.append(`<li class="list-group-item">${equip}</li>`)
+    })
 }
 
 function storageCombiner(...objs) {
     let combinedObj = {}
-    console.log(objs)
     // ...objs is an `array of objects`
     // For every object in the `array of objects` passed in
     for(let obj in objs) {
-        console.log('object', obj)
         // currObj is the current object in the `array of objects`
         // For every property in the current object
         currObj = objs[obj]
         for(let currProp in currObj) {
-            console.log('currProp', currProp)
             // currProp is the current property in the current object in the `array of objects`
             // Add current object properties into combinedObj if they do not exist
             if (!combinedObj.hasOwnProperty(currProp)) {
                 // If combinedObj does NOT have the property
                 // Initialize new property in combinedObj
                 combinedObj[currProp] = currObj[currProp]
-                console.log('combinedObj declared', combinedObj)
             } else if (combinedObj.hasOwnProperty(currProp)) {
                 // If combinedObj DOES have the property (all mergable properties are arrays)
                 // Create temporary array which is a merge of the both
                 // !! FIXME: GETS RID OF REFERENCES, BE CAREFUL IF APPLYING INTO OTHER DOCUMENTS
                 let tempArray = [...combinedObj[currProp], ...currObj[currProp]]
-                console.log('tempArray', tempArray)
                 // Merge property arrays
                 combinedObj[currProp] = tempArray
-                console.log('combinedObj merged', combinedObj)
             }
         }
     }

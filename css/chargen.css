@@ -84,3 +84,9 @@
     background-color: var(--darker-blue);
     border-color: var(--darker-blue)
 }
+
+.props {
+    border-bottom: 1px solid ghostwhite;
+    padding: 1rem;
+} 
+/* TODO: REINTEGRATE SEAMLESS BORDERS */
