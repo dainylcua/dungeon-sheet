@@ -10,6 +10,7 @@
 // TODO: ADD FADE-IN ON LIST LOADS
 // TODO: CONVERT TO REGEX
 // TODO: ENSURE INDEX/NAME AGREEMENT WITH IDS
+// TODO: FIX EXTRA DASH FOR OPTION NUMBERS ON HOLY SYMBOLS OR FOCI
 
 // CONSTANTS
 BASEURL = 'https://www.dnd5eapi.co/api/'
@@ -478,10 +479,10 @@ function classRender() {
 
         let closeGroup = $classEquipChoices.children('.equip-group').last()
 
-
+        optionNo += 1
         // For every group option, list all the equipment groups per group option
         option.from.forEach((equipGroup) => {
-            optionNo += 1
+            
 
             // Convert equip group object names into a completely new array
 
@@ -864,11 +865,11 @@ function backgroundRender() {
         backgroundSelectData.starting_proficiencies.forEach((proficiency) => {
             if (backgroundSelectData.starting_proficiencies.indexOf(proficiency) === backgroundSelectData.starting_proficiencies.length - 1) {
                 $backgroundProficiencies.append(`<span class="proficiencies" 
-                    id=${proficiency.index}>
+                    id="background-prof-${proficiency.index}">
                     ${proficiency.name}</span>`)
             } else {
                 $backgroundProficiencies.append(`<span class="proficiencies" 
-                    id=${proficiency.index}>
+                    id="background-prof-${proficiency.index}">
                     ${proficiency.name}, </span>`)
             }
         })
@@ -881,8 +882,9 @@ function backgroundRender() {
         $backgroundProfOptions.append(`<div>Choose from ${backgroundSelectData.starting_proficiency_options.choose} of the following proficiencies:</div>`)
         backgroundSelectData.starting_proficiency_options.from.forEach((proficiency) => {
             $backgroundProfOptions.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
-            id="background-${proficiency.index}" autocomplete="off">`)
-            $backgroundProfOptions.append(`<label class="btn btn-outline-dark m-1" for="background-${proficiency.index}">${proficiency.name}</label>`)
+                id="background-prof-${proficiency.index}" autocomplete="off">`)
+            $backgroundProfOptions.append(`<label class="btn btn-outline-dark m-1" 
+                for="background-prof-${proficiency.index}">${proficiency.name}</label>`)
         })
     }
 
@@ -890,8 +892,8 @@ function backgroundRender() {
     $backgroundEquipment.text('Starting equipment: ')
     backgroundSelectData.starting_equipment.forEach((equip) => {
         $backgroundEquipment.append(`<div class="equips" 
-        id=${equip.equipment.index}>${equip.equipment.name}
-        x${equip.quantity}</div>`)
+        id="background-equip-${equip.equipment.index}">
+        ${equip.equipment.name} x${equip.quantity}</div>`)
     })
 
     // Identical to class equipment choices
@@ -908,10 +910,10 @@ function backgroundRender() {
 
         let closeGroup = $backgroundEquipChoices.children('.equip-group').last()
 
-
+        optionNo += 1
         // For every group option, list all the equipment groups per group option
         option.from.forEach((equipGroup) => {
-            optionNo += 1
+            
 
             // Convert equip group object names into a completely new array
 
@@ -987,11 +989,11 @@ function backgroundRender() {
         backgroundSelectData.languages.forEach((language) => {
             if (backgroundSelectData.languages.indexOf(language) === backgroundSelectData.languages.length - 1) {
                 $backgroundLanguages.append(`<span class="languages" 
-                    id=${language.index}>
+                    id="background-lang-${language.index}">
                     ${language.name}</span>`)
             } else {
                 $backgroundLanguages.append(`<span class="languages" 
-                    id=${language.index}>
+                    id="background-lang-${language.index}">
                     ${language.name}, </span>`)
             }
         })
@@ -1004,52 +1006,47 @@ function backgroundRender() {
         $backgroundLangOptions.append(`<div>Choose from ${backgroundSelectData.language_options.choose} of the following languages:</div>`)
         backgroundSelectData.language_options.from.forEach((language) => {
             $backgroundLangOptions.append(`<input type="checkbox" class="btn-check btn-outline-dark m-1" 
-            id="background-${language.index}" autocomplete="off">`)
-            $backgroundLangOptions.append(`<label class="btn btn-outline-dark m-1" for="background-${language.index}">${language.name}</label>`)
+            id="background-lang-${language.index}" autocomplete="off">`)
+            $backgroundLangOptions.append(`<label class="btn btn-outline-dark m-1" 
+            for="background-lang-${language.index}">${language.name}</label>`)
         })
     }
 }
 
 function backgroundSave() {
-    backgroundStorage.name = $backgroundName.children().attr('id').slice(11)
-    backgroundStorage.feature = $backgroundFeature.children('').not('#background-feature-text').attr('id').slice(14)
+    backgroundStorage.name = $backgroundName.children().attr('id').slice(16)
+    backgroundStorage.feature = $backgroundFeature.children('').not('#background-feature-text').attr('id').slice(19)
     
-    $.each($classSavingThrows.children(), function(index, save) {
-        if(save.getAttribute('id') !== undefined && save.getAttribute('id') !== null) {
-            classStorage.savingThrows.push(save.getAttribute('id').slice(11))
-        }
-    })
-
-    $.each($classProficiencies.children(), function(index, prof) {
+    $.each($backgroundProficiencies.children(), function(index, prof) {
         if(prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
-            classStorage.profs.push(prof.getAttribute('id').slice(11))
+            backgroundStorage.profs.push(prof.getAttribute('id').slice(17))
         }
     })
 
-    $.each($classProfOptions.find(':checkbox:checked'), function(index, prof) {
+    $.each($backgroundProfOptions.find(':checkbox:checked'), function(index, prof) {
         if(prof.getAttribute('id') !== undefined && prof.getAttribute('id') !== null) {
-            classStorage.profs.push(prof.getAttribute('id').slice(13))
+            backgroundStorage.profs.push(prof.getAttribute('id').slice(13))
         }
     })
 
-    $.each($classEquipment.children(), function(index, eqs) {
+    $.each($backgroundEquipment.children(), function(index, eqs) {
         if(eqs.getAttribute('id') !== undefined && eqs.getAttribute('id') !== null) {
-            classStorage.equips.push(eqs.getAttribute('id').slice(6))
+            backgroundStorage.equips.push(eqs.getAttribute('id').slice(17))
         }
     })
-    $.each($classEquipChoices.find(':checkbox:checked'), function(index, eqs) {
+    $.each($backgroundEquipChoices.find(':checkbox:checked'), function(index, eqs) {
         if(eqs.getAttribute('id') !== undefined && eqs.getAttribute('id') !== null) {
-            classStorage.equips.push(eqs.getAttribute('id').slice(8))
+            backgroundStorage.equips.push(eqs.getAttribute('id').slice(13))
         }
     })
-    $.each($raceLanguages.children(), function(index, lang) {
+    $.each($backgroundLanguages.children(), function(index, lang) {
         if(lang.getAttribute('id') !== undefined && lang.getAttribute('id') !== null) {
-            raceStorage.langs.push(lang.getAttribute('id').slice(14))
+            backgroundStorage.langs.push(lang.getAttribute('id').slice(14))
         }
     })
-    $.each($raceLangOptions.children(':checkbox:checked'), function(index, lang) {
+    $.each($backgroundLangOptions.children(':checkbox:checked'), function(index, lang) {
         if(lang.getAttribute('id') !== undefined && lang.getAttribute('id') !== null) {
-            raceStorage.langs.push(lang.getAttribute('id').slice(21))
+            backgroundStorage.langs.push(lang.getAttribute('id').slice(16))
         }
     })
 }
