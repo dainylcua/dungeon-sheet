@@ -5,14 +5,20 @@ DungeonSheet is an alternative to other online character sheet creators such as 
 
 The 5th Edition Dungeons and Dragons API is used to get Vanilla 5e information, while homebrewed additions are stored in a local database on your computer*.
 
-Mobile devices are not currently supported.
-
-<br>
-<br>
-
-*Developed using VanillaJS, JQuery, and Bootstrap on Ubuntu 20.04.3 LTS*
 
 **Homebrew support and local storage to be added in future updates*
+
+<br><br>
+## Technologies Used
+* HTML5
+* CSS3
+* VanillaJS
+* JQuery
+* Bootstrap
+* D&D 5th Edition API
+
+*Developed on Ubuntu 20.04.3 LTS*
+
 
 <br><br>
 ## How to Install
@@ -24,13 +30,13 @@ WIP
 
 <br><br>
 
-# Credits
+## Credits
 D&D 5th Edition API: http://www.dnd5eapi.co/
 >The whole reason this is possible - thank you to bagelbits and contributors for setting up this API!
 
 <br><br>
 
-# Links
+## Links
 Trello: https://trello.com/b/KUXzkJIV/implementations
 
 
