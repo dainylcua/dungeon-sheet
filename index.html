@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/chargen.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
+    </script>
+    <script defer src="./js/chargen.js"></script>
+    <title>DungeonSheet Character Generator</title>
+</head>
+
+<body>
+    <header>
+        <h1 class="text-center mt-5 col-12" id="test">DungeonSheet</h1>
+    </header>
+    <div class="container col-12 p-3 border border-primary d-flex" id="interface">
+
+        <!-- Loading Screen -->
+        <div class="container col-12 card text-center border-success" id="tranScreen">
+            <div class="d-flex justify-content-md-center align-items-center">Loading...</div>
+        </div>
+
+        <div class="container col-12" id="content">
+            <!-- Splash Screen -->
+            <div class="border border-primary p-3" id="splash-info">
+                <div class="container col-md-10 text-center" id="splash-content">
+                    Welcome to DungeonSheet, a Dungeons and Dragons 5th edition character generator!<br>
+                    Currently, only standard rules content is implemented. <br><br>
+                    Choose an option below to begin.
+                </div>
+                <div class="container col-md-10 text-center choices">
+                    <button class="btn btn-primary col-5 center transition" id="race-next">Create a Character</button>
+                    <span tabindex="0" data-bs-toggle="tooltip" title="Not yet enabled">
+                        <button class="btn btn-outline-warning col-5 disabled" 
+                        id="preset" aria-disabled="true">Start With a Preset</button>
+                    </span>
+                    
+                </div>
+            </div>
+
+            <!-- Race Selector -->
+            <div class="next" id="race-info">
+                <div class="container col-md-10 text-center" id="race-content">
+                    There are many races in the world of Dungeons and Dragons. <br>
+                    However, not every race behaves the same in every universe. <br><br>
+                    Choose your race. <br><br>
+
+                    <select name="races" id="race-list">
+                        <option style="display:none"></option>
+                    </select>
+                </div>
+                <div class="container col-md-10 text-center" id="race-container">
+                    <!-- Name, Speed, and Size of selected race -->
+                    <div class="props" id="race-properties">
+                        <div id="race-name"></div>
+                        <div id="race-speed"></div>
+                        <div id="race-size"></div>
+                    </div>
+
+                    <!-- All bonuses, proficiencies, and languages for the selected race -->
+                    <div class="props" id="race-bonuses">
+                        <div id="race-bonus-stats"></div>
+                        <div id="race-bonus-options"></div>
+                        <div id="race-proficiencies"></div>
+                        <div id="race-prof-options"></div>
+                    </div>
+                    
+                    <div class="props" id="race-language-all">
+                        <div id="race-languages"></div>
+                        <div id="race-lang-options"></div>
+                    </div>
+
+                    <!-- All traits for the selected race -->
+                    <div class="props" id="race-traits">
+                    </div>
+
+                    <!-- Verbose description of selected race, including alignment, age, size, and langauge. -->
+                    <div class="props" id="race-description">
+
+                    </div>
+
+                </div>
+                <div class="container col-md-10 text-center choices">
+                    <button class="btn btn-primary transition" id="class-next">Next</button>
+                </div>
+            </div>
+
+            <!-- Class Selector -->
+            <div class="next" id="class-info">
+                <div class="container col-md-10 text-center" id="class-content">
+                    Travelers across the land take up craft to keep them alive one way or another.<br>
+                    Classes provide these denizens the tools to succes, and many often dabble in multiple fields.<br>
+                    However, you may only start with one for now.<br><br>
+                    Choose your class. <br><br>
+
+                    <select name="classes" id="class-list">
+                        <option style="display:none"></option>
+                    </select>
+                </div>
+                
+                <div class="container col-md-10 text-center" id="class-container">
+                    <!-- Name, hit dice, and saving throw proficiency of the selected class -->
+                    <div class="props" id="class-properties">
+                        <div id="class-name"></div>
+                        <div id="hit-dice"></div>
+                        <div id="saving-throws"></div>
+                    </div>
+
+                    <!-- All proficiency choices of the selected class -->
+                    <div class="props" id="class-bonuses">
+                        <div id="class-proficiencies"></div>
+                        <div id="class-prof-choices"></div>
+                    </div>
+
+                    <!-- All equipment and equipment choices of the selected class -->
+                    <div class="props" id="class-equips">
+                        <div id="class-equipment"></div>
+                        <div id="class-equip-choices"></div>
+                    </div>
+                </div>
+
+                <div class="container col-md-10 text-center choices">
+                    <button class="btn btn-primary transition" id="stat-next">Next</button>
+                </div>
+            </div>
+            <!-- ADD SECOND EQUIPMENT LIST TO CHOOSE WEAPONS LATER -->
+
+            <!-- Stat Roller -->
+            <div class="next" id="stat-info">
+                <div class="container col-md-10 text-center" id="stat-content">
+                    Your overall prowess is determined by numbers.<br>
+                    Do you want to let the fates decide, for better or worse?<br>
+                    Or would you rather take a calculated approach yourself?<br>
+                    <div class="container col-md-10 text-center choices">
+                        <button class="btn btn-primary" data-bs-toggle="tooltip"
+                            title="Greater stat variance - for better or worse" id="roll">Roll Stats</button>
+                        <button class="btn btn-primary" data-bs-toggle="tooltip"
+                            title="Less variance - better lows but worse highs" id="buy">Point Buy</button>
+                    </div>
+                </div>
+
+                <div class="container col-12 col-md-10 text-center" id="stat-roll">
+
+                    <div class="container text-center roll-info">
+                        For each stat, 4 regular dice (d6) are rolled.</br><br>
+                        Press the roll button to generate a new set of stats.<br><br>
+                    </div>
+
+                    <div class="container text-center roll-stat-container d-flex flex-wrap">
+                        <div class="stat card col-6 col-lg-2 text-center" id="roll-str">
+                            <div class="card-header">STR</div>
+                            <div class="card-body roll-stat" id="roll-str-num">1</div>
+                        </div>
+                        <div class="stat card col-6 col-lg-2" id="roll-dex">
+                            <div class="card-header">DEX</div>
+                            <div class="card-body roll-stat" id="roll-dex-num">1</div>
+                        </div>
+                        <div class="stat card col-6 col-lg-2" id="roll-con">
+                            <div class="card-header">CON</div>
+                            <div class="card-body roll-stat" id="roll-con-num">1</div>
+                        </div>
+                        <div class="stat card col-6 col-lg-2" id="roll-int">
+                            <div class="card-header">INT</div>
+                            <div class="card-body roll-stat" id="roll-int-num">1</div>
+                        </div>
+                        <div class="stat card col-6 col-lg-2" id="roll-wis">
+                            <div class="card-header">WIS</div>
+                            <div class="card-body roll-stat" id="roll-wis-num">1</div>
+                        </div>
+                        <div class="stat card col-6 col-lg-2" id="roll-cha">
+                            <div class="card-header">CHA</div>
+                            <div class="card-body roll-stat" id="roll-cha-num">1</div>
+                        </div>
+                    </div>
+
+                    <div class="container col-md-10 text-center choices">
+                        <button class="btn btn-secondary" id="roll-btn">Roll</button>
+                    </div>
+
+                    <div class="container col-md-10 text-center choices">
+                        <button class="btn btn-primary transition-stat background-next" id="roll-finish">Next</button>
+                    </div>
+                </div>
+
+                <div class="container col-12 col-md-10 text-center" id="point-buy">
+                    <div class="container text-center d-flex flex-wrap" id="point-buy-content">
+                        <div class="container col-md-9" id="buy-info">
+                            <br>A total of 27 stat points are given to distribute amongst every stat.<br><br>
+                            Upgrading any stat to 9, 10, 11, 12, or 13 costs one stat point.<br><br>
+                            Upgrading any stat to 14 or 15 costs two stat points.<br><br>
+                            With point buy, the minimum stat value you can have is 8 and the maximum stat value you can
+                            have is 15.<br><br>
+                        </div>
+
+                        <div class="point card col-12 col-md-3 align-self-center" id="point-container">
+                            <div class="point-total card">Points Remaining</div>
+                            <div class="card-body" id="points-remaining">27</div> <!-- SET TO 27 -->
+                        </div>
+                    </div>
+
+                    <div class="container text-center buy-stat-container d-flex flex-wrap">
+                        <div class="stat card col-6 col-lg-2 text-center" id="buy-str">
+                            <div class="card-header">STR</div>
+                            <div class="card-body buy-stat" id="buy-str-num">8</div>
+                            <div class="alteration d-flex">
+                                <button class="increment btn btn-outline-secondary">+</button>
+                                <button class="decrement btn btn-outline-danger" data-bs-toggle="true"
+                                    title="Cannot go lower than 8">-</button>
+                            </div>
+                        </div>
+                        <div class="stat card col-6 col-lg-2" id="buy-dex">
+                            <div class="card-header">DEX</div>
+                            <div class="card-body buy-stat" id="buy-dex-num">8</div>
+                            <div class="alteration d-flex">
+                                <button class="increment btn btn-outline-secondary">+</button>
+                                <button class="decrement btn btn-outline-danger" data-bs-toggle="true"
+                                    title="Cannot go lower than 8">-</button>
+                            </div>
+                        </div>
+                        <div class="stat card col-6 col-lg-2" id="buy-con">
+                            <div class="card-header">CON</div>
+                            <div class="card-body buy-stat" id="buy-con-num">8</div>
+                            <div class="alteration d-flex">
+                                <button class="increment btn btn-outline-secondary">+</button>
+                                <button class="decrement btn btn-outline-danger" data-bs-toggle="true"
+                                    title="Cannot go lower than 8">-</button>
+                            </div>
+                        </div>
+                        <div class="stat card col-6 col-lg-2" id="buy-int">
+                            <div class="card-header">INT</div>
+                            <div class="card-body buy-stat" id="buy-int-num">8</div>
+                            <div class="alteration d-flex">
+                                <button class="increment btn btn-outline-secondary">+</button>
+                                <button class="decrement btn btn-outline-danger" data-bs-toggle="true"
+                                    title="Cannot go lower than 8">-</button>
+                            </div>
+                        </div>
+                        <div class="stat card col-6 col-lg-2" id="buy-wis">
+                            <div class="card-header">WIS</div>
+                            <div class="card-body buy-stat" id="buy-wis-num">8</div>
+                            <div class="alteration d-flex">
+                                <button class="increment btn btn-outline-secondary">+</button>
+                                <button class="decrement btn btn-outline-danger" data-bs-toggle="true"
+                                    title="Cannot go lower than 8">-</button>
+                            </div>
+                        </div>
+                        <div class="stat card col-6 col-lg-2" id="buy-cha">
+                            <div class="card-header">CHA</div>
+                            <div class="card-body buy-stat" id="buy-cha-num">8</div>
+                            <div class="alteration d-flex">
+                                <button class="increment btn btn-outline-secondary">+</button>
+                                <button class="decrement btn btn-outline-danger" data-bs-toggle="true"
+                                    title="Cannot go lower than 8">-</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container col-md-10 text-center choices">
+                        <button class="btn btn-primary transition-stat background-next" id="buy-finish">Next</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Background/Custom Background -->
+            <div class="next" id="background-info">
+                <div class="container col-md-10 text-center" id="background-content">
+                    Everyone comes from somewhere.<br>
+                    Where do you come from? <br><br>
+                    Choose your background.<br><br>
+
+                    <select name="backgrounds" id="background-list">
+                        <option style="display:none"></option>
+                    </select>
+                </div>
+
+                <div class="container col-md-10 text-center" id="background-container">
+                    <!-- Name and special feat of background -->
+                    <div class="props" id="background-properties">
+                        <div id="background-name"></div>
+                        <div id="background-feature"></div>
+                    </div>
+
+                    <!-- Proficiencies of background -->
+                    <div class="props" id="background-bonuses">
+                        <div id="background-proficiencies"></div>
+                        <div id="background-prof-choices"></div>
+                    </div>
+
+                    <!-- Equipment of background -->
+                    <div class="props" id="background-equips">
+                        <div id="background-equipment"></div>
+                        <div id="background-equip-choices"></div>
+                    </div>
+
+                    <!-- Languages of background -->
+                    <div class="props" id="background-language-all">
+                        <div id="background-languages"></div>
+                        <div id="background-lang-options"></div>
+                    </div>
+                </div>
+                
+
+                
+
+                <div class="container col-md-10 text-center choices">
+                    <button class="btn btn-primary center transition" id="overview-next">Next</button>
+                </div>
+            </div>
+
+            <!-- Write Your Past - FOR THE FUTURE -->
+            <!-- <div class="next" id="overall-next">
+                Create your past:
+            </div> -->
+
+            <!-- Overview and Name -->
+            <div class="next" id="overview-info">
+                <div class="container col-md-10 text-center" id="overview-content">
+                    Your story has been created.<br>
+                    Take care on your adventures. <br><br>
+                    Character Overview:<br><br>
+                </div>
+
+                <div class="container col-md-10 text-center" id="overview-container">
+                    <!-- Race -->
+                    <div class="props" id="overview-race-info">
+                        <div id="overview-race"></div>
+                        <div id="overview-speed"></div>
+                        <div id="overview-size"></div>
+                        <ul class="list-group" id="overview-language">
+                            <li class="list-group-item active">Languages Spoken:</li>
+                        </ul>
+                        <br>
+                        <ul class="list-group" id="overview-traits">
+                            <li class="list-group-item active">Racial Traits:</li>
+                        </ul>
+                    </div>
+
+                    <!-- Background -->
+                    <div class="props" id="overview-background-info">
+                        <div id="overview-background"></div>
+                        <div id="overview-features"></div>
+                    </div>
+
+                    <!-- Class -->
+                    <div class="props" id="overview-class-info">
+                        <div id="overview-class"></div>
+                        <div id="overview-hit-dice"></div>
+                        <div id="overview-saving-throws"></div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="props" id="overview-stats-info">
+                        <ul class="list-group" id="overview-stat-vals">
+                            <li class="list-group-item active">Stat Values: (final stat = stat value + race bonus)</li>
+                        </ul>
+                    </div>
+
+                    <!-- Proficiencies -->
+                    <div class="props" id="overview-profs-info">
+                        <ul class="list-group" id="overview-proficiencies">
+                            <li class="list-group-item active">Proficiencies:</li>
+                        </ul>
+                    </div>
+
+                    <!-- Equipment -->
+                    <div class="props" id="overview-equips-info">
+                        <ul class="list-group" id="overview-equipment">
+                            <li class="list-group-item active">Equipment:</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>

@@ -1,13 +1,43 @@
-# Project 1: DungeonSheet
+# Project 1: DungeonSheet - A Local Character Sheet
 
 ## Purpose
-----------
-DungeonSheet is an alternative to other online character sheet creators such as DiceCloud and D&D Beyond. This app aims to offer a better UX for sheet maintenance and 
+DungeonSheet is an alternative to other online character sheet creators such as DiceCloud and D&D Beyond. This app aims to offer a better UX for character sheets and character creation.
 
-The 5th Edition Dungeons and Dragons API is used to get Vanilla 5e information, while homebrewed additions are stored in a local database on your computer. [^1]
+The 5th Edition Dungeons and Dragons API is used to get Vanilla 5e information, while homebrewed additions are stored in a local database on your computer*.
 
-Mobile devices are not currently supported.
 
-*Developed using VanillaJS on Ubuntu*
+**Homebrew support and local storage to be added in future updates*
 
-**Homebrew support to be added in future updates*
+<br><br>
+## Technologies Used
+* HTML5
+* CSS3
+* VanillaJS
+* JQuery
+* Bootstrap
+* D&D 5th Edition API
+
+*Developed on Ubuntu 20.04.3 LTS*
+
+
+<br><br>
+## How to Install
+WIP
+
+<br><br>
+## How to Use
+WIP
+
+<br><br>
+
+## Credits
+D&D 5th Edition API: http://www.dnd5eapi.co/
+>The whole reason this is possible - thank you to bagelbits and contributors for setting up this API!
+
+<br><br>
+
+## Links
+Trello: https://trello.com/b/KUXzkJIV/implementations
+
+
+
