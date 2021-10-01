@@ -33,7 +33,9 @@ Title Screen (WIP)
 
 [Click here](https://dc-dungeon-sheet.netlify.app/) to open the deployed app.
 
-Want to see the app's progress? [Click here](https://trello.com/b/KUXzkJIV/implementations) to open the project's Trello.
+[Click here](https://youtu.be/6bjMKivwJ0A/) for a video walkthrough.
+
+Want to see the app's progress? [Click here](https://trello.com/b/KUXzkJIV/implementations) to open the project's Trello. -Not currently up
 
 <br><br>
 
